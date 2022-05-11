@@ -1,0 +1,140 @@
+{
+    
+    "welcome message" : "استكشف كل الأماكن الشهيرة في بنغلاديش واعثر على الفنادق والمطاعم القريبة بأسهل طريقة. احصل على الاتجاهات في الوقت الفعلي والتكاليف المقدرة ومدونات السفر والمزيد",
+    "welcome to" : "مرحبا بك في",
+
+    "intro-title1" : "لا يهم أين أنت",
+    "intro-title2" : "استكشف الأشياء القريبة",
+    "intro-title3" : "دليل السفر الحقيقي",
+    "intro-description1" : "الوصول إلى معلومات مهمة حول وجهتك قبل السفر وأثناءه",
+    "intro-description2" : "استكشف الفنادق والمطاعم القريبة بالقرب من كل منطقة سياحية بأسهل طريقة",
+    "intro-description3" : "احصل على الاتجاهات والتكاليف والأشياء الأخرى المتعلقة بالسفر في مكان واحد",
+    "get started" : "البدء",
+
+    "explore country" : "اكتشف بنغلاديش",
+    "search places" : "البحث في الأماكن",
+    "popular places" : "أماكن شعبية",
+    "special state-1 places" : "أماكن في سيلهيت",
+    "special state-2 places" : "أماكن في شيتاغونغ",
+    "recently added" : "أضيف مؤخرا",
+    "recommended places" : "الأماكن الموصى بها",
+
+    "people like this" : "الناس يحبون هذا",
+    "todo" : "لكى يفعل",
+    "you may also like" : "ربما يعجبك أيضا",
+    "travel guide" : "دليل السفر",
+    "nearby hotels" : "الفنادق القريبة",
+    "nearby restaurants" : "مطاعم قريبة",
+    "steps" : "خطوات",
+    "estimated cost = " : "التكلفة المقدرة = ",
+    "distance = " : "المسافة = ",
+    "no hotels found" : "لم يتم العثور على فنادق",
+    "no restaurants found" : "لم يتم العثور على مطاعم",
+    "we didn't find any nearby hotels in this area" : "لم نعثر على أي فنادق قريبة في هذه المنطقة",
+    "we didn't find any nearby restaurants in this area" : "لم نعثر على أي مطاعم قريبة في هذه المنطقة",
+    "user reviews" : "مراجعات المستخدم",
+
+
+    "write a review" : "أكتب مراجعة",
+    "no internet" : "لا يوجد اتصال بالإنترنت",
+    "no comments found" : "لا توجد تعليقات",
+    "be the first to comment" : "كن أول من يعلق",
+
+    "recently added places" : "الأماكن المضافة حديثًا",
+
+
+    "search & explore" : "بحث واستكشاف الأماكن",
+    "recent searchs" : "عمليات البحث الأخيرة",
+    "search for places" : "ابحث عن الأماكن",
+    "search-description" :  "لم تبحث عن أي عناصر حتى الآن.\n جرب الآن - سنساعدك!",
+    "we have found" : "لقد وجدنا",
+    "no places found" : "لم يتم العثور على أماكن",
+    "try again" : "حاول مجددا!",
+
+
+
+    "states" : "تنص على",
+    "blogs" : "المدونات",
+
+
+    "bookmarks" : "إشارات مرجعية",
+    "saved places" : "الأماكن المحفوظة",
+    "saved blogs" : "المدونات المحفوظة",
+    "sign in first" : "قم بتسجيل الدخول أولاً",
+    "sign in to save your favourite places here" : "قم بتسجيل الدخول لحفظ أماكنك المفضلة هنا",
+    "sign in to save your favourite blogs here" : "قم بتسجيل الدخول لحفظ مدوناتك المفضلة هنا",
+    "no blogs found" : "لم يتم العثور على مدونات",
+    "save your favourite places here" : "احفظ أماكنك المفضلة هنا",
+    "save your favourite blogs here" : "احفظ مدوناتك المفضلة هنا",
+
+
+
+    "skip" : "تخطى",
+    "check your internet connection!" : "تحقق من اتصالك بالإنترنت",
+    "something is wrong. please try again." : "هناك شئ غير صحيح. حاول مرة اخرى.",
+
+
+    "sign in" : "تسجيل الدخول",
+    "cancel" : "يلغي",
+    
+    "no sign in title" : "قم بتسجيل الدخول أولاً للوصول إلى هذه الميزة",
+    "no sign in subtitle" : "لم تسجل الدخول بعد. الرجاء تسجيل الدخول لفتح هذه الميزة",
+
+    
+    
+    "comments" : "تعليقات",
+    "write a comment" : "أكتب تعليقا", 
+
+
+    
+    "no content" : "لم يتم العثور على محتويات",
+    "delete?" : "حذف؟",
+    "delete from database?" : "تريد حذف هذا العنصر؟",
+    "flag this comment" : "علم هذا التعليق",
+    "unflag this comment" : "قم بإلغاء التأشير على هذا التعليق",
+    "report" : "نقل",
+    "delete" : "حذف",
+    "report-info" : "تم إرسال تقريرك بنجاح إلى المسؤولين",
+    "report-info1" : "شكرا لتقريرك. سنرد خلال 24 ساعة.",
+    "report-guest" : "مطلوب تسجيل الدخول!",
+    "report-guest1" : "يجب عليك تسجيل الدخول للإبلاغ عن أي تعليقات",
+    "comment flagged" : "تم تمييز هذا التعليق!",
+
+
+    "notifications" : "إشعارات",
+    "notification details" : "تفاصيل الإخطار",
+
+
+    "profile" : "حساب تعريفي",
+    "general setting" : "الإعداد العام",
+    "login" : "تسجيل الدخول",
+    "get notifications" : "الحصول على الإشعارات",
+    "contact us" : "اتصل بنا",
+    "rate this app" : "قيم هذا التطبيق",
+    "licence" : "رخصة",
+    "privacy policy" : "سياسة خاصة",
+    "about us" : "معلومات عنا",
+    "logout" : "تسجيل خروج",
+    "edit profile" : "تعديل الملف الشخصي",
+    "update profile" : "تحديث الملف",
+    "updated successfully" : "تم التحديث بنجاح",
+    "enter new name" : "أدخل اسمًا جديدًا",
+
+    "logout title" : "هل تريد حقًا تسجيل الخروج من التطبيق؟",
+    "yes" : "نعم",
+    "no" : "لا",
+
+    "language" : "لغة",
+    "select language" : "اختار اللغة",
+
+    "buy now" : "شراء هذا التطبيق",
+    "buy now subtitle" : "اشترِ الكود المصدري الكامل من هنا وأنشئ التطبيق لبلدك",
+
+    "facebook": "صفحة الفيسبوك",
+    "youtube": "قناة يوتيوب",
+    "no notifications": "لم يتم العثور على إخطارات",
+    "no blogs": "لم يتم العثور على مدونات"
+
+
+
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<resources>
+
+   <!-- Replace with your App Name -->
+   <string name="app_name">Amazing NTB</string>
+
+   <!-- Replace "193186341991913" with your Facebook App ID here. -->  
+   <string name="facebook_app_id">976232703050419</string>
+
+
+   <!--
+      Replace "193186341991913" with your Facebook App ID here.
+      **NOTE**: The scheme needs to start with `fb` and then your ID.
+    -->
+   <string name="fb_login_protocol_scheme">fb976232703050419</string>  
+</resources>

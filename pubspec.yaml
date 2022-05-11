@@ -1,0 +1,132 @@
+name: travel_hour
+description: A new Flutter application.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 4.1.0+15
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  
+  animated_bottom_navigation_bar: ^0.3.2
+  cached_network_image: ^3.1.0
+  cloud_firestore: ^3.1.7
+  cupertino_icons: ^1.0.3
+  dots_indicator: ^2.0.0
+  easy_localization: ^3.0.0
+  firebase_analytics: ^9.1.0
+  firebase_auth: ^3.0.2
+  firebase_core: ^1.5.0
+  firebase_messaging: ^11.2.6
+  firebase_storage: ^10.0.2
+  firebase_in_app_messaging: ^0.6.0+7
+  flare_flutter: ^3.0.2
+  flutter_html: ^2.2.1
+  flutter_polyline_points: ^1.0.0
+  geo: ^0.3.0
+  google_fonts: ^2.1.0
+  google_maps_flutter: ^2.0.6
+  google_sign_in: ^5.0.7
+  html_unescape: ^2.0.0
+  http: ^0.13.3
+  image_picker: ^0.8.3+2
+  intl: ^0.17.0
+  launch_review: ^3.0.1
+  line_icons: ^2.0.1
+  package_info: ^2.0.2
+  provider: ^6.0.2
+  share: ^2.0.4
+  shared_preferences: ^2.0.6
+  skeleton_text: ^3.0.0
+  sliding_up_panel: ^2.0.0+1
+  url_launcher: ^6.0.9
+  the_apple_sign_in: ^1.1.1
+  fluttertoast: ^8.0.8
+  flutter_facebook_auth: ^4.0.1
+  flutter_web_browser: ^0.16.0
+  google_mobile_ads: ^1.0.1
+  facebook_audience_network: ^1.0.1
+  carousel_pro_nullsafety: ^1.0.2
+  better_player: ^0.0.81
+  youtube_player_iframe: ^2.2.2
+  flutter_icons:
+    git:
+      url: https://github.com/adarsh-technocrat/flutter-icons
+  md2_tab_indicator:
+    git:
+      url: https://github.com/westdabestdb/md2_tab_indicator
+
+
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_launcher_icons: "^0.9.1"
+
+
+
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/icon.png"
+
+
+
+
+
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/flr/
+    - assets/translations/
+
+    
+
+  fonts:
+
+    - family: Muli
+      fonts:
+        # - asset: fonts/Montserrat-Light.ttf
+        #   weight: 400
+        - asset: assets/fonts/Muli-Regular.ttf
+          weight: 500
+        - asset: assets/fonts/Muli-Medium.ttf
+          weight: 600
+        - asset: assets/fonts/Muli-SemiBold.ttf
+          weight: 700
+        - asset: assets/fonts/Muli-Bold.ttf
+          weight: 800
+
+
+    - family: Manrope
+      fonts:
+        - asset: assets/fonts/Manrope-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Manrope-SemiBold.ttf
+          weight: 500
+        - asset: assets/fonts/Manrope-Medium.ttf
+          weight: 600
+        - asset: assets/fonts/Manrope-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Manrope-ExtraBold.ttf
+          weight: 900
+
+
+    - family: Open Sans
+      fonts:
+        - asset: assets/fonts/OpenSans-Light.ttf
+          weight: 400
+        - asset: assets/fonts/OpenSans-Regular.ttf
+          weight: 500

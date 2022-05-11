@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "248454102169",
+    "project_id": "dev-admin-amazing-ntb",
+    "storage_bucket": "dev-admin-amazing-ntb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248454102169:android:aec8af64f32c8b9e270c08",
+        "android_client_info": {
+          "package_name": "com.redcorp.amazingntb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248454102169-qtom9ksqa4d96o0vngis6f45av42rbih.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.redcorp.amazingntb",
+            "certificate_hash": "b9d658b79fb7192305c26945d991bb804d363b39"
+          }
+        },
+        {
+          "client_id": "248454102169-ruooa5karak00d5sprl28h2l9u4kkivd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.redcorp.amazingntb",
+            "certificate_hash": "b50776849836b3c957b42f96bb540d7e44fb43b0"
+          }
+        },
+        {
+          "client_id": "248454102169-d61ugeee5rvpoagvvipt2ha2cf6psrg6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxAcG_RuVWzDEMEnjqpAFQiEh0ZF_0xgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248454102169-d61ugeee5rvpoagvvipt2ha2cf6psrg6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
