@@ -5,7 +5,10 @@ import 'package:line_icons/line_icons.dart';
 import 'package:travel_hour/blocs/ads_bloc.dart';
 import 'package:travel_hour/blocs/bookmark_bloc.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
+import 'package:travel_hour/blocs/product_bloc.dart';
 import 'package:travel_hour/models/place.dart';
+import 'package:travel_hour/models/product.dart';
+import 'package:travel_hour/models/product.dart';
 import 'package:travel_hour/utils/sign_in_dialog.dart';
 import 'package:travel_hour/widgets/bookmark_icon.dart';
 import 'package:travel_hour/widgets/comment_count.dart';
@@ -17,20 +20,21 @@ import 'package:travel_hour/widgets/other_places.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/widgets/todo.dart';
 
-class PlaceDetails extends StatefulWidget {
-  final Place? data;
+class ProductDetails extends StatefulWidget {
+  // final Place? data;
+  final Product? data;
   final String? tag;
 
-  const PlaceDetails({Key? key, required this.data, required this.tag})
+  const ProductDetails({Key? key, required this.data, required this.tag})
       : super(key: key);
 
   @override
-  _PlaceDetailsState createState() => _PlaceDetailsState();
+  _ProductDetailsState createState() => _ProductDetailsState();
 }
 
-class _PlaceDetailsState extends State<PlaceDetails> {
+class _ProductDetailsState extends State<ProductDetails> {
 
-  final String collectionName = 'places';
+  final String collectionName = 'product';
 
   
   @override
@@ -119,7 +123,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                       ),
                       Expanded(
                           child: Text(
-                        widget.data!.location!,
+                        widget.data!.status!,
                         style: TextStyle(
                           fontSize: 13,
                           color: Colors.grey[600],
@@ -127,31 +131,22 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       )),
-                      IconButton(
-                          icon: BuildLoveIcon(
-                              collectionName: collectionName,
-                              uid: sb.uid,
-                              timestamp: widget.data!.timestamp),
-                          onPressed: () {
-                            handleLoveClick();
-                          }),
-                      IconButton(
-                          icon: BuildBookmarkIcon(
-                              collectionName: collectionName,
-                              uid: sb.uid,
-                              timestamp: widget.data!.timestamp),
-                          onPressed: () {
-                            handleBookmarkClick();
-                          }),
+                      
                     ],
                   ),
-                  Text(widget.data!.name!,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(widget.data!.productName!,
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w900,
                           letterSpacing: -0.6,
                           wordSpacing: 1,
-                          color: Colors.grey[800])),
+                          color: Colors.grey[800])
+                          
+                          ),
+                  ),
+                  
                   Container(
                     margin: EdgeInsets.only(top: 8, bottom: 8),
                     height: 3,
@@ -162,23 +157,25 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                   ),
                   Row(
                     children: <Widget>[
-                      LoveCount(
-                          collectionName: collectionName,
-                          timestamp: widget.data!.timestamp),
-                      SizedBox(
-                        width: 20,
+                      Container(
+                        margin: EdgeInsets.only(right: 10),
+                        child: Icon(
+                          Feather.phone_call,
+                          color: Colors.grey,
+                          size: 20,
+                        ),
                       ),
-                      Icon(
-                        Feather.message_circle,
-                        color: Colors.grey,
-                        size: 20,
-                      ),
+                      
                       SizedBox(
                         width: 2,
                       ),
-                      CommentCount(
-                          collectionName: collectionName,
-                          timestamp: widget.data!.timestamp)
+                      Text(widget.data!.phone!,
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w300,
+                          letterSpacing: -0.6,
+                          wordSpacing: 1,
+                          color: Color.fromARGB(255, 0, 0, 0))),
                     ],
                   ),
                   
@@ -186,30 +183,27 @@ class _PlaceDetailsState extends State<PlaceDetails> {
               ),
             ),
 
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
+            Container(
+              margin: EdgeInsets.only(left: 20, right: 20),  
               child: HtmlBodyWidget(
-                  content: widget.data!.description!,
-                  isIframeVideoEnabled: true,
-                  isVideoEnabled: true,
-                  isimageEnabled: true,
-                  fontSize: 17,
-                ),
+                content: widget.data!.productDetail!,
+                isIframeVideoEnabled: true,
+                isVideoEnabled: true,
+                isimageEnabled: true,
+                fontSize: 17,
               ),
+            ),
             
 
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: TodoWidget(placeData: widget.data),
-            ),
+          
 
-            Padding(
-              padding: EdgeInsets.only(left: 20, right: 0, bottom: 40),
-              child: OtherPlaces(
-                stateName: widget.data!.state,
-                timestamp: widget.data!.timestamp,
-              ),
-            )
+            // Padding(
+            //   padding: EdgeInsets.only(left: 20, right: 0, bottom: 40),
+            //   child: OtherPlaces(
+            //     stateName: widget.data!.state,
+            //     timestamp: widget.data!.timestamp,
+            //   ),
+            // )
           ],
         ),
       ),
@@ -232,9 +226,9 @@ class _PlaceDetailsState extends State<PlaceDetails> {
             dotSpacing: 15,
             boxFit: BoxFit.cover,
             images: [
-              CustomCacheImage(imageUrl: widget.data!.imageUrl1),
-              CustomCacheImage(imageUrl: widget.data!.imageUrl2),
-              CustomCacheImage(imageUrl: widget.data!.imageUrl3),
+              CustomCacheImage(imageUrl: widget.data!.image1),
+              CustomCacheImage(imageUrl: widget.data!.image2),
+              CustomCacheImage(imageUrl: widget.data!.image3),
             ]),
       ),
     );

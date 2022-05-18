@@ -17,10 +17,12 @@ void main()async {
       supportedLocales: [Locale('en'), Locale('es'), Locale('ar')],
       path: 'assets/translations',
       fallbackLocale: Locale('en'),
-      startLocale: Locale('en'),
+      startLocale: Locale('en'),  
       useOnlyLangCode: true,
       child: MyApp(),
     )
   );
 }
 
+
+// https://maps.googleapis.com/maps/api/js?key=AIzaSyC_8anj4JZAqqXy2c80oeDvV8OIhFDZIH4&libraries=places&callback=initMap&libraries=&v=weekly

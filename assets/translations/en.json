@@ -18,6 +18,7 @@
     "special state-2 places" : "Places in Lombok",
     "recently added" : "Recently Added",
     "recommended places" : "Recommended Places",
+    "products" : "List of Products",
 
     "people like this" : "People like this",
     "todo" : "To Do",
@@ -36,7 +37,7 @@
 
 
     "write a review" : "Write A Review",
-    "no internet" : "No internet commection!",
+    "no internet" : "No internet connection!",
     "no comments found" : "No comments found",
     "be the first to comment" : "Be the first to comment",
 
@@ -116,6 +117,7 @@
     "about us" : "About Us",
     "logout" : "Logout",
     "edit profile" : "Edit Profile",
+    "my products" : "My Products",
     "update profile" : "Update Profile",
     "updated successfully" : "Updated Successfully",
     "enter new name" : "Enter new name",

@@ -5,6 +5,7 @@ import 'package:travel_hour/blocs/featured_bloc.dart';
 import 'package:travel_hour/blocs/popular_places_bloc.dart';
 import 'package:travel_hour/blocs/recent_places_bloc.dart';
 import 'package:travel_hour/blocs/recommanded_places_bloc.dart';
+import 'package:travel_hour/blocs/product_bloc.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/blocs/sp_state_one.dart';
 import 'package:travel_hour/blocs/sp_state_two.dart';
@@ -17,8 +18,10 @@ import 'package:travel_hour/widgets/featured_places.dart';
 import 'package:travel_hour/widgets/popular_places.dart';
 import 'package:travel_hour/widgets/recent_places.dart';
 import 'package:travel_hour/widgets/recommended_places.dart';
+// import 'package:travel_hour/pages/products.dart';
 import 'package:travel_hour/widgets/special_state1.dart';
 import 'package:travel_hour/widgets/special_state2.dart';
+import 'package:travel_hour/widgets/product.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class Explore extends StatefulWidget {
@@ -43,12 +46,12 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
     Future.delayed(Duration(milliseconds: 0)).then((_) async{
 
       await context.read<FeaturedBloc>().getData()
-      .then((value) => context.read<PopularPlacesBloc>().getData())
-      .then((value) => context.read<RecentPlacesBloc>().getData())
-      .then((value) => context.read<SpecialStateOneBloc>().getData())
-      .then((value) => context.read<SpecialStateTwoBloc>().getData())
-      .then((value) => context.read<RecommandedPlacesBloc>().getData());
-      
+        .then((value) => context.read<PopularPlacesBloc>().getData())
+        .then((value) => context.read<RecentPlacesBloc>().getData())
+        .then((value) => context.read<SpecialStateOneBloc>().getData())
+        .then((value) => context.read<SpecialStateTwoBloc>().getData())
+        .then((value) => context.read<RecommandedPlacesBloc>().getData())
+        .then((value) => context.read<ProductBloc>().getData());
       });
   }
 
@@ -60,6 +63,7 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
     context.read<SpecialStateOneBloc>().onRefresh(mounted);
     context.read<SpecialStateTwoBloc>().onRefresh(mounted);
     context.read<RecommandedPlacesBloc>().onRefresh(mounted);
+    context.read<ProductBloc>().onRefresh(mounted);
   }
 
 
@@ -82,7 +86,8 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
                     RecentPlaces(),
                     SpecialStateOne(),
                     SpecialStateTwo(),
-                    RecommendedPlaces()
+                    RecommendedPlaces(),
+                    Products(),
                   ],
                 ),
               ),

@@ -9,6 +9,7 @@ import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/pages/edit_profile.dart';
 import 'package:travel_hour/pages/notifications.dart';
 import 'package:travel_hour/pages/sign_in.dart';
+import 'package:travel_hour/pages/my_product.dart';
 import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/language.dart';
@@ -342,6 +343,23 @@ class UserUI extends StatelessWidget {
               child: Icon(LineIcons.timesCircle, size: 20, color: Colors.white),
             ),
           ),
+          Divider(height: 5,),
+
+          ListTile(
+            title: Text('my products', style: _textStyle,).tr(),
+            leading: Container(
+              height: 30,
+              width: 30,
+              decoration: BoxDecoration(
+                color: Colors.purpleAccent,
+                borderRadius: BorderRadius.circular(5)
+              ),
+              child: Icon(Feather.inbox, size: 20, color: Colors.white),
+            ),
+            trailing: Icon(Feather.chevron_right, size: 20,),
+            onTap: ()=> nextScreen(context, EditProfile(name: sb.name, imageUrl: sb.imageUrl))
+          ),
+
           Divider(height: 5,),
 
           ListTile(

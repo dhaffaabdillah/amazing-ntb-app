@@ -49,7 +49,7 @@
         <!--Google Map API Key-->
         <meta-data 
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyClsHb5kKWN******************"/>
+            android:value="AIzaSyC_8anj4JZAqqXy2c80oeDvV8OIhFDZIH4"/>
 
 
         <!-- Facebook Sign In -->

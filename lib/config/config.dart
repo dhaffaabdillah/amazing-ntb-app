@@ -4,7 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class Config {
 
   final String appName = 'Amazing NTB'; 
-  final String mapAPIKey = 'AIzaSyClsHb5kKWNrDvP**************';
+  final String mapAPIKey = 'AIzaSyC_8anj4JZAqqXy2c80oeDvV8OIhFDZIH4';
   final String countryName = 'Indonesia';
   final String splashIcon = 'assets/images/splash.png';
   final String supportEmail = 'YOUR_EMAIL';
@@ -23,7 +23,7 @@ class Config {
   //special two states name that has been already upload from the admin panel
   final String specialState1 = 'Sumbawa';
   final String specialState2 = 'Lombok';
-
+  final String product = 'Products';
 
   //relplace by your country lattitude & longitude
   final CameraPosition initialCameraPosition = CameraPosition(
