@@ -7,6 +7,7 @@ import 'package:travel_hour/models/place.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/models/product.dart';
 import 'package:travel_hour/pages/more_places.dart';
+import 'package:travel_hour/pages/more_products.dart';
 import 'package:travel_hour/pages/place_details.dart';
 import 'package:travel_hour/pages/product_details.dart';
 import 'package:travel_hour/utils/next_screen.dart';
@@ -44,7 +45,7 @@ class Products extends StatelessWidget {
             ).tr(),
             Spacer(),
             IconButton(icon: Icon(Icons.arrow_forward),
-              onPressed: () => nextScreen(context, MorePlacesPage(title: 'popular', color: Colors.grey[800],)),            
+              onPressed: () => nextScreen(context, MoreProductPages(title: 'products', color: Colors.grey[800],)),            
             )
           ],),
         ),

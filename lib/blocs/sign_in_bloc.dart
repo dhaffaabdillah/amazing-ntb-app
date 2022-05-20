@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -32,6 +34,9 @@ class SignInBloc extends ChangeNotifier {
 
   bool _hasError = false;
   bool get hasError => _hasError;
+
+  bool _isSeller = false;
+  bool get isSeller => _isSeller;
 
   String? _errorCode;
   String? get errorCode => _errorCode;
@@ -96,7 +101,7 @@ class SignInBloc extends ChangeNotifier {
         this._imageUrl = userDetails.photoURL;
         this._uid = userDetails.uid;
         this._signInProvider = 'google';
-
+        _isSeller = false;
         _hasError = false;
         notifyListeners();
       } catch (e) {

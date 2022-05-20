@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:travel_hour/models/place.dart';
-import 'package:travel_hour/pages/place_details.dart';
+import 'package:travel_hour/models/product.dart';
+import 'package:travel_hour/pages/Product_details.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 import 'package:travel_hour/utils/loading_cards.dart';
@@ -24,12 +24,12 @@ class _MoreProductPagesState extends State<MoreProductPages> {
 
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final String collectionName = 'places';
+  final String collectionName = 'product';
   ScrollController? controller;
   DocumentSnapshot? _lastVisible;
   late bool _isLoading;
   List<DocumentSnapshot> _snap = [];
-  List<Place> _data = [];
+  List<Product> _data = [];
   late bool _descending;
   late String _orderBy;
 
@@ -38,16 +38,8 @@ class _MoreProductPagesState extends State<MoreProductPages> {
     controller = new ScrollController()..addListener(_scrollListener);
     super.initState();
     _isLoading = true;
-    if(widget.title == 'popular'){
-      _orderBy = 'loves';
-      _descending = true;
-    }else if(widget.title == 'recommended'){
-      _orderBy = 'comments count';
-      _descending = true;
-    }else{
-      _orderBy = 'timestamp';
-      _descending = false;
-    }
+    _orderBy = 'timestamp';
+    _descending = false;
     _getData();
   }
 
@@ -86,7 +78,7 @@ class _MoreProductPagesState extends State<MoreProductPages> {
         setState(() {
           _isLoading = false;
           _snap.addAll(data.docs);
-          _data = _snap.map((e) => Place.fromFirestore(e)).toList();
+          _data = _snap.map((e) => Product.fromFirestore(e)).toList();
         });
       }
     } else {
@@ -141,7 +133,7 @@ class _MoreProductPagesState extends State<MoreProductPages> {
                   width: double.infinity,
                 ),
                 title: Text(
-                  '${widget.title} places',
+                  '${widget.title} Products',
                   style: TextStyle(
                     color: Colors.white
                   ),
@@ -194,7 +186,7 @@ class _MoreProductPagesState extends State<MoreProductPages> {
 
 
 class _ListItem extends StatelessWidget {
-  final Place d;
+  final Product d;
   final tag;
   const _ListItem({Key? key, required this.d, required this.tag}) : super(key: key);
 
@@ -228,7 +220,7 @@ class _ListItem extends StatelessWidget {
                         topLeft: Radius.circular(5),
                         topRight: Radius.circular(5)
                       ),
-                      child: CustomCacheImage(imageUrl: d.imageUrl1)),
+                      child: CustomCacheImage(imageUrl: d.image1)),
                 )),
 
             Container(
@@ -237,7 +229,7 @@ class _ListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-              d.name!,
+              d.productName!,
               maxLines: 1,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
             ),
@@ -248,7 +240,7 @@ class _ListItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Icon(
-                  Feather.map_pin,
+                  Feather.phone_call,
                   size: 16,
                   color: Colors.grey,
                 ),
@@ -257,7 +249,7 @@ class _ListItem extends StatelessWidget {
                 ),
                 Expanded(
                     child: Text(
-                    d.location!,
+                    d.phone!,
                     maxLines: 1,
                     style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                   ),
@@ -279,37 +271,10 @@ class _ListItem extends StatelessWidget {
                   width: 3,
                 ),
                 Text(
-                  d.date!,
+                  d.created_at!,
                   style: TextStyle(fontSize: 13, color: Colors.grey[700]),
                 ),
                 Spacer(),
-                Icon(
-                  LineIcons.heart,
-                  size: 16,
-                  color: Colors.grey,
-                ),
-                SizedBox(
-                  width: 3,
-                ),
-                Text(
-                  d.loves.toString(),
-                  style: TextStyle(fontSize: 13, color: Colors.grey[700]),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Icon(
-                  LineIcons.comment,
-                  size: 16,
-                  color: Colors.grey,
-                ),
-                SizedBox(
-                  width: 3,
-                ),
-                Text(
-                  d.commentsCount.toString(),
-                  style: TextStyle(fontSize: 13, color: Colors.grey[700]),
-                ),
               ],
             )
                 ],
@@ -320,7 +285,7 @@ class _ListItem extends StatelessWidget {
         )),
       ),
 
-      onTap: ()=> nextScreen(context, PlaceDetails(data: d, tag: tag)),
+      onTap: ()=> nextScreen(context, ProductDetails(data: d, tag: tag)),
     );
   }
 }
