@@ -13,16 +13,14 @@ import 'package:easy_localization/easy_localization.dart';
 class MoreProductPages extends StatefulWidget {
   final String title;
   final Color? color;
-  MoreProductPages({Key? key, required this.title, required this. color}) : super(key: key);
+  MoreProductPages({Key? key, required this.title, required this.color})
+      : super(key: key);
 
   @override
   _MoreProductPagesState createState() => _MoreProductPagesState();
 }
 
 class _MoreProductPagesState extends State<MoreProductPages> {
-
-
-
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final String collectionName = 'product';
   ScrollController? controller;
@@ -52,9 +50,6 @@ class _MoreProductPagesState extends State<MoreProductPages> {
     });
     _getData();
   }
-
-
-
 
   Future<Null> _getData() async {
     QuerySnapshot data;
@@ -133,43 +128,45 @@ class _MoreProductPagesState extends State<MoreProductPages> {
                   width: double.infinity,
                 ),
                 title: Text(
-                  '${widget.title} Products',
-                  style: TextStyle(
-                    color: Colors.white
-                  ),
-                  
+                  '${widget.title}',
+                  style: TextStyle(color: Colors.white),
                 ).tr(),
                 titlePadding: EdgeInsets.only(left: 20, bottom: 15, right: 15),
               ),
             ),
-
             SliverPadding(
               padding: EdgeInsets.all(15),
-                sliver : SliverList(
+              sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     if (index < _data.length) {
-                      return _ListItem(d: _data[index], tag: '${widget.title}$index',);
+                      return _ListItem(
+                        d: _data[index],
+                        tag: '${widget.title}$index',
+                      );
                     }
                     return Opacity(
-                  opacity: _isLoading ? 1.0 : 0.0,
-                  child: _lastVisible == null
-                  ? Column(
-                    children: [
-                      LoadingCard(height: 180,),
-                      SizedBox(height: 15,)
-                    ],
-                  )
-                  : Center(
-                    child: SizedBox(
-                        width: 32.0,
-                        height: 32.0,
-                        child: new CupertinoActivityIndicator()),
-                  ),
-                
-              );
+                      opacity: _isLoading ? 1.0 : 0.0,
+                      child: _lastVisible == null
+                          ? Column(
+                              children: [
+                                LoadingCard(
+                                  height: 180,
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                )
+                              ],
+                            )
+                          : Center(
+                              child: SizedBox(
+                                  width: 32.0,
+                                  height: 32.0,
+                                  child: new CupertinoActivityIndicator()),
+                            ),
+                    );
                   },
-                  childCount: _data.length  == 0 ? 5  : _data.length+ 1,
+                  childCount: _data.length == 0 ? 5 : _data.length + 1,
                 ),
               ),
             )
@@ -181,111 +178,105 @@ class _MoreProductPagesState extends State<MoreProductPages> {
   }
 }
 
-
-
-
-
 class _ListItem extends StatelessWidget {
   final Product d;
   final tag;
-  const _ListItem({Key? key, required this.d, required this.tag}) : super(key: key);
+  const _ListItem({Key? key, required this.d, required this.tag})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-          child: Container(
+      child: Container(
         margin: EdgeInsets.only(top: 5, bottom: 10),
         child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(5),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-              color: Colors.grey[200]!,
-              blurRadius: 10,
-              offset: Offset(0, 3)
-            )
-            ]
-          ),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Colors.grey[200]!,
+                      blurRadius: 10,
+                      offset: Offset(0, 3))
+                ]),
             child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-                height: 180,
-                width: MediaQuery.of(context).size.width,
-                child: Hero(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                    height: 180,
+                    width: MediaQuery.of(context).size.width,
+                    child: Hero(
                       tag: tag,
                       child: ClipRRect(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(5),
-                        topRight: Radius.circular(5)
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              topRight: Radius.circular(5)),
+                          child: CustomCacheImage(imageUrl: d.image1)),
+                    )),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        d.productName!,
+                        maxLines: 1,
+                        style: TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.w600),
                       ),
-                      child: CustomCacheImage(imageUrl: d.image1)),
-                )),
-
-            Container(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-              d.productName!,
-              maxLines: 1,
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
-            ),
-            SizedBox(
-              height: 2,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Icon(
-                  Feather.phone_call,
-                  size: 16,
-                  color: Colors.grey,
-                ),
-                SizedBox(
-                  width: 3,
-                ),
-                Expanded(
-                    child: Text(
-                    d.phone!,
-                    maxLines: 1,
-                    style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Feather.phone_call,
+                            size: 16,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(
+                            width: 3,
+                          ),
+                          Expanded(
+                            child: Text(
+                              d.phone!,
+                              maxLines: 1,
+                              style: TextStyle(
+                                  fontSize: 14, color: Colors.grey[700]),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            CupertinoIcons.time,
+                            size: 16,
+                            color: Colors.grey[700],
+                          ),
+                          SizedBox(
+                            width: 3,
+                          ),
+                          Text(
+                            d.created_at!,
+                            style: TextStyle(
+                                fontSize: 13, color: Colors.grey[700]),
+                          ),
+                          Spacer(),
+                        ],
+                      )
+                    ],
                   ),
                 ),
               ],
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Icon(
-                  CupertinoIcons.time,
-                  size: 16,
-                  color: Colors.grey[700],
-                ),
-                SizedBox(
-                  width: 3,
-                ),
-                Text(
-                  d.created_at!,
-                  style: TextStyle(fontSize: 13, color: Colors.grey[700]),
-                ),
-                Spacer(),
-              ],
-            )
-                ],
-              ),
-            ),
-            
-          ],
-        )),
+            )),
       ),
-
-      onTap: ()=> nextScreen(context, ProductDetails(data: d, tag: tag)),
+      onTap: () => nextScreen(context, ProductDetails(data: d, tag: tag)),
     );
   }
 }

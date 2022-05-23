@@ -14,7 +14,7 @@ class ProductBloc extends ChangeNotifier{
     QuerySnapshot rawData;
       rawData = await firestore
           .collection('product')
-          // .orderBy('timestamp', descending: true)
+          .orderBy('timestamp', descending: true)
           .limit(5)
           .get();
       

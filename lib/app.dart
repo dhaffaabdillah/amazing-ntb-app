@@ -2,6 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/blocs/product_bloc.dart';
+import 'package:travel_hour/blocs/product_bloc2.dart';
 import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/pages/splash.dart';
 import 'blocs/ads_bloc.dart';
@@ -56,6 +57,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<OtherPlacesBloc>(create: (context) => OtherPlacesBloc()),
         ChangeNotifierProvider<AdsBloc>(create: (context) => AdsBloc()),
         ChangeNotifierProvider<ProductBloc>(create: (context) => ProductBloc()),
+        ChangeNotifierProvider<ProductBloc2>(create: (context) => ProductBloc2()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

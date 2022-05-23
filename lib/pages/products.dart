@@ -74,7 +74,6 @@ class _ProductPageState extends State<ProductPage> with AutomaticKeepAliveClient
           automaticallyImplyLeading: false,
           title: Text(
             'products'
-            
           ).tr(),
           elevation: 0,
           actions: <Widget>[
