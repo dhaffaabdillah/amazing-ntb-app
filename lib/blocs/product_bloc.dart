@@ -26,6 +26,11 @@ class ProductBloc extends ChangeNotifier{
     
   }
 
+  Future deleteContent(timestamp, String collectionName) async {
+    await firestore.collection(collectionName).doc(timestamp).delete();
+    notifyListeners();
+  }
+
   onRefresh(mounted) {
     _data.clear();
     getData();

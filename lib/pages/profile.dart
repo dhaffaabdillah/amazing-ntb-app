@@ -11,6 +11,7 @@ import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/models/product.dart';
 import 'package:travel_hour/pages/edit_profile.dart';
 import 'package:travel_hour/pages/more_products.dart';
+import 'package:travel_hour/pages/my_product_add.dart';
 import 'package:travel_hour/pages/notifications.dart';
 import 'package:travel_hour/pages/regist_as_seller.dart';
 import 'package:travel_hour/pages/sign_in.dart';
@@ -409,6 +410,25 @@ class SellerUI extends StatelessWidget {
         Divider(
           height: 5,
         ),
+
+        ListTile(
+          title: Text(
+            'add a product',
+            style: _textStyle,
+          ).tr(),
+          leading: Container(
+            height: 30,
+            width: 30,
+            decoration: BoxDecoration(
+              color: Colors.blueAccent,
+              borderRadius: BorderRadius.circular(5)
+            ),
+            child: Icon(Feather.archive, size: 20, color: Colors.white,),
+          ),
+          trailing: Icon(Feather.chevron_right, size: 20,),
+          // onTap: () => nextScreen(context, UploadProducts()),
+        ),
+        Divider(height: 5),
         ListTile(
             title: Text(
               'edit profile',

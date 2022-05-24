@@ -54,6 +54,9 @@ dependencies:
   carousel_pro_nullsafety: ^1.0.2
   better_player: ^0.0.81
   youtube_player_iframe: ^2.2.2
+  searchfield: ^0.6.5
+  universal_html: ^2.0.8
+  file_picker: ^3.0.3
   flutter_icons:
     git:
       url: https://github.com/adarsh-technocrat/flutter-icons

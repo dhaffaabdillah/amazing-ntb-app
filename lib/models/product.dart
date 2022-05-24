@@ -5,6 +5,7 @@ class Product {
   String? productDetail;
   String? authorId;
   String? price;
+  String? email;
   // String? sellerContact;
   String? image1;
   String? image2;
@@ -16,11 +17,12 @@ class Product {
   String? created_at;
   String? updated_at;
   String? phone;
-  
+
   Product({
     this.productName,
     this.productDetail,
     this.authorId,
+    this.email,
     this.price,
     // this.sellerContact,
     this.image1,
@@ -41,6 +43,7 @@ class Product {
       productName: data['productName'],
       productDetail: data['productDetail'],
       authorId: data['authorId'],
+      email: data['email'],
       price: data['price'],
       phone: data['phone'],
       image1: data['image-1'],
@@ -54,12 +57,13 @@ class Product {
     );
   }
 
-  Map<String, dynamic> toJson () {
-    return{
+  Map<String, dynamic> toJson() {
+    return {
       'productName': productName,
       'productDetail': productDetail,
       'price': price,
-      'authorId' : authorId,
+      'authorId': authorId,
+      'email': email,
       'phone': phone,
       'image-1': image1,
       'image-2': image2,

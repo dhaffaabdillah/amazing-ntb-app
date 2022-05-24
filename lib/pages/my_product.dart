@@ -5,10 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:travel_hour/blocs/product_bloc.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/models/product.dart';
 import 'package:travel_hour/pages/Product_details.dart';
+import 'package:travel_hour/pages/product_update.dart';
+import 'package:travel_hour/utils/dialog.dart';
 import 'package:travel_hour/utils/next_screen.dart';
+import 'package:travel_hour/utils/styles.dart';
+import 'package:travel_hour/utils/toast.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 import 'package:travel_hour/utils/loading_cards.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -115,11 +120,97 @@ class _MyProductPagesState extends State<MyProductPages> {
     }
   }
 
+  reloadData() {
+    setState(() {
+      _isLoading = true;
+      _snap.clear();
+      _data.clear();
+      _lastVisible = null;
+    });
+    _getData();
+  }
+
+  Future deleteContent(timestamp, String collectionName) async {
+    await firestore.collection(collectionName).doc(timestamp).delete();
+    // notifyListenerrs();
+  }
+
+  Future handleDelete(timestamp) async {
+    // final AdminBloc ab = Provider.of<AdminBloc>(context, listen: false);
+    // final Product p = Provider.of<ProductBloc>(context, listen: false);
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            contentPadding: EdgeInsets.all(50),
+            elevation: 0,
+            children: <Widget>[
+              Text('Delete?',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900)),
+              SizedBox(
+                height: 10,
+              ),
+              Text('Want to delete this item from the database?',
+                  style: TextStyle(
+                      color: Colors.grey[900],
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700)),
+              SizedBox(
+                height: 30,
+              ),
+              Center(
+                  child: Row(
+                children: <Widget>[
+                  TextButton(
+                    style: buttonStyle(Colors.redAccent),
+                    child: Text(
+                      'Yes',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    onPressed: () async {
+                      // if (ab.userType == 'tester') {
+                      //   Navigator.pop(context);
+                      //   openDialog(context, 'You are a Tester',
+                      //       'Only admin can delete contents');
+                      // } else {
+                        await deleteContent(timestamp, 'product')
+                            // .then((value) => ab.decreaseCount('products_count'))
+                            .then((value) => openToast(
+                                context, 'Item deleted successfully!'));
+                        reloadData();
+                        Navigator.pop(context);
+                      // }
+                    },
+                  ),
+                  SizedBox(width: 10),
+                  TextButton(
+                    style: buttonStyle(Colors.deepPurpleAccent),
+                    child: Text(
+                      'No',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ))
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     User? currentUser = FirebaseAuth.instance.currentUser;
     final sb = context.watch<SignInBloc>();
-    // print(currentUser?.displayName);
     return Scaffold(
       body: RefreshIndicator(
         child: CustomScrollView(
@@ -152,8 +243,6 @@ class _MyProductPagesState extends State<MyProductPages> {
                   '${widget.title}',
                   style: TextStyle(color: Colors.white),
                 ).tr(),
-                // title: Text(sb.email.toString()),
-                // title: Text(currentUser!.email.toString()),
                 titlePadding: EdgeInsets.only(left: 20, bottom: 15, right: 15),
               ),
             ),
@@ -200,6 +289,8 @@ class _MyProductPagesState extends State<MyProductPages> {
     );
   }
 }
+
+
 
 class _ListItem extends StatelessWidget {
   final Product d;
@@ -294,7 +385,35 @@ class _ListItem extends StatelessWidget {
                           ),
                           Spacer(),
                         ],
-                      )
+                      ),
+                      InkWell(
+                        child: Container(
+                            height: 35,
+                            width: 45,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Icon(Icons.edit,
+                                size: 16, color: Colors.grey[800])),
+                        onTap: () {
+                          nextScreen(context, UpdateProduct(productData: d));
+                        },
+                      ),
+                      SizedBox(width: 10),
+                      InkWell(
+                        child: Container(
+                            height: 35,
+                            width: 45,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Icon(Icons.delete,
+                                size: 16, color: Colors.grey[800])),
+                        onTap: () {
+                          // handleDelete(d.timestamp);
+                        },
+                      ),
+
                     ],
                   ),
                 ),
