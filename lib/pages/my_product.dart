@@ -27,14 +27,8 @@ class MyProductPages extends StatefulWidget {
 
 class _MyProductPagesState extends State<MyProductPages> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  // final sb = context.watch<SignInBloc>();
-  // Firebase user = await FirebaseAuth.instance.currentUser();
-  //     print(user.uid);
-  // final sb = context.watch<SignInBloc>();
   final User? currentUser = FirebaseAuth.instance.currentUser;
-  // User? user = FirebaseAuth.instance.currentUser;
   final FirebaseAuth auth = FirebaseAuth.instance;
-  // final User? user = auth.currentUser;
   final String collectionName = 'product';
   final sb = SignInBloc;
   ScrollController? controller;
@@ -70,7 +64,6 @@ class _MyProductPagesState extends State<MyProductPages> {
     if (_lastVisible == null)
       data = await firestore
           .collection(collectionName)
-          // .where("email", isEqualTo: currentUser?.email.toString())
           .where("email", isEqualTo: currentUser!.email.toString())
           // .orderBy(_orderBy, descending: _descending)
           .limit(5)
@@ -79,7 +72,6 @@ class _MyProductPagesState extends State<MyProductPages> {
       data = await firestore
           .collection(collectionName)
           // .orderBy(_orderBy, descending: _descending)
-          // .where("email", isEqualTo: currentUser?.email.toString())
           .where("email", isEqualTo: currentUser!.email.toString())
           // .startAfter([_lastVisible![_orderBy]])
           .limit(5)

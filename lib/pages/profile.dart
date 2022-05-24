@@ -15,6 +15,7 @@ import 'package:travel_hour/pages/notifications.dart';
 import 'package:travel_hour/pages/regist_as_seller.dart';
 import 'package:travel_hour/pages/sign_in.dart';
 import 'package:travel_hour/pages/my_product.dart';
+import 'package:travel_hour/pages/upload_product.dart';
 import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/language.dart';
@@ -410,6 +411,56 @@ class SellerUI extends StatelessWidget {
           height: 5,
         ),
         ListTile(
+          title: Text(
+            'add a product',
+            style: _textStyle,
+          ).tr(),
+          leading: Container(
+            height: 30,
+            width: 30,
+            decoration: BoxDecoration(
+                color: Colors.purpleAccent,
+                borderRadius: BorderRadius.circular(5)),
+            child: Icon(Feather.inbox, size: 20, color: Colors.white),
+          ),
+          trailing: Icon(
+            Feather.chevron_right,
+            size: 20,
+          ),
+          // onTap: () => nextScreen(context, MyProduct(data: p.authorId,)),
+          // onTap: () => nextScreen(
+          //     context,
+          //     UploadProduct()),
+        ),
+        Divider(
+          height: 5,
+        ),
+        ListTile(
+          title: Text(
+            'regist as seller',
+            style: _textStyle,
+          ).tr(),
+          leading: Container(
+            height: 30,
+            width: 30,
+            decoration: BoxDecoration(
+                color: Colors.purpleAccent,
+                borderRadius: BorderRadius.circular(5)),
+            child: Icon(Feather.inbox, size: 20, color: Colors.white),
+          ),
+          trailing: Icon(
+            Feather.chevron_right,
+            size: 20,
+          ),
+          onTap: () => openRegistSellerDialog(context),
+          // onTap: () => nextScreen(
+          //     context,
+          //     UploadProduct()),
+        ),
+        Divider(
+          height: 5,
+        ),
+        ListTile(
             title: Text(
               'edit profile',
               style: _textStyle,
@@ -463,6 +514,34 @@ class SellerUI extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('logout title').tr(),
+            actions: [
+              TextButton(
+                child: Text('no').tr(),
+                onPressed: () => Navigator.pop(context),
+              ),
+              TextButton(
+                child: Text('yes').tr(),
+                onPressed: () async {
+                  Navigator.pop(context);
+                  await context
+                      .read<SignInBloc>()
+                      .userSignout()
+                      .then((value) =>
+                          context.read<SignInBloc>().afterUserSignOut())
+                      .then((value) =>
+                          nextScreenCloseOthers(context, SignInPage()));
+                },
+              )
+            ],
+          );
+        });
+  }
+  void openRegistSellerDialog(context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('regist as seller').tr(),
             actions: [
               TextButton(
                 child: Text('no').tr(),
