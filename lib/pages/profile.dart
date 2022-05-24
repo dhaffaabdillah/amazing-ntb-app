@@ -10,7 +10,9 @@ import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/models/product.dart';
 import 'package:travel_hour/pages/edit_profile.dart';
+import 'package:travel_hour/pages/more_products.dart';
 import 'package:travel_hour/pages/notifications.dart';
+import 'package:travel_hour/pages/regist_as_seller.dart';
 import 'package:travel_hour/pages/sign_in.dart';
 import 'package:travel_hour/pages/my_product.dart';
 import 'package:travel_hour/services/app_service.dart';
@@ -67,11 +69,11 @@ class _ProfilePageState extends State<ProfilePage>
           children: [
             sb.isSignedIn == false
                 ? GuestUserUI()
-                : sb.isSeller == false && sb.isSignedIn == true
+                : sb.statusSeller == 2 && sb.isSignedIn == true
                     ? UserUI()
-                    : sb.isSeller == true && sb.isSignedIn == true
-                        ? SellerUI()
-                        : UserUI(),
+                    : sb.statusSeller == 0 && sb.isSignedIn == true
+                        ? UserUI()
+                        : SellerUI(),
 
             Text(
               "general setting",
@@ -316,12 +318,12 @@ class GuestUserUI extends StatelessWidget {
 }
 
 class SellerUI extends StatelessWidget {
+  // final Product p;
   const SellerUI({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final sb = context.watch<SignInBloc>();
-    final p = context.watch<ProductBloc>();
-
+    // final p = context.watch<ProductBloc>();
     TextStyle _textStyle = TextStyle(
         fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[900]);
     return Column(
@@ -382,29 +384,28 @@ class SellerUI extends StatelessWidget {
           height: 5,
         ),
         ListTile(
-            title: Text(
-              'my products',
-              style: _textStyle,
-            ).tr(),
-            leading: Container(
-              height: 30,
-              width: 30,
-              decoration: BoxDecoration(
-                  color: Colors.purpleAccent,
-                  borderRadius: BorderRadius.circular(5)),
-              child: Icon(Feather.inbox, size: 20, color: Colors.white),
-            ),
-            trailing: Icon(
-              Feather.chevron_right,
-              size: 20,
-            ),
-            // onTap: () => nextScreen(
-            //     context,
-            //     MyProduct(
-            //       data: p,
-            //     ))
-            // onTap: () => nextScreen(context, MyProduct(data: p)),
-            ),
+          title: Text(
+            'my products',
+            style: _textStyle,
+          ).tr(),
+          leading: Container(
+            height: 30,
+            width: 30,
+            decoration: BoxDecoration(
+                color: Colors.purpleAccent,
+                borderRadius: BorderRadius.circular(5)),
+            child: Icon(Feather.inbox, size: 20, color: Colors.white),
+          ),
+          trailing: Icon(
+            Feather.chevron_right,
+            size: 20,
+          ),
+          // onTap: () => nextScreen(context, MyProduct(data: p.authorId,)),
+          onTap: () => nextScreen(
+              context,
+              MyProductPages(
+                  title: 'my products', email: sb.email, color: Colors.amber)),
+        ),
         Divider(
           height: 5,
         ),
@@ -570,7 +571,10 @@ class UserUI extends StatelessWidget {
               size: 20,
             ),
             onTap: () => nextScreen(
-                context, EditProfile(name: sb.name, imageUrl: sb.imageUrl))),
+                context,
+                RegistAsSeller(
+                  statusSeller: sb.statusSeller,
+                ))),
         Divider(
           height: 5,
         ),

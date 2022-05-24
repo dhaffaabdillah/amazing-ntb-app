@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -34,8 +35,8 @@ class SignInBloc extends ChangeNotifier {
   bool _hasError = false;
   bool get hasError => _hasError;
 
-  bool _isSeller = false;
-  bool get isSeller => _isSeller;
+  int? _statusSeller;
+  int? get statusSeller => _statusSeller;
 
   String? _errorCode;
   String? get errorCode => _errorCode;
@@ -93,7 +94,7 @@ class SignInBloc extends ChangeNotifier {
         this._imageUrl = userDetails.photoURL;
         this._uid = userDetails.uid;
         this._signInProvider = 'google';
-        this._isSeller = false;
+        this._statusSeller = 0;
         _hasError = false;
         notifyListeners();
       } catch (e) {
@@ -131,7 +132,7 @@ class SignInBloc extends ChangeNotifier {
           this._imageUrl = user.photoURL;
           this._uid = user.uid;
           this._signInProvider = 'facebook';
-          this._isSeller = false;
+          this._statusSeller = 0;
 
           _hasError = false;
           notifyListeners();
@@ -172,7 +173,7 @@ class SignInBloc extends ChangeNotifier {
         this._email = appleIdCredential.email;
         this._imageUrl = firebaseUser.photoURL ?? defaultUserImageUrl;
         this._signInProvider = 'apple';
-
+        this._statusSeller = 0;
         print(firebaseUser);
         _hasError = false;
         notifyListeners();
@@ -215,7 +216,8 @@ class SignInBloc extends ChangeNotifier {
       'loved blogs': [],
       'loved places': [],
       'bookmarked blogs': [],
-      'bookmarked places': []
+      'bookmarked places': [],
+      'status_seller': _statusSeller,
     };
     await ref.set(userData);
   }
@@ -236,6 +238,7 @@ class SignInBloc extends ChangeNotifier {
     await sp.setString('uid', _uid!);
     await sp.setString('joining_date', _joiningDate!);
     await sp.setString('sign_in_provider', _signInProvider!);
+    await sp.setInt('status_seller', 1);
   }
 
   Future getDataFromSp() async {
@@ -246,6 +249,7 @@ class SignInBloc extends ChangeNotifier {
     _uid = sp.getString('uid');
     _joiningDate = sp.getString('joining_date');
     _signInProvider = sp.getString('sign_in_provider');
+    int? _statusSeller = sp.getInt('status_seller');
     notifyListeners();
   }
 
@@ -260,6 +264,7 @@ class SignInBloc extends ChangeNotifier {
       this._email = snap['email'];
       this._imageUrl = snap['image url'];
       this._joiningDate = snap['joining date'];
+      this._statusSeller = snap['status_seller'];
       print(_name);
     });
     notifyListeners();
@@ -334,6 +339,19 @@ class SignInBloc extends ChangeNotifier {
     sp.setString('image_url', newImageUrl);
     _name = newName;
     _imageUrl = newImageUrl;
+
+    notifyListeners();
+  }
+
+  Future updateToSeller(int newStatusSeller) async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(_uid)
+        .update({'status_seller': 2});
+
+    sp.setInt('isSeller', 2);
+    _statusSeller = 2;
 
     notifyListeners();
   }

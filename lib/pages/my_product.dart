@@ -1,235 +1,307 @@
-import 'package:carousel_pro_nullsafety/carousel_pro_nullsafety.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:travel_hour/blocs/ads_bloc.dart';
-import 'package:travel_hour/blocs/bookmark_bloc.dart';
-import 'package:travel_hour/blocs/sign_in_bloc.dart';
-import 'package:travel_hour/blocs/product_bloc.dart';
-import 'package:travel_hour/models/place.dart';
-import 'package:travel_hour/models/product.dart';
-import 'package:travel_hour/models/product.dart';
-import 'package:travel_hour/utils/sign_in_dialog.dart';
-import 'package:travel_hour/widgets/bookmark_icon.dart';
-import 'package:travel_hour/widgets/comment_count.dart';
-import 'package:travel_hour/widgets/custom_cache_image.dart';
-import 'package:travel_hour/widgets/html_body.dart';
-import 'package:travel_hour/widgets/love_count.dart';
-import 'package:travel_hour/widgets/love_icon.dart';
-import 'package:travel_hour/widgets/other_places.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/widgets/todo.dart';
+import 'package:travel_hour/blocs/sign_in_bloc.dart';
+import 'package:travel_hour/models/product.dart';
+import 'package:travel_hour/pages/Product_details.dart';
+import 'package:travel_hour/utils/next_screen.dart';
+import 'package:travel_hour/widgets/custom_cache_image.dart';
+import 'package:travel_hour/utils/loading_cards.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-class MyProduct extends StatefulWidget {
-  // final Place? data;
-  final Product? data;
-
-  const MyProduct({Key? key, required this.data})
+class MyProductPages extends StatefulWidget {
+  final String title;
+  final Color? color;
+  final String? email;
+  MyProductPages(
+      {Key? key, required this.title, required this.color, required this.email})
       : super(key: key);
 
   @override
-  _MyProductState createState() => _MyProductState();
+  _MyProductPagesState createState() => _MyProductPagesState();
 }
 
-class _MyProductState extends State<MyProduct> {
-
+class _MyProductPagesState extends State<MyProductPages> {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  // final sb = context.watch<SignInBloc>();
+  // Firebase user = await FirebaseAuth.instance.currentUser();
+  //     print(user.uid);
+  // final sb = context.watch<SignInBloc>();
+  final User? currentUser = FirebaseAuth.instance.currentUser;
+  // User? user = FirebaseAuth.instance.currentUser;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  // final User? user = auth.currentUser;
   final String collectionName = 'product';
+  final sb = SignInBloc;
+  ScrollController? controller;
+  DocumentSnapshot? _lastVisible;
+  late bool _isLoading;
+  List<DocumentSnapshot> _snap = [];
+  List<Product> _data = [];
+  late bool _descending;
+  late String _orderBy;
 
-  
   @override
   void initState() {
+    controller = new ScrollController()..addListener(_scrollListener);
     super.initState();
-    Future.delayed(Duration(milliseconds: 0))
-    .then((value) async{
-      context.read<AdsBloc>().initiateAds();
+    _isLoading = true;
+    _orderBy = 'timestamp';
+    _descending = false;
+    _getData();
+  }
+
+  onRefresh() {
+    setState(() {
+      _snap.clear();
+      _data.clear();
+      _isLoading = true;
+      _lastVisible = null;
     });
+    _getData();
   }
 
-  
+  Future<Null> _getData() async {
+    QuerySnapshot data;
+    if (_lastVisible == null)
+      data = await firestore
+          .collection(collectionName)
+          // .where("email", isEqualTo: currentUser?.email.toString())
+          .where("email", isEqualTo: currentUser!.email.toString())
+          // .orderBy(_orderBy, descending: _descending)
+          .limit(5)
+          .get();
+    else
+      data = await firestore
+          .collection(collectionName)
+          // .orderBy(_orderBy, descending: _descending)
+          // .where("email", isEqualTo: currentUser?.email.toString())
+          .where("email", isEqualTo: currentUser!.email.toString())
+          // .startAfter([_lastVisible![_orderBy]])
+          .limit(5)
+          .get();
 
-  handleLoveClick() {
-    bool _guestUser = context.read<SignInBloc>().guestUser;
-    if (_guestUser == true) {
-      openSignInDialog(context);
+    if (data.docs.length > 0) {
+      _lastVisible = data.docs[data.docs.length - 1];
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+          _snap.addAll(data.docs);
+          _data = _snap.map((e) => Product.fromFirestore(e)).toList();
+        });
+      }
     } else {
-      context.read<BookmarkBloc>().onLoveIconClick(collectionName, widget.data!.timestamp);
+      setState(() => _isLoading = false);
+    }
+    return null;
+  }
+
+  @override
+  void dispose() {
+    controller!.removeListener(_scrollListener);
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (!_isLoading) {
+      if (controller!.position.pixels == controller!.position.maxScrollExtent) {
+        setState(() => _isLoading = true);
+        _getData();
+      }
     }
   }
-
-
-
-  handleBookmarkClick() {
-    bool _guestUser = context.read<SignInBloc>().guestUser;
-    if (_guestUser == true) {
-      openSignInDialog(context);
-    } else {
-      context.read<BookmarkBloc>().onBookmarkIconClick(collectionName, widget.data!.timestamp);
-    }
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
-    final SignInBloc sb = context.watch<SignInBloc>();
-
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    final sb = context.watch<SignInBloc>();
+    // print(currentUser?.displayName);
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                // widget.tag == null
-                //     ? _slidableImages()
-                //     : Hero(
-                //         tag: widget.tag!,
-                //         child: _slidableImages(),
-                //       ),
-                Positioned(
-                  top: 20,
-                  left: 15,
-                  child: SafeArea(
-                    child: CircleAvatar(
-                      backgroundColor: Theme.of(context).primaryColor.withOpacity(0.9),
-                      child: IconButton(
-                        icon: Icon(
-                          LineIcons.arrowLeft,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
+      body: RefreshIndicator(
+        child: CustomScrollView(
+          controller: controller,
+          slivers: <Widget>[
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              pinned: true,
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(
+                    Icons.keyboard_arrow_left,
+                    color: Colors.white,
                   ),
-                ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                )
               ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 8, left: 20, right: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(
-                        Icons.location_on,
-                        size: 20,
-                        color: Colors.grey,
-                      ),
-                      Expanded(
-                          child: Text(
-                        widget.data!.status!,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.grey[600],
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      )),
-                      
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Text(widget.data!.productName!,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: -0.6,
-                          wordSpacing: 1,
-                          color: Colors.grey[800])
-                          
-                          ),
-                  ),
-                  
-                  Container(
-                    margin: EdgeInsets.only(top: 8, bottom: 8),
-                    height: 3,
-                    width: 150,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(40)),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(right: 10),
-                        child: Icon(
-                          Feather.phone_call,
-                          color: Colors.grey,
-                          size: 20,
-                        ),
-                      ),
-                      
-                      SizedBox(
-                        width: 2,
-                      ),
-                      Text(widget.data!.phone!,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w300,
-                          letterSpacing: -0.6,
-                          wordSpacing: 1,
-                          color: Color.fromARGB(255, 0, 0, 0))),
-                    ],
-                  ),
-                  
-                ],
+              backgroundColor: widget.color,
+              expandedHeight: 140,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: false,
+                background: Container(
+                  color: widget.color,
+                  height: 140,
+                  width: double.infinity,
+                ),
+                title: Text(
+                  '${widget.title}',
+                  style: TextStyle(color: Colors.white),
+                ).tr(),
+                // title: Text(sb.email.toString()),
+                // title: Text(currentUser!.email.toString()),
+                titlePadding: EdgeInsets.only(left: 20, bottom: 15, right: 15),
               ),
             ),
-
-            Container(
-              margin: EdgeInsets.only(left: 20, right: 20),  
-              child: HtmlBodyWidget(
-                content: widget.data!.productDetail!,
-                isIframeVideoEnabled: true,
-                isVideoEnabled: true,
-                isimageEnabled: true,
-                fontSize: 17,
+            SliverPadding(
+              padding: EdgeInsets.all(15),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    if (index < _data.length) {
+                      return _ListItem(
+                        d: _data[index],
+                        tag: '${widget.title}$index',
+                      );
+                    }
+                    return Opacity(
+                      opacity: _isLoading ? 1.0 : 0.0,
+                      child: _lastVisible == null
+                          ? Column(
+                              children: [
+                                LoadingCard(
+                                  height: 180,
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                )
+                              ],
+                            )
+                          : Center(
+                              child: SizedBox(
+                                  width: 32.0,
+                                  height: 32.0,
+                                  child: new CupertinoActivityIndicator()),
+                            ),
+                    );
+                  },
+                  childCount: _data.length == 0 ? 5 : _data.length + 1,
+                ),
               ),
-            ),
-            
-
-          
-
-            // Padding(
-            //   padding: EdgeInsets.only(left: 20, right: 0, bottom: 40),
-            //   child: OtherPlaces(
-            //     stateName: widget.data!.state,
-            //     timestamp: widget.data!.timestamp,
-            //   ),
-            // )
+            )
           ],
         ),
+        onRefresh: () async => onRefresh(),
       ),
     );
   }
+}
 
-  Container _slidableImages() {
-    return Container(
-      color: Colors.white,
+class _ListItem extends StatelessWidget {
+  final Product d;
+  final tag;
+  const _ListItem({Key? key, required this.d, required this.tag})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+  final sb = context.watch<SignInBloc>();
+
+    return InkWell(
       child: Container(
-        height: 320,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Carousel(
-            dotBgColor: Colors.transparent,
-            showIndicator: true,
-            dotSize: 5,
-            dotSpacing: 15,
-            boxFit: BoxFit.cover,
-            images: [
-              CustomCacheImage(imageUrl: widget.data!.image1),
-              CustomCacheImage(imageUrl: widget.data!.image2),
-              CustomCacheImage(imageUrl: widget.data!.image3),
-            ]),
+        margin: EdgeInsets.only(top: 5, bottom: 10),
+        child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Colors.grey[200]!,
+                      blurRadius: 10,
+                      offset: Offset(0, 3))
+                ]),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                    height: 180,
+                    width: MediaQuery.of(context).size.width,
+                    child: Hero(
+                      tag: tag,
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              topRight: Radius.circular(5)),
+                          child: CustomCacheImage(imageUrl: d.image1)),
+                    )),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        d.productName!,
+                        maxLines: 1,
+                        style: TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Feather.phone_call,
+                            size: 16,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(
+                            width: 3,
+                          ),
+                          Expanded(
+                            child: Text(
+                              d.phone!,
+                              maxLines: 1,
+                              style: TextStyle(
+                                  fontSize: 14, color: Colors.grey[700]),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            CupertinoIcons.time,
+                            size: 16,
+                            color: Colors.grey[700],
+                          ),
+                          SizedBox(
+                            width: 3,
+                          ),
+                          Text(
+                            d.created_at!,
+                            style: TextStyle(
+                                fontSize: 13, color: Colors.grey[700]),
+                          ),
+                          Spacer(),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            )),
       ),
+      onTap: () => nextScreen(context, ProductDetails(data: d, tag: tag)),
     );
   }
 }
