@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/models/product.dart';
 import 'package:travel_hour/pages/Product_details.dart';
+import 'package:travel_hour/pages/update_product.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 import 'package:travel_hour/utils/loading_cards.dart';
@@ -113,42 +114,11 @@ class _MyProductPagesState extends State<MyProductPages> {
     final sb = context.watch<SignInBloc>();
     // print(currentUser?.displayName);
     return Scaffold(
+      appBar: AppBar(),
       body: RefreshIndicator(
         child: CustomScrollView(
           controller: controller,
           slivers: <Widget>[
-            SliverAppBar(
-              automaticallyImplyLeading: false,
-              pinned: true,
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.keyboard_arrow_left,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )
-              ],
-              backgroundColor: widget.color,
-              expandedHeight: 140,
-              flexibleSpace: FlexibleSpaceBar(
-                centerTitle: false,
-                background: Container(
-                  color: widget.color,
-                  height: 140,
-                  width: double.infinity,
-                ),
-                title: Text(
-                  '${widget.title}',
-                  style: TextStyle(color: Colors.white),
-                ).tr(),
-                // title: Text(sb.email.toString()),
-                // title: Text(currentUser!.email.toString()),
-                titlePadding: EdgeInsets.only(left: 20, bottom: 15, right: 15),
-              ),
-            ),
             SliverPadding(
               padding: EdgeInsets.all(15),
               sliver: SliverList(
@@ -241,6 +211,13 @@ class _ListItem extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 17, fontWeight: FontWeight.w600),
                       ),
+                      Row(
+                        children: [
+                          Padding(padding: EdgeInsets.only(left: 5)),
+                          
+                          Text(d.price!, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),)
+                        ],
+                      ),
                       SizedBox(
                         height: 2,
                       ),
@@ -286,14 +263,29 @@ class _ListItem extends StatelessWidget {
                           ),
                           Spacer(),
                         ],
-                      )
+                      ), 
+
+                      SizedBox(width: 10),
+                      InkWell(
+                        child: Container(
+                            height: 35,
+                            width: 45,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Icon(Icons.edit,
+                                size: 16, color: Colors.grey[800])),
+                        onTap: () {
+                          nextScreen(context, UpdateProduct(productData: d));
+                        },
+                      ),
                     ],
                   ),
                 ),
               ],
             )),
       ),
-      onTap: () => nextScreen(context, ProductDetails(data: d, tag: tag)),
+      onTap: () => nextScreen(context, ProductDetail(data: d, tag: tag)),
     );
   }
 }

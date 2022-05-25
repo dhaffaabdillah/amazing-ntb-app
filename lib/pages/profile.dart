@@ -10,6 +10,7 @@ import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/models/product.dart';
 import 'package:travel_hour/pages/edit_profile.dart';
+import 'package:travel_hour/pages/explore.dart';
 import 'package:travel_hour/pages/more_products.dart';
 import 'package:travel_hour/pages/notifications.dart';
 import 'package:travel_hour/pages/regist_as_seller.dart';
@@ -428,34 +429,9 @@ class SellerUI extends StatelessWidget {
             size: 20,
           ),
           // onTap: () => nextScreen(context, MyProduct(data: p.authorId,)),
-          // onTap: () => nextScreen(
-          //     context,
-          //     UploadProduct()),
-        ),
-        Divider(
-          height: 5,
-        ),
-        ListTile(
-          title: Text(
-            'regist as seller',
-            style: _textStyle,
-          ).tr(),
-          leading: Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-                color: Colors.purpleAccent,
-                borderRadius: BorderRadius.circular(5)),
-            child: Icon(Feather.inbox, size: 20, color: Colors.white),
-          ),
-          trailing: Icon(
-            Feather.chevron_right,
-            size: 20,
-          ),
-          onTap: () => openRegistSellerDialog(context),
-          // onTap: () => nextScreen(
-          //     context,
-          //     UploadProduct()),
+          onTap: () => nextScreen(
+              context,
+              UploadProduct()),
         ),
         Divider(
           height: 5,
@@ -536,34 +512,28 @@ class SellerUI extends StatelessWidget {
           );
         });
   }
-  void openRegistSellerDialog(context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('regist as seller').tr(),
-            actions: [
-              TextButton(
-                child: Text('no').tr(),
-                onPressed: () => Navigator.pop(context),
-              ),
-              TextButton(
-                child: Text('yes').tr(),
-                onPressed: () async {
-                  Navigator.pop(context);
-                  await context
-                      .read<SignInBloc>()
-                      .userSignout()
-                      .then((value) =>
-                          context.read<SignInBloc>().afterUserSignOut())
-                      .then((value) =>
-                          nextScreenCloseOthers(context, SignInPage()));
-                },
-              )
-            ],
-          );
-        });
-  }
+
+  // Future handleUpdateData() async {
+  //   final sb = context.read<SignInBloc>();
+  //   await AppService().checkInternet().then((hasInternet) async {
+  //     if (hasInternet == false) {
+  //       openSnacbar(scaffoldKey, 'no internet'.tr());
+  //     } else {
+  //       if (formKey.currentState!.validate()) {
+  //         formKey.currentState!.save();
+  //         setState(() => loading = true);
+
+  //         await sb.updateToSeller(2).then((value) {
+  //           openSnacbar(scaffoldKey, 'request as seller sent'.tr());
+  //           setState(() => loading = false);
+  //         });
+          
+  //       }
+  //     }
+  //   });
+  // }
+
+  
 }
 
 class UserUI extends StatelessWidget {
@@ -632,28 +602,55 @@ class UserUI extends StatelessWidget {
         Divider(
           height: 5,
         ),
+
+
+        Divider(
+          height: 5,
+        ),
         ListTile(
-            title: Text(
-              'regist as seller',
-              style: _textStyle,
-            ).tr(),
-            leading: Container(
-              height: 30,
-              width: 30,
-              decoration: BoxDecoration(
-                  color: Colors.purpleAccent,
-                  borderRadius: BorderRadius.circular(5)),
-              child: Icon(Feather.inbox, size: 20, color: Colors.white),
-            ),
-            trailing: Icon(
-              Feather.chevron_right,
-              size: 20,
-            ),
-            onTap: () => nextScreen(
-                context,
-                RegistAsSeller(
-                  statusSeller: sb.statusSeller,
-                ))),
+          title: Text(
+            'regist as seller',
+            style: _textStyle,
+          ).tr(),
+          leading: Container(
+            height: 30,
+            width: 30,
+            decoration: BoxDecoration(
+                color: Colors.purpleAccent,
+                borderRadius: BorderRadius.circular(5)),
+            child: Icon(Feather.inbox, size: 20, color: Colors.white),
+          ),
+          trailing: Icon(
+            Feather.chevron_right,
+            size: 20,
+          ),
+          onTap: () => openRegistSellerDialog(context),
+          // onTap: () => nextScreen(
+          //     context,
+          //     UploadProduct()),
+        ),
+        // ListTile(
+        //     title: Text(
+        //       'regist as seller',
+        //       style: _textStyle,
+        //     ).tr(),
+        //     leading: Container(
+        //       height: 30,
+        //       width: 30,
+        //       decoration: BoxDecoration(
+        //           color: Colors.purpleAccent,
+        //           borderRadius: BorderRadius.circular(5)),
+        //       child: Icon(Feather.inbox, size: 20, color: Colors.white),
+        //     ),
+        //     trailing: Icon(
+        //       Feather.chevron_right,
+        //       size: 20,
+        //     ),
+        //     onTap: () => nextScreen(
+        //         context,
+        //         RegistAsSeller(
+        //           statusSeller: sb.statusSeller,
+        //         ))),
         Divider(
           height: 5,
         ),
@@ -703,6 +700,34 @@ class UserUI extends StatelessWidget {
         )
       ],
     );
+  }
+
+  void openRegistSellerDialog(context) {
+    // final sb = context.read<SignInBloc>();
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('regist as seller').tr(),
+            actions: [
+              TextButton(
+                child: Text('no').tr(),
+                onPressed: () => Navigator.pop(context),
+              ),
+              TextButton(
+                child: Text('yes').tr(),
+                onPressed: () async {
+                  Navigator.pop(context);
+                  await context
+                      .read<SignInBloc>()
+                      .updateToSeller(2)
+                      .then((value) =>
+                          nextScreenCloseOthers(context, Explore()));
+                },
+              )
+            ],
+          );
+        });
   }
 
   void openLogoutDialog(context) {

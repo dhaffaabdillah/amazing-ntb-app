@@ -20,19 +20,19 @@ import 'package:travel_hour/widgets/other_places.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/widgets/todo.dart';
 
-class ProductDetails extends StatefulWidget {
+class ProductDetail extends StatefulWidget {
   // final Place? data;
   final Product? data;
   final String? tag;
 
-  const ProductDetails({Key? key, required this.data, required this.tag})
+  const ProductDetail({Key? key, required this.data, required this.tag})
       : super(key: key);
 
   @override
-  _ProductDetailsState createState() => _ProductDetailsState();
+  _ProductDetailState createState() => _ProductDetailState();
 }
 
-class _ProductDetailsState extends State<ProductDetails> {
+class _ProductDetailState extends State<ProductDetail> {
 
   final String collectionName = 'product';
 

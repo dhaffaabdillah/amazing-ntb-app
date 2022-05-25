@@ -28,3 +28,12 @@ ButtonStyle buttonStyle(Color? color) {
       shape: MaterialStateProperty.resolveWith((states) =>
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(25))));
 }
+
+
+ButtonStyle buttonStyleIMG(Color? color) {
+  return ButtonStyle(
+    padding: MaterialStateProperty.resolveWith((states) => EdgeInsets.only(left: 40, right: 40, top: 25, bottom: 25)),
+      backgroundColor: MaterialStateProperty.resolveWith((states) => color),
+      shape: MaterialStateProperty.resolveWith((states) =>
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(25))));
+}

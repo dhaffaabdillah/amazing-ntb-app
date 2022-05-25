@@ -238,7 +238,7 @@ class _ItemList extends StatelessWidget {
         ),
       ),
 
-      onTap: () => nextScreen(context, ProductDetails(data: d, tag: 'product${d.timestamp}')),
+      onTap: () => nextScreen(context, ProductDetail(data: d, tag: 'product${d.timestamp}')),
     );
   }
 }

@@ -276,7 +276,7 @@ class _ListItem extends StatelessWidget {
               ],
             )),
       ),
-      onTap: () => nextScreen(context, ProductDetails(data: d, tag: tag)),
+      onTap: () => nextScreen(context, ProductDetail(data: d, tag: tag)),
     );
   }
 }
