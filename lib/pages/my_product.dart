@@ -9,6 +9,7 @@ import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/models/product.dart';
 import 'package:travel_hour/pages/Product_details.dart';
 import 'package:travel_hour/pages/update_product.dart';
+import 'package:travel_hour/utils/currency_format.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 import 'package:travel_hour/utils/loading_cards.dart';
@@ -114,7 +115,7 @@ class _MyProductPagesState extends State<MyProductPages> {
     final sb = context.watch<SignInBloc>();
     // print(currentUser?.displayName);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: Text("My Products"),),
       body: RefreshIndicator(
         child: CustomScrollView(
           controller: controller,
@@ -215,7 +216,7 @@ class _ListItem extends StatelessWidget {
                         children: [
                           Padding(padding: EdgeInsets.only(left: 5)),
                           
-                          Text(d.price!, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),)
+                          Text(CurrencyFormat.convertToIdr(int.parse(d.price!), 0), style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),)
                         ],
                       ),
                       SizedBox(
