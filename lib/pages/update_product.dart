@@ -158,7 +158,7 @@ class _UpdateProductState extends State<UpdateProduct> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(title: Text("Edit your Product"),),
         key: scaffoldKey,
         backgroundColor: Colors.grey[200],
         body: CoverWidget(
@@ -168,10 +168,6 @@ class _UpdateProductState extends State<UpdateProduct> {
                 children: <Widget>[
                   SizedBox(
                     height: h * 0.10,
-                  ),
-                  Text(
-                    'Update Product',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800),
                   ),
                   SizedBox(
                     height: 20,

@@ -7,7 +7,7 @@
 
    <application
         android:label="Amazing NTB"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@drawable/icon_app">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -49,7 +49,7 @@
         <!--Google Map API Key-->
         <meta-data 
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC_8anj4JZAqqXy2c80oeDvV8OIhFDZIH4"/>
+            android:value=""/>
 
 
         <!-- Facebook Sign In -->

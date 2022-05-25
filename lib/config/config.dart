@@ -6,15 +6,15 @@ class Config {
   final String appName = 'Amazing NTB'; 
   final String mapAPIKey = 'AIzaSyC_8anj4JZAqqXy2c80oeDvV8OIhFDZIH4';
   final String countryName = 'Indonesia';
-  final String splashIcon = 'assets/images/splash.png';
+  final String splashIcon = 'assets/images/icon-app.png';
   final String supportEmail = 'YOUR_EMAIL';
   final String privacyPolicyUrl = 'https://www.freeprivacypolicy.com/privacy/view/053321284ad71cfd5531cf60284de614';
   final String iOSAppId = '000000';
 
   
-  final String yourWebsiteUrl = 'https://www.mrb-lab.com';
-  final String facebookPageUrl = 'https://www.facebook.com/mrblab24';
-  final String youtubeChannelUrl = 'https://www.youtube.com/channel/UCnNr2eppWVVo-NpRIy1ra7A';
+  final String yourWebsiteUrl = 'https://www.google.com';
+  final String facebookPageUrl = 'https://www.facebook.com/google';
+  final String youtubeChannelUrl = 'https://www.youtube.com/channel/aaaaaaaaa';
 
   
   // app theme color - primary color
