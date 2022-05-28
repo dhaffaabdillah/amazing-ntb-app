@@ -1,7 +1,8 @@
 import 'dart:typed_data';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:travel_hour/blocs/admin_bloc.dart';
+import 'package:travel_hour/blocs/sign_in_bloc.dart';
+import 'package:travel_hour/constants/constants.dart';
 import 'package:travel_hour/utils/cached_image.dart';
 import 'package:travel_hour/utils/dialog.dart';
 import 'package:travel_hour/utils/styles.dart';
@@ -12,19 +13,17 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-// import 'package:searchfield/searchfield.dart';
-// import 'package:universal_html/html.dart';
 
-class Report extends StatefulWidget {
-  Report({Key? key}) : super(key: key);
+class UploadProducts extends StatefulWidget {
+  UploadProducts({Key? key}) : super(key: key);
 
   @override
-  _ReportState createState() => _ReportState();
+  _UploadProductsState createState() => _UploadProductsState();
 }
 
-class _ReportState extends State<Report> {
+class _UploadProductsState extends State<UploadProducts> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final User? currentUser = FirebaseAuth.instance.currentUser;
+
   var formKey = GlobalKey<FormState>();
 
   var productNameCtrl = TextEditingController();
@@ -33,7 +32,7 @@ class _ReportState extends State<Report> {
   var priceCtrl = TextEditingController();
 
   Uint8List? thumbnail, img1, img2;
-  String thumbnailName = "", img1Name = "", img2Name = "";
+  String path1 = "", path2 = "", path3 = "";
 
   var statusSelection;
   var usersSelection = TextEditingController();
@@ -47,29 +46,29 @@ class _ReportState extends State<Report> {
   var _productData;
 
   void handleSubmit() async {
-    // final AdminBloc ab = Provider.of<AdminBloc>(context, listen: false);
+    final AdminBloc ab = Provider.of<AdminBloc>(context, listen: false);
 
     if (statusSelection == null) {
       openDialog(context, 'Select Status Please', '');
-    } else if (thumbnailName.length == 0) {
-      openDialog(context, 'Please Input your thumbnail First', '');
+    } else if(thumbnail == null) {
+        openDialog(context, 'Please Enter Thumnail First', '');
     } else {
-      // if (formKey.currentState!.validate()) {
-      //   formKey.currentState!.save();
-      // if (ab.userType == 'tester') {
-      //   openDialog(context, 'You are a Tester',
-      //       'Only Admin can upload, delete & modify contents');
-      // } else {
-      setState(() => uploadStarted = true);
-      await getDate().then((_) async {
-        await saveToDatabase();
-        // .then((value) => context.read<AdminBloc>().increaseCount('products_count'));
-        setState(() => uploadStarted = false);
-        openDialog(context, 'Upload Successfully', '');
-        clearTextFeilds();
-      });
-      // }
-      // }
+      if (formKey.currentState!.validate()) {
+        formKey.currentState!.save();
+        if (ab.userType == 'tester') {
+          openDialog(context, 'You are a Tester',
+              'Only Admin can upload, delete & modify contents');
+        } else {
+          setState(() => uploadStarted = true);
+          await getDate().then((_) async {
+            await saveToDatabase().then((value) =>
+                context.read<AdminBloc>().increaseCount('products_count'));
+            setState(() => uploadStarted = false);
+            openDialog(context, 'Uploaded Successfully', '');
+            clearTextFeilds();
+          });
+        }
+      }
     }
   }
 
@@ -83,53 +82,78 @@ class _ReportState extends State<Report> {
     });
   }
 
+  // String saveImgToStorage(Uint8List? newBytes, String newThumnailName) {
+  //     String waktu = _timestamp.toString();
+
+  //     Reference storageReference = FirebaseStorage.instance.ref().child("files/$waktu-thumbnail-$newThumnailName");
+  //     UploadTask uploadTask = storageReference.putData(newBytes!);
+  //     String path = "";
+
+  //     uploadTask.whenComplete(() {
+  //       var _url = storageReference.getDownloadURL();
+  //       var _imageUrl = _url.toString();
+        
+  //       setState(() {
+  //         path = _imageUrl;
+  //       });
+
+  //     });
+
+  //     return path;
+
+  // }
+
   Future saveToDatabase() async {
     final DocumentReference ref =
         firestore.collection('product').doc(_timestamp);
-    String waktu = _timestamp.toString();
-    FirebaseStorage.instance
-        .ref()
-        .child("files/$waktu-thumbnail-$thumbnailName")
-        .putData(thumbnail!);
 
-    String path1 =
-        "https://firebasestorage.googleapis.com/v0/b/dev-admin-amazing-ntb.appspot.com/o/files%2F$waktu-thumbnail-$thumbnailName?alt=media";
-    String path2 = img1Name.length == 0
-        ? ""
-        : "https://firebasestorage.googleapis.com/v0/b/dev-admin-amazing-ntb.appspot.com/o/files%2F$waktu-img1-$img1Name?alt=media";
-    String path3 = img2Name.length == 0
-        ? ""
-        : "https://firebasestorage.googleapis.com/v0/b/dev-admin-amazing-ntb.appspot.com/o/files%2F$waktu-img2-$img2Name?alt=media";
+        // String path1 = saveImgToStorage(thumbnail, thumbnailName);
+        // String path2 = saveImgToStorage(img1, img1Name);
+        // String path3 = saveImgToStorage(img2, img2Name);
+      final sb = context.read<SignInBloc>();
+        
+        String waktu = _timestamp.toString();
 
-    if (path2.length > 0) {
-      FirebaseStorage.instance
-          .ref()
-          .child("files/$waktu-img1-$img1Name")
-          .putData(img1!);
-    }
+        FirebaseStorage.instance
+                .ref()
+                .child("files/$waktu-thumbnail")
+                .putData(thumbnail!);
 
-    if (path3.length > 0) {
-      FirebaseStorage.instance
-          .ref()
-          .child("files/$waktu-img2-$img2Name")
-          .putData(img2!);
-    }
+        String path1 = Constants.logPath + "$waktu-thumbnail?alt=media";
+        String path2 = img1 == null ? Constants.defaultPath : Constants.logPath + "$waktu-img1?alt=media";
+        // String path2 = img1 == null ? Constants.defaultPath : Constants.logPath + "$waktu-img1?alt=media";
+        // String path3 = img1 == null ? Constants.defaultPath : Constants.logPath + "$waktu-img1?alt=media";
+        String path3 = img2 == null ? Constants.defaultPath : Constants.logPath + "$waktu-img2?alt=media";
 
-    _productData = {
-      'productName': productNameCtrl.text,
-      'productDetail': productDetailCtrl.text,
-      'email': currentUser!.email,
-      'phone': sellerContact.text,
-      'price': priceCtrl.text,
-      'image-1': path1,
-      'image-2': path2,
-      'image-3': path3,
-      'status': statusSelection,
-      'created_at': _date,
-      'updated_at': _date,
-      'timestamp': _timestamp
-    };
-    await ref.set(_productData);
+      if(img1 != null ){
+          FirebaseStorage.instance
+                  .ref()
+                  .child("files/$waktu-img1")
+                  .putData(img1!);
+      } 
+      
+      if(img2 != null ) {
+          FirebaseStorage.instance
+                  .ref()
+                  .child("files/$waktu-img2")
+                  .putData(img2!);
+      }
+
+      _productData = {
+        'productName': productNameCtrl.text,
+        'productDetail': productDetailCtrl.text,
+        'email': sb.email,
+        'phone': sellerContact.text,
+        'price': priceCtrl.text,
+        'image-1': path1,
+        'image-2': path2,
+        'image-3': path3,
+        'status': statusSelection,
+        'created_at': _date,
+        'updated_at': _date,
+        'timestamp': _timestamp
+      };
+      await ref.set(_productData);
   }
 
   clearTextFeilds() {
@@ -158,12 +182,30 @@ class _ReportState extends State<Report> {
   //   }
   // }
 
+  FilePickerResult? ImgSecure(FilePickerResult? thumbnailResult, String typeImg){
+    if (thumbnailResult != null) {
+
+      String extension = thumbnailResult.files.first.extension.toString(); 
+
+      if(thumbnailResult.files.first.size > 1200000){
+        openDialog(context, typeImg, "");
+      } else {
+
+        if(extension == "jpg" || extension == "jpeg" || extension == "png"){
+            return thumbnailResult;
+        } else {
+          openDialog(context, "File Type Doesn`t Allowed", "");
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(title: Text("Report Nearby Area")),
+      appBar: AppBar(title: Text("Add a Product")),
       body: Form(
           key: formKey,
           child: ListView(
@@ -171,13 +213,14 @@ class _ReportState extends State<Report> {
               SizedBox(
                 height: h * 0.10,
               ),
+              Text(
+                'Product Details',
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800),
+              ),
               SizedBox(
                 height: 20,
               ),
               statusDropdown(),
-              SizedBox(
-                height: 20,
-              ),
               SizedBox(
                 height: 20,
               ),
@@ -207,7 +250,8 @@ class _ReportState extends State<Report> {
                 height: 20,
               ),
               TextFormField(
-                decoration: inputDecoration('Enter Price', 'Price', priceCtrl),
+                decoration: inputDecoration(
+                    'Enter Price', 'Price', priceCtrl),
                 controller: priceCtrl,
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -218,100 +262,64 @@ class _ReportState extends State<Report> {
               SizedBox(
                 height: 20,
               ),
-              // Container(
-              //   height: 150,
-              //   width: MediaQuery.of(context).size.width,
-              //   child: CustomCacheImage(
-              //       imageUrl: "", radius: 0.0)
-              // ),
-              // SizedBox(
-              //   height: 20,
-              // ),
+              SizedBox(
+                height: 20,
+              ),
               TextButton(
                 style: buttonStyleIMG(Colors.grey[200]),
                 onPressed: () async {
-                  FilePickerResult? thumbnailResult =
-                      await FilePicker.platform.pickFiles();
+                  FilePickerResult? successSecure = ImgSecure(await FilePicker.platform.pickFiles(), "Thumbnail Image Too Large");
 
-                  if (thumbnailResult != null) {
-                    if (thumbnailResult.files.first.size > 1200000) {
-                      openDialog(context, "Image Too Large", "");
-                    } else {
-                      thumbnail = thumbnailResult.files.first.bytes;
-                      thumbnailName = thumbnailResult.files.first.name;
-                    }
+                  if (successSecure != null) {
+                      thumbnail = successSecure.files.first.bytes;
                   }
+
                 },
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Upload Thumnail (Image 1)",
-                      style: TextStyle(color: Colors.black)),
+                  child: Text("Upload Thumnail (Image 1)", style: TextStyle(color: Colors.black)),
                 ),
               ),
               SizedBox(
                 height: 20,
               ),
-              // Container(
-              //   height: 150,
-              //   width: MediaQuery.of(context).size.width,
-              //   child: CustomCacheImage(
-              //       imageUrl: "", radius: 0.0)
-              // ),
-              // SizedBox(
-              //   height: 20,
-              // ),
+              SizedBox(
+                height: 20,
+              ),
               TextButton(
                 style: buttonStyleIMG(Colors.grey[200]),
                 onPressed: () async {
-                  FilePickerResult? thumbnailResult =
-                      await FilePicker.platform.pickFiles();
+                 FilePickerResult? successSecure = ImgSecure(await FilePicker.platform.pickFiles(), "Second Image Too Large");
 
-                  if (thumbnailResult != null) {
-                    if (thumbnailResult.files.first.size > 1200000) {
-                      openDialog(context, "Image Too Large", "");
-                    } else {
-                      img1 = thumbnailResult.files.first.bytes;
-                      img1Name = thumbnailResult.files.first.name;
-                    }
+                  if (successSecure != null) {
+                    img1 = successSecure.files.first.bytes;
                   }
+
                 },
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Upload Image 2",
-                      style: TextStyle(color: Colors.black)),
+                  child: Text("Upload Image 2", style: TextStyle(color: Colors.black)),
                 ),
               ),
               SizedBox(
                 height: 20,
               ),
-              // Container(
-              //   height: 150,
-              //   width: MediaQuery.of(context).size.width,
-              //   child: CustomCacheImage(
-              //       imageUrl: "", radius: 0.0)
-              // ),
-              // SizedBox(
-              //   height: 20,
-              // ),
+              SizedBox(
+                height: 20,
+              ),
               TextButton(
                 style: buttonStyleIMG(Colors.grey[200]),
                 onPressed: () async {
-                  FilePickerResult? thumbnailResult =
-                      await FilePicker.platform.pickFiles();
+                  FilePickerResult? successSecure = ImgSecure(await FilePicker.platform.pickFiles(), "Third Image Too Large");
 
-                  if (thumbnailResult != null) {
-                    if (thumbnailResult.files.first.size > 1200000) {
-                      openDialog(context, "Image Too Large", "");
-                    } else {
-                      img2 = thumbnailResult.files.first.bytes;
-                      img2Name = thumbnailResult.files.first.name;
-                    }
+                  if (successSecure != null) {
+                    img2 = successSecure.files.first.bytes;
                   }
+
                 },
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Upload Image 3",
-                      style: TextStyle(color: Colors.black)),
+                  child: Text("Upload Image 3", style: TextStyle(color: Colors.black)),
                 ),
               ),
               SizedBox(
@@ -346,9 +354,9 @@ class _ReportState extends State<Report> {
                   return null;
                 },
               ),
-              SizedBox(
-                height: 100,
-              ),
+              // SizedBox(
+              //   height: 100,
+              // ),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.end,
               //   children: <Widget>[
@@ -434,4 +442,7 @@ class _ReportState extends State<Report> {
               );
             }).toList()));
   }
+
+    
+  
 }

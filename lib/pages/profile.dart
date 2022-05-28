@@ -17,7 +17,7 @@ import 'package:travel_hour/pages/regist_as_seller.dart';
 import 'package:travel_hour/pages/report.dart';
 import 'package:travel_hour/pages/sign_in.dart';
 import 'package:travel_hour/pages/my_product.dart';
-import 'package:travel_hour/pages/upload_product.dart';
+import 'package:travel_hour/pages/upload_products.dart';
 import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/language.dart';
@@ -451,7 +451,7 @@ class SellerUI extends StatelessWidget {
           // onTap: () => nextScreen(context, MyProduct(data: p.authorId,)),
           onTap: () => nextScreen(
               context,
-              UploadProduct()),
+              UploadProducts()),
         ),
         Divider(
           height: 5,

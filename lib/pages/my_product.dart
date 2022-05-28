@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/models/product.dart';
 import 'package:travel_hour/pages/Product_details.dart';
+import 'package:travel_hour/pages/search.dart';
+import 'package:travel_hour/pages/search_product.dart';
 import 'package:travel_hour/pages/update_product.dart';
 import 'package:travel_hour/utils/currency_format.dart';
 import 'package:travel_hour/utils/next_screen.dart';
@@ -115,7 +117,13 @@ class _MyProductPagesState extends State<MyProductPages> {
     final sb = context.watch<SignInBloc>();
     // print(currentUser?.displayName);
     return Scaffold(
-      appBar: AppBar(title: Text("My Products"),),
+      appBar: AppBar(
+        title: Text("My Products"),
+        actions: [
+          IconButton(onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => SearchProductPage())), 
+          icon: Icon(Icons.search)),
+        ],
+      ),
       body: RefreshIndicator(
         child: CustomScrollView(
           controller: controller,

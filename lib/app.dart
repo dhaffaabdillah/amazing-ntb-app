@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:travel_hour/blocs/admin_bloc.dart';
 import 'package:travel_hour/blocs/product_bloc.dart';
 import 'package:travel_hour/blocs/product_bloc2.dart';
+import 'package:travel_hour/blocs/search_product_bloc.dart';
 import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/pages/splash.dart';
 import 'blocs/ads_bloc.dart';
@@ -60,6 +61,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<ProductBloc>(create: (context) => ProductBloc()),
         ChangeNotifierProvider<ProductBloc2>(create: (context) => ProductBloc2()),
         ChangeNotifierProvider<AdminBloc>(create: (context) => AdminBloc()),
+        ChangeNotifierProvider<SearchProductBloc>(create: (context) => SearchProductBloc()),
+
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
