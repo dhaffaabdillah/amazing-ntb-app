@@ -1,188 +1,677 @@
-// // import 'dart:html';
-// import 'dart:io';
+// import 'dart:html';
+import 'dart:io';
 
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:flutter/src/foundation/key.dart';
-// import 'package:flutter/src/widgets/framework.dart';
-// import 'dart:typed_data';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:image_picker/image_picker.dart';
-// import 'package:path/path.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:travel_hour/blocs/admin_bloc.dart';
-// import 'package:travel_hour/blocs/sign_in_bloc.dart';
-// import 'package:travel_hour/utils/cached_image.dart';
-// import 'package:travel_hour/utils/dialog.dart';
-// import 'package:travel_hour/utils/snacbar.dart';
-// import 'package:travel_hour/utils/styles.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:file_picker/file_picker.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart';
-// import 'package:provider/provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'dart:typed_data';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:travel_hour/blocs/admin_bloc.dart';
+import 'package:travel_hour/blocs/sign_in_bloc.dart';
+import 'package:travel_hour/constants/constants.dart';
+import 'package:travel_hour/services/app_service.dart';
+import 'package:travel_hour/utils/cached_image.dart';
+import 'package:travel_hour/utils/dialog.dart';
+import 'package:travel_hour/utils/snacbar.dart';
+import 'package:travel_hour/utils/styles.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-// class UploadProduct extends StatefulWidget {
-//   const UploadProduct({Key? key}) : super(key: key);
+class UploadProduct extends StatefulWidget {
+  const UploadProduct({Key? key}) : super(key: key);
 
-//   @override
-//   State<UploadProduct> createState() => _UploadProductState();
-// }
+  @override
+  State<UploadProduct> createState() => _UploadProductState();
+}
 
-// class _UploadProductState extends State<UploadProduct> {
-//   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-//   final User? currentUser = FirebaseAuth.instance.currentUser;
-//   bool loading = false;
-//   String? productName;
-//   String? productDetail;
-//   String? phone;
-//   String? email;
-//   String? status;
-//   String? imageUrl1;
-//   String? imageUrl2;
-//   String? imageUrl3;
+class _UploadProductState extends State<UploadProduct> {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final User? currentUser = FirebaseAuth.instance.currentUser;
+  bool loading = false;
+  String? productName;
+  String? productDetail;
+  String? phone;
+  String? email;
+  String? status;
+  String? imageUrl1;
+  String? imageUrl2;
+  String? imageUrl3;
 
-//   // String? imageName1;
-//   // String? imageName2;
-//   // String? imageName3;
+  // String? imageName1;
+  // String? imageName2;
+  // String? imageName3;
 
-//   File? imageFile1;
-//   File? imageFile2;
-//   File? imageFile3;
-//   Uint8List? thumbnail, img1, img2;
-//   String imageName1 = "", imageName2 = "", imageName3 = "";
+  File? imageFile1;
+  File? imageFile2;
+  File? imageFile3;
+  Uint8List? thumbnail, img1, img2;
+  String imageName1 = "", imageName2 = "", imageName3 = "";
 
-//   var statusSelection;
-//   var usersSelection = TextEditingController();
-//   bool notifyUsers = true;
-//   bool uploadStarted = false;
-//   String? _timestamp;
-//   String? _date;
-//   var _productData;
+  var statusSelection;
+  var usersSelection = TextEditingController();
+  bool notifyUsers = true;
+  bool uploadStarted = false;
+  String? _timestamp;
+  String? _date;
+  var _productData;
 
-//   var formKey = GlobalKey<FormState>();
-//   var scaffoldKey = GlobalKey<ScaffoldState>();
-//   var productNameCtrl = TextEditingController();
-//   var productDetailCtrl = TextEditingController();
-//   var productPrice = TextEditingController();
-//   var phoneCtrl = TextEditingController();
-//   var priceCtrl = TextEditingController();
-//   var emailCtrl = TextEditingController();
-//   var statusCtrl = TextEditingController();
+  var formKey = GlobalKey<FormState>();
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+  var productNameCtrl = TextEditingController();
+  var productDetailCtrl = TextEditingController();
+  var productPrice = TextEditingController();
+  var phoneCtrl = TextEditingController();
+  var priceCtrl = TextEditingController();
+  var emailCtrl = TextEditingController();
+  var statusCtrl = TextEditingController();
 
-//   Future pickImage() async {
-//     final _imagePicker = ImagePicker();
-//     // List<XFile>? imagePicked = await _imagePicker.pickMultiImage(imageQuality: 800);
-//     var imagePicked1 =
-//         await _imagePicker.pickImage(source: ImageSource.gallery);
-//     var imagePicked2 =
-//         await _imagePicker.pickImage(source: ImageSource.gallery);
-//     var imagePicked3 =
-//         await _imagePicker.pickImage(source: ImageSource.gallery);
-//     if (imagePicked1 != null) {
-//       setState(() {
-//         imageFile1 = File(imagePicked1.path);
-//         imageFile2 = File(imagePicked2!.path);
-//         imageFile3 = File(imagePicked3!.path);
+  Future handlePost() async {
+    await AppService().checkInternet().then((hasInternet) async {
+      if (hasInternet == false) {
+        openSnacbar(scaffoldKey, 'no internet'.tr());
+      } else if (hasInternet == true && statusSelection == null) {
+        openSnacbar(scaffoldKey, "Please select status first!");
+      } else if (hasInternet == true && productNameCtrl == null) {
+        openSnacbar(scaffoldKey, "Please fill product name");
+      } else if (hasInternet == true && phoneCtrl == null) {
+        openSnacbar(scaffoldKey, "Please fill your contact number");
+      } else if (hasInternet == true && productDetailCtrl == null) {
+        openSnacbar(scaffoldKey, "Please fill your product detail");
+      } else {
+        if (formKey.currentState!.validate()) {
+          formKey.currentState!.save();
+          setState(() => loading = true);
+          if (imageFile2 != null) {
+            await getDate().then((_) async {
+              await uploadImage()
+                  .then((value) => uploadImage2())
+                  .then((value) => saveToDatabase());
+              setState(() => uploadStarted = false);
+              openSnacbar(scaffoldKey, 'UploadSuccessfully');
+              clearTextFeilds();
+            });
+          } else if (imageFile3 != null && imageFile2 != null) {
+            await getDate().then((_) async {
+              await uploadImage()
+                  .then((value) => uploadImage2())
+                  .then((value) => uploadImage3())
+                  .then((value) => saveToDatabase());
+              setState(() => uploadStarted = false);
+              openSnacbar(scaffoldKey, 'UploadSuccessfully');
+              clearTextFeilds();
+            });
+          } else {
+            await getDate().then((_) async {
+              await uploadImage().then((value) => saveToDatabase());
+              setState(() => uploadStarted = false);
+              openSnacbar(scaffoldKey, 'UploadSuccessfully');
+              clearTextFeilds();
+            });
+          }
+          // imageFile1 != null
+          //     ? await uploadImage()
+          //         .then((value) => {saveToDatabase()})
+          //         .then((value) {
+          //         openSnacbar(scaffoldKey, 'upload successfully'.tr());
+          //         setState(() => loading = false);
+          //       })
+          //     : await saveToDatabase()
+          //         .then((value) => {uploadImage()})
+          //         .then((value) {
+          //         openSnacbar(scaffoldKey, 'upload successfully'.tr());
+          //         setState(() => loading = false);
+          //       });
+        }
+      }
+    });
+  }
 
-//         imageName1 = (imageFile1!.path);
-//         imageName2 = (imageFile2!.path);
-//         imageName3 = (imageFile3!.path);
-//       });
-//     } else {
-//       openSnacbar(scaffoldKey, 'You must upload 1 image of your product!');
-//     }
-//   }
+  Future pickImage() async {
+    final _imagePicker = ImagePicker();
+    var imagePicked1 =
+        await _imagePicker.pickImage(source: ImageSource.gallery);
+    var imagePicked2 =
+        await _imagePicker.pickImage(source: ImageSource.gallery);
+    var imagePicked3 =
+        await _imagePicker.pickImage(source: ImageSource.gallery);
+    if (imagePicked1 != null) {
+      setState(() {
+        imageFile1 = File(imagePicked1.path);
+        imageFile2 = File(imagePicked2!.path);
+        imageFile3 = File(imagePicked3!.path);
 
-//   Future uploadImage() async {
-//     // final SignInBloc sb = context.read<SignInBloc>();
-//     String time = _timestamp.toString();
-//     Reference storageRef = FirebaseStorage.instance.ref().child("files/");
-//     UploadTask uploadTask1 = storageRef.putFile(imageFile1!);
-//     UploadTask uploadTask2 = storageRef.putFile(imageFile2!);
-//     UploadTask uploadTask3 = storageRef.putFile(imageFile3!);
+        imageName1 = (imageFile1!.path);
+        imageName2 = (imageFile2!.path);
+        imageName3 = (imageFile3!.path);
+      });
+    } else {
+      openSnacbar(scaffoldKey, 'You must upload 1 image of your product!');
+    }
+  }
 
-//     await uploadTask1.whenComplete(() async {
-//       var _url = await storageRef.getDownloadURL();
-//       var _imageUrl1 = _url.toString();
-//       setState(() {
-//         imageUrl1 = _imageUrl1;
-//       });
-//     });
-//     await uploadTask2.whenComplete(() async {
-//       var _url = await storageRef.getDownloadURL();
-//       var _imageUrl2 = _url.toString();
-//       setState(() {
-//         imageUrl1 = _imageUrl2;
-//       });
-//     });
-//     await uploadTask3.whenComplete(() async {
-//       var _url = await storageRef.getDownloadURL();
-//       var _imageUrl3 = _url.toString();
-//       setState(() {
-//         imageUrl3 = _imageUrl3;
-//       });
-//     });
-//   }
+  Future pickImage1() async {
+    final _imagePicker1 = ImagePicker();
+    var imagePicked1 =
+        await _imagePicker1.pickImage(source: ImageSource.gallery);
+    if (imagePicked1 != null) {
+      setState(() {
+        imageFile1 = File(imagePicked1.path);
+        imageName1 = (imageFile1!.path);
+      });
+    } else {
+      openSnacbar(scaffoldKey, 'You must upload 1 image of your product!');
+    }
+  }
 
-//   Future insertData() async {
-//     final SharedPreferences sp = await SharedPreferences.getInstance();
+  Future pickImage2() async {
+    final _imagePicker2 = ImagePicker();
+    var imagePicked2 =
+        await _imagePicker2.pickImage(source: ImageSource.gallery);
+    if (imagePicked2 != null) {
+      setState(() {
+        imageFile2 = File(imagePicked2.path);
+        imageName2 = (imageFile2!.path);
+      });
+    } else {
+      imageFile2 = null;
+    }
+  }
 
-//     FirebaseFirestore.instance.collection('product').doc(_timestamp);
+  Future pickImage3() async {
+    final _imagePicker3 = ImagePicker();
+    var imagePicked3 =
+        await _imagePicker3.pickImage(source: ImageSource.gallery);
+    if (imagePicked3 != null) {
+      setState(() {
+        imageFile3 = File(imagePicked3.path);
+        imageName3 = (imageFile3!.path);
+      });
+    } else {
+      imageFile3 = null;
+    }
+  }
 
-//     sp.setString('productName', productNameCtrl.text);
-//     sp.setString('productDetail', productDetailCtrl.text);
-//     sp.setString('phone', phoneCtrl.text);
-//     sp.setString('email', currentUser!.email!);
-//     sp.setString('image-1', imageUrl1!);
-//     sp.setString('image-2', imageUrl2!);
-//     sp.setString('image-3', imageUrl3!);
-//     sp.setString('image-3', imageUrl3!);
-//     sp.setString('status', statusSelection!);
-//     sp.setString('image-3', imageUrl3!);
-//     sp.setString('image-3', imageUrl3!);
+  clearTextFeilds() {
+    productNameCtrl.clear();
+    productDetailCtrl.clear();
+    phoneCtrl.clear();
+    priceCtrl.clear();
+  }
 
-//     _name = newName;
-//     _imageUrl = newImageUrl;
+  Future uploadImage() async {
+    // final SignInBloc sb = context.read<SignInBloc>();
+    String time = _timestamp.toString();
+    Reference storageRef = FirebaseStorage.instance
+        .ref()
+        .child("files/${_timestamp}/${currentUser!.uid}_thumbnail");
+    UploadTask uploadTask1 = storageRef.putFile(imageFile1!);
+    // UploadTask uploadTask2 = storageRef.putFile(imageFile2!);
+    // UploadTask uploadTask3 = storageRef.putFile(imageFile3!);
 
-//     notifyListeners();
-//   }
+    await uploadTask1.whenComplete(() async {
+      var _url = await storageRef.getDownloadURL();
+      var _imageUrl1 = _url.toString();
+      if (_imageUrl1 != null) {
+        setState(() {
+          imageUrl1 = _imageUrl1;
+        });
+      } else {
+        imageUrl1 = Constants.defaultPath;
+      }
+    });
 
-//   Future insertData() async {
-//     final DocumentReference ref =
-//         firestore.collection('product').doc(_timestamp);
-//     String time = _timestamp.toString();
-//     final SharedPreferences sp = await SharedPreferences.getInstance();
+    // await uploadTask2.whenComplete(() async {
+    //   var _url2 = await storageRef.getDownloadURL();
+    //   var _imageUrl2 = _url2.toString();
+    //   setState(() {
+    //     imageUrl1 = _imageUrl2;
+    //   });
+    // });
+    // await uploadTask3.whenComplete(() async {
+    //   var _url3 = await storageRef.getDownloadURL();
+    //   var _imageUrl3 = _url3.toString();
+    //   setState(() {
+    //     imageUrl3 = _imageUrl3;
+    //   });
+    // });
+  }
 
-//     FirebaseFirestore.instance.collection('users').doc(_timestamp);
-//     _productData = {
-//       'productName': productNameCtrl.text,
-//       'productDetail': productDetailCtrl.text,
-//       'email': currentUser!.email,
-//       'phone': phoneCtrl.text,
-//       'price': priceCtrl.text,
-//       'image-1': imageUrl1,
-//       'image-2': path2,
-//       'image-3': path3,
-//       'status': statusSelection,
-//       'created_at': _date,
-//       'updated_at': _date,
-//       'timestamp': _timestamp
-//     };
-//     await ref.set(_productData);
-//     // notifyListeners();
-//   }
+  Future uploadImage2() async {
+    // final SignInBloc sb = context.read<SignInBloc>();
+    String time = _timestamp.toString();
+    Reference storageRef = FirebaseStorage.instance
+        .ref()
+        .child("files/${_timestamp}/${currentUser!.uid}_image2");
+    UploadTask uploadTask2 = storageRef.putFile(imageFile1!);
+    // UploadTask uploadTask2 = storageRef.putFile(imageFile2!);
+    // UploadTask uploadTask3 = storageRef.putFile(imageFile3!);
 
-//   Future getDate() async {
-//     DateTime now = DateTime.now();
-//     String _d = DateFormat('dd MMMM yy').format(now);
-//     String _t = DateFormat('yyyyMMddHHmmss').format(now);
-//     setState(() {
-//       _timestamp = _t;
-//       _date = _d;
-//     });
-//   }
+    await uploadTask2.whenComplete(() async {
+      var _url = await storageRef.getDownloadURL();
+      var _imageUrl2 = _url.toString();
+      if (_imageUrl2 != null) {
+        setState(() {
+          imageUrl2 = _imageUrl2;
+        });
+      } else {
+        imageUrl2 = Constants.defaultPath;
+      }
+    });
+  }
 
-//   @override
-//   Widget build(BuildContext context) {}
-// }
+  Future uploadImage3() async {
+    // final SignInBloc sb = context.read<SignInBloc>();
+    String time = _timestamp.toString();
+    Reference storageRef = FirebaseStorage.instance
+        .ref()
+        .child("files/${_timestamp}/${currentUser!.uid}_image3");
+    UploadTask uploadTask3 = storageRef.putFile(imageFile1!);
+    // UploadTask uploadTask2 = storageRef.putFile(imageFile2!);
+    // UploadTask uploadTask3 = storageRef.putFile(imageFile3!);
+
+    await uploadTask3.whenComplete(() async {
+      var _url = await storageRef.getDownloadURL();
+      var _imageUrl3 = _url.toString();
+      if (_imageUrl3 != null) {
+        setState(() {
+          imageUrl3 = _imageUrl3;
+        });
+      } else {
+        imageUrl3 = Constants.defaultPath;
+      }
+    });
+
+    // await uploadTask2.whenComplete(() async {
+    //   var _url2 = await storageRef.getDownloadURL();
+    //   var _imageUrl2 = _url2.toString();
+    //   setState(() {
+    //     imageUrl1 = _imageUrl2;
+    //   });
+    // });
+    // await uploadTask3.whenComplete(() async {
+    //   var _url3 = await storageRef.getDownloadURL();
+    //   var _imageUrl3 = _url3.toString();
+    //   setState(() {
+    //     imageUrl3 = _imageUrl3;
+    //   });
+    // });
+  }
+
+  Future insertData() async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+
+    FirebaseFirestore.instance.collection('product').doc(_timestamp);
+
+    sp.setString('productName', productNameCtrl.text);
+    sp.setString('productDetail', productDetailCtrl.text);
+    sp.setString('phone', phoneCtrl.text);
+    sp.setString('email', currentUser!.email!);
+    sp.setString('image-1', imageUrl1!);
+    sp.setString('image-2', imageUrl2!);
+    sp.setString('image-3', imageUrl3!);
+    sp.setString('image-3', imageUrl3!);
+    sp.setString('status', statusSelection!);
+    sp.setString('image-3', imageUrl3!);
+    sp.setString('image-3', imageUrl3!);
+
+    // notifyListeners();
+  }
+
+  Future saveToDatabase() async {
+    final DocumentReference ref =
+        firestore.collection('product').doc(_timestamp);
+    String time = _timestamp.toString();
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    _productData = {
+      'productName': productNameCtrl.text,
+      'productDetail': productDetailCtrl.text,
+      'email': currentUser!.email,
+      'phone': phoneCtrl.text,
+      'price': priceCtrl.text,
+      'image-1': imageUrl1,
+      'image-2': imageUrl2,
+      'image-3': imageUrl3,
+      'status': statusSelection,
+      'created_at': _date,
+      'updated_at': _date,
+      'timestamp': _timestamp
+    };
+    await ref.set(_productData);
+  }
+
+  Future insertData1() async {
+    final DocumentReference ref =
+        firestore.collection('product').doc(_timestamp);
+    String time = _timestamp.toString();
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+
+    FirebaseFirestore.instance.collection('users').doc(_timestamp);
+    _productData = {
+      'productName': productNameCtrl.text,
+      'productDetail': productDetailCtrl.text,
+      'email': currentUser!.email,
+      'phone': phoneCtrl.text,
+      'price': priceCtrl.text,
+      'image-1': imageUrl1,
+      'image-2': imageUrl2,
+      'image-3': imageUrl3,
+      'status': statusSelection,
+      'created_at': _date,
+      'updated_at': _date,
+      'timestamp': _timestamp
+    };
+    await ref.set(_productData);
+    // notifyListeners();
+  }
+
+  Future getDate() async {
+    DateTime now = DateTime.now();
+    String _d = DateFormat('dd MMMM yy').format(now);
+    String _t = DateFormat('yyyyMMddHHmmss').format(now);
+    setState(() {
+      _timestamp = _t;
+      _date = _d;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double h = MediaQuery.of(context).size.height;
+    getDate();
+    return Scaffold(
+      key: scaffoldKey,
+      appBar: AppBar(title: Text("Add a Product")),
+      body: Form(
+          key: formKey,
+          child: ListView(
+            children: <Widget>[
+              SizedBox(
+                height: h * 0.10,
+              ),
+              Text(
+                'Product Details',
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              statusDropdown(),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                decoration: inputDecoration(
+                    'Enter Product Name', 'Product Name', productNameCtrl),
+                controller: productNameCtrl,
+                validator: (value) {
+                  if (value!.isEmpty) return 'Value is empty';
+                  return null;
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                decoration:
+                    inputDecoration('Enter Phone Number', 'Phone', phoneCtrl),
+                controller: phoneCtrl,
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value!.isEmpty) return 'Value is empty';
+                  return null;
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                decoration: inputDecoration('Enter Price', 'Price', priceCtrl),
+                controller: priceCtrl,
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value!.isEmpty) return 'Value is empty';
+                  return null;
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+
+              InkWell(
+                child: CircleAvatar(
+                  radius: 70,
+                  backgroundColor: Colors.grey[300],
+                  child: Container(
+                    height: 120,
+                    width: 120,
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.grey[800]!),
+                        color: Colors.grey[500],
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: (imageFile1 == null
+                                    ? CachedNetworkImageProvider(
+                                        Constants.defaultPath)
+                                    : FileImage(imageFile1!))
+                                as ImageProvider<Object>,
+                            fit: BoxFit.cover)),
+                    child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Icon(
+                          Icons.edit,
+                          size: 30,
+                          color: Colors.black,
+                        )),
+                  ),
+                ),
+                onTap: () {
+                  pickImage1();
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              InkWell(
+                child: CircleAvatar(
+                  radius: 70,
+                  backgroundColor: Colors.grey[300],
+                  child: Container(
+                    height: 120,
+                    width: 120,
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.grey[800]!),
+                        color: Colors.grey[500],
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: (imageFile2 == null
+                                    ? CachedNetworkImageProvider(
+                                        Constants.defaultPath)
+                                    : FileImage(imageFile2!))
+                                as ImageProvider<Object>,
+                            fit: BoxFit.cover)),
+                    child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Icon(
+                          Icons.edit,
+                          size: 30,
+                          color: Colors.black,
+                        )),
+                  ),
+                ),
+                onTap: () {
+                  pickImage2();
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              InkWell(
+                child: CircleAvatar(
+                  radius: 70,
+                  backgroundColor: Colors.grey[300],
+                  child: Container(
+                    height: 120,
+                    width: 120,
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.grey[800]!),
+                        color: Colors.grey[500],
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: (imageFile3 == null
+                                    ? CachedNetworkImageProvider(
+                                        Constants.defaultPath)
+                                    : FileImage(imageFile3!))
+                                as ImageProvider<Object>,
+                            fit: BoxFit.cover)),
+                    child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Icon(
+                          Icons.edit,
+                          size: 30,
+                          color: Colors.black,
+                        )),
+                  ),
+                ),
+                onTap: () {
+                  pickImage3();
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                    hintText: 'Enter Description (Html or Normal Text)',
+                    border: OutlineInputBorder(),
+                    labelText: 'Product Description',
+                    contentPadding:
+                        EdgeInsets.only(right: 0, left: 10, top: 15, bottom: 5),
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        radius: 15,
+                        backgroundColor: Colors.grey[300],
+                        child: IconButton(
+                            icon: Icon(Icons.close, size: 15),
+                            onPressed: () {
+                              productDetailCtrl.clear();
+                            }),
+                      ),
+                    )),
+                textAlignVertical: TextAlignVertical.top,
+                minLines: 5,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                controller: productDetailCtrl,
+                validator: (value) {
+                  if (value!.isEmpty) return 'Value is empty';
+                  return null;
+                },
+              ),
+              // SizedBox(
+              //   height: 100,
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: <Widget>[
+              //     TextButton.icon(
+              //         icon: Icon(
+              //           Icons.remove_red_eye,
+              //           size: 25,
+              //           color: Colors.blueAccent,
+              //         ),
+              //         label: Text(
+              //           'Preview',
+              //           style: TextStyle(
+              //               fontWeight: FontWeight.w400, color: Colors.black),
+              //         ),
+              //         onPressed: () {
+              //           handlePreview();
+              //         })
+              //   ],
+              // ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                  color: Colors.deepPurpleAccent,
+                  height: 45,
+                  child: uploadStarted == true
+                      ? Center(
+                          child: Container(
+                              height: 30,
+                              width: 30,
+                              child: CircularProgressIndicator()),
+                        )
+                      : TextButton(
+                          child: Text(
+                            'Upload Product',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () async {
+                            handlePost();
+                          })),
+              SizedBox(
+                height: 200,
+              ),
+            ],
+          )),
+    );
+  }
+
+  Widget statusDropdown() {
+    // final AdminBloc ab = Provider.of(context, listen: false);
+
+    List<String> ab = ["Terjual", "Belum Terjual"];
+
+    return Container(
+        height: 50,
+        padding: EdgeInsets.only(left: 15, right: 15),
+        decoration: BoxDecoration(
+            color: Colors.grey[200],
+            border: Border.all(color: Colors.grey[300]!),
+            borderRadius: BorderRadius.circular(30)),
+        child: DropdownButtonFormField(
+            itemHeight: 50,
+            decoration: InputDecoration(border: InputBorder.none),
+            onChanged: (dynamic value) {
+              setState(() {
+                statusSelection = value;
+              });
+            },
+            onSaved: (dynamic value) {
+              setState(() {
+                statusSelection = value;
+              });
+            },
+            value: statusSelection,
+            hint: Text('Select Status'),
+            items: ab.map((f) {
+              return DropdownMenuItem(
+                child: Text(f),
+                value: f,
+              );
+            }).toList()));
+  }
+}
