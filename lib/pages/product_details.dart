@@ -1,14 +1,17 @@
 import 'package:carousel_pro_nullsafety/carousel_pro_nullsafety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/html_parser.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:travel_hour/blocs/ads_bloc.dart';
 import 'package:travel_hour/blocs/bookmark_bloc.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/blocs/product_bloc.dart';
+import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/models/place.dart';
 import 'package:travel_hour/models/product.dart';
 import 'package:travel_hour/models/product.dart';
+import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/sign_in_dialog.dart';
 import 'package:travel_hour/widgets/bookmark_icon.dart';
 import 'package:travel_hour/widgets/comment_count.dart';
@@ -33,42 +36,37 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
-
   final String collectionName = 'product';
 
-  
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 0))
-    .then((value) async{
+    Future.delayed(Duration(milliseconds: 0)).then((value) async {
       context.read<AdsBloc>().initiateAds();
     });
   }
-
-  
 
   handleLoveClick() {
     bool _guestUser = context.read<SignInBloc>().guestUser;
     if (_guestUser == true) {
       openSignInDialog(context);
     } else {
-      context.read<BookmarkBloc>().onLoveIconClick(collectionName, widget.data!.timestamp);
+      context
+          .read<BookmarkBloc>()
+          .onLoveIconClick(collectionName, widget.data!.timestamp);
     }
   }
-
-
 
   handleBookmarkClick() {
     bool _guestUser = context.read<SignInBloc>().guestUser;
     if (_guestUser == true) {
       openSignInDialog(context);
     } else {
-      context.read<BookmarkBloc>().onBookmarkIconClick(collectionName, widget.data!.timestamp);
+      context
+          .read<BookmarkBloc>()
+          .onBookmarkIconClick(collectionName, widget.data!.timestamp);
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +91,8 @@ class _ProductDetailState extends State<ProductDetail> {
                   left: 15,
                   child: SafeArea(
                     child: CircleAvatar(
-                      backgroundColor: Theme.of(context).primaryColor.withOpacity(0.9),
+                      backgroundColor:
+                          Theme.of(context).primaryColor.withOpacity(0.9),
                       child: IconButton(
                         icon: Icon(
                           LineIcons.arrowLeft,
@@ -109,7 +108,8 @@ class _ProductDetailState extends State<ProductDetail> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 8, left: 20, right: 20),
+              padding: const EdgeInsets.only(
+                  top: 20, bottom: 8, left: 20, right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -131,22 +131,18 @@ class _ProductDetailState extends State<ProductDetail> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       )),
-                      
                     ],
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
                     child: Text(widget.data!.productName!,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: -0.6,
-                          wordSpacing: 1,
-                          color: Colors.grey[800])
-                          
-                          ),
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: -0.6,
+                            wordSpacing: 1,
+                            color: Colors.grey[800])),
                   ),
-                  
                   Container(
                     margin: EdgeInsets.only(top: 8, bottom: 8),
                     height: 3,
@@ -165,26 +161,24 @@ class _ProductDetailState extends State<ProductDetail> {
                           size: 20,
                         ),
                       ),
-                      
                       SizedBox(
                         width: 2,
                       ),
                       Text(widget.data!.phone!,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w300,
-                          letterSpacing: -0.6,
-                          wordSpacing: 1,
-                          color: Color.fromARGB(255, 0, 0, 0))),
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w300,
+                              letterSpacing: -0.6,
+                              wordSpacing: 1,
+                              color: Color.fromARGB(255, 0, 0, 0))),
                     ],
                   ),
-                  
                 ],
               ),
             ),
 
             Container(
-              margin: EdgeInsets.only(left: 20, right: 20),  
+              margin: EdgeInsets.only(left: 20, right: 20),
               child: HtmlBodyWidget(
                 content: widget.data!.productDetail!,
                 isIframeVideoEnabled: true,
@@ -193,9 +187,40 @@ class _ProductDetailState extends State<ProductDetail> {
                 fontSize: 17,
               ),
             ),
-            
 
-          
+            Container(
+              alignment: Alignment.bottomCenter,
+              // color: Color.fromARGB(255, 43, 139, 92),
+              height: 45,
+              // width: 8000,
+              // child: TextButton(
+              //         child: Text(
+              //           'Chat Seller',
+              //           style: TextStyle(
+              //               color: Colors.white,
+              //               fontSize: 16,
+              //               fontWeight: FontWeight.w600),
+              //         ),
+              //         onPressed: ()  {
+              //           AppService().openLink(context, Config().whatsappAPI + widget.data!.phone!);
+              //         })
+              child: TextButton.icon(
+                  onPressed: () {
+                    AppService().openLink(
+                        context, Config().whatsappAPI + widget.data!.phone!);
+                  },
+                  style: TextButton.styleFrom(
+                    
+                      textStyle: TextStyle(color: Colors.white),
+                      backgroundColor: Color.fromARGB(255, 109, 178, 53),
+                      elevation: 7,
+                      shape:RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24.0),
+                      ), 
+                    ),
+                  icon: Icon(Icons.whatsapp, color: Colors.white,),
+                  label: Text('Contact Seller', style: TextStyle(color: Colors.white),)),
+            ),
 
             // Padding(
             //   padding: EdgeInsets.only(left: 20, right: 0, bottom: 40),
