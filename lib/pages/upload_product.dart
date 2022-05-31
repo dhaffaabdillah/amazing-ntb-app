@@ -43,8 +43,8 @@ class _UploadProductState extends State<UploadProduct> {
   String? email;
   String? status;
   String? imageUrl1;
-  String? imageUrl2;
-  String? imageUrl3;
+  String? imageUrl2 = Constants.defaultPath;
+  String? imageUrl3 = Constants.defaultPath;
 
   // String? imageName1;
   // String? imageName2;
@@ -90,33 +90,37 @@ class _UploadProductState extends State<UploadProduct> {
         if (formKey.currentState!.validate()) {
           formKey.currentState!.save();
           setState(() => loading = true);
-          if (imageFile2 != null) {
-            await getDate().then((_) async {
-              await uploadImage()
-                  .then((value) => uploadImage2())
-                  .then((value) => saveToDatabase());
-              setState(() => uploadStarted = false);
-              openSnacbar(scaffoldKey, 'UploadSuccessfully');
-              clearTextFeilds();
-            });
-          } else if (imageFile3 != null && imageFile2 != null) {
-            await getDate().then((_) async {
-              await uploadImage()
-                  .then((value) => uploadImage2())
-                  .then((value) => uploadImage3())
-                  .then((value) => saveToDatabase());
-              setState(() => uploadStarted = false);
-              openSnacbar(scaffoldKey, 'UploadSuccessfully');
-              clearTextFeilds();
-            });
-          } else {
-            await getDate().then((_) async {
-              await uploadImage().then((value) => saveToDatabase());
-              setState(() => uploadStarted = false);
-              openSnacbar(scaffoldKey, 'UploadSuccessfully');
-              clearTextFeilds();
-            });
-          }
+          // if (imageFile2 != null) {
+          //   await getDate().then((_) async {
+          //     await uploadImage()
+          //         .then((value) => uploadImage2())
+          //         .then((value) => saveToDatabase());
+          //     setState(() => uploadStarted = false);
+          //     openSnacbar(scaffoldKey, 'UploadSuccessfully');
+          //     clearTextFeilds();
+          //   });
+          // } else if (imageFile3 != null && imageFile2 != null) {
+          //   await getDate().then((_) async {
+          //     await uploadImage()
+          //         .then((value) => uploadImage2())
+          //         .then((value) => uploadImage3())
+          //         .then((value) => saveToDatabase());
+          //     setState(() => uploadStarted = false);
+          //     openSnacbar(scaffoldKey, 'UploadSuccessfully');
+          //     clearTextFeilds();
+          //   });
+          // } else {
+          await getDate().then((_) async {
+            await uploadImage()
+                .then((value) => uploadImage2())
+                .then((value) => uploadImage3())
+                .then((value) => saveToDatabase());
+            // setState(() => uploadStarted = false);
+            openSnacbar(scaffoldKey, 'Upload Successfully');
+            // openDialog(context, 'Upload Successfully', '');
+            clearTextFeilds();
+          });
+          // }
           // imageFile1 != null
           //     ? await uploadImage()
           //         .then((value) => {saveToDatabase()})
@@ -192,7 +196,7 @@ class _UploadProductState extends State<UploadProduct> {
     var imagePicked3 =
         await _imagePicker3.pickImage(source: ImageSource.gallery);
     if (imagePicked3 != null) {
-      setState(()  {
+      setState(() {
         imageFile3 = File(imagePicked3.path);
         imageName3 = (imageFile3!.path);
       });
@@ -212,22 +216,33 @@ class _UploadProductState extends State<UploadProduct> {
   Future uploadImage() async {
     // final SignInBloc sb = context.read<SignInBloc>();
     String time = _timestamp.toString();
-    Reference storageRef = FirebaseStorage.instance
-        .ref()
-        .child("files/${_timestamp}/${currentUser!.uid}_thumbnail");
-    UploadTask uploadTask1 = storageRef.putFile(imageFile1!);
-    // UploadTask uploadTask2 = storageRef.putFile(imageFile2!);
-    // UploadTask uploadTask3 = storageRef.putFile(imageFile3!);
+    Reference storageRef1 =
+        FirebaseStorage.instance.ref().child("files/${_timestamp}-thumbnail");
+    // Reference storageRef2 =
+    //     FirebaseStorage.instance.ref().child("files/${_timestamp}-img1");
+    // Reference storageRef3 =
+    //     FirebaseStorage.instance.ref().child("files/${_timestamp}-img2");
+    UploadTask uploadTask1 = storageRef1.putFile(imageFile1!);
+    // UploadTask uploadTask2 = storageRef2.putFile(imageFile2!);
+    // UploadTask uploadTask3 = storageRef3.putFile(imageFile3!);
 
     await uploadTask1.whenComplete(() async {
-      var _url = await storageRef.getDownloadURL();
-      var _imageUrl1 = _url.toString();
+      var _url1 = await storageRef1.getDownloadURL();
+      // var _url2 = await storageRef2.getDownloadURL();
+      // var _url3 = await storageRef3.getDownloadURL();
+      var _imageUrl1 = _url1.toString();
+      // var _imageUrl2 = _url2.toString();
+      // var _imageUrl3 = _url3.toString();
       if (_imageUrl1 != null) {
         setState(() {
           imageUrl1 = _imageUrl1;
+          // imageUrl2 = _imageUrl2;
+          // imageUrl3 = _imageUrl3;
         });
       } else {
         imageUrl1 = Constants.defaultPath;
+        // imageUrl2 = Constants.defaultPath;
+        // imageUrl3 = Constants.defaultPath;
       }
     });
 
@@ -250,16 +265,15 @@ class _UploadProductState extends State<UploadProduct> {
   Future uploadImage2() async {
     // final SignInBloc sb = context.read<SignInBloc>();
     String time = _timestamp.toString();
-    Reference storageRef = FirebaseStorage.instance
-        .ref()
-        .child("files/${_timestamp}/${currentUser!.uid}_image2");
-    UploadTask uploadTask2 = storageRef.putFile(imageFile1!);
+    Reference storageRef2 =
+        FirebaseStorage.instance.ref().child("files/${_timestamp}-img1");
+    UploadTask uploadTask2 = storageRef2.putFile(imageFile2!);
     // UploadTask uploadTask2 = storageRef.putFile(imageFile2!);
     // UploadTask uploadTask3 = storageRef.putFile(imageFile3!);
 
     await uploadTask2.whenComplete(() async {
-      var _url = await storageRef.getDownloadURL();
-      var _imageUrl2 = _url.toString();
+      var _url2 = await storageRef2.getDownloadURL();
+      var _imageUrl2 = _url2.toString();
       if (_imageUrl2 != null) {
         setState(() {
           imageUrl2 = _imageUrl2;
@@ -273,15 +287,14 @@ class _UploadProductState extends State<UploadProduct> {
   Future uploadImage3() async {
     // final SignInBloc sb = context.read<SignInBloc>();
     String time = _timestamp.toString();
-    Reference storageRef = FirebaseStorage.instance
-        .ref()
-        .child("files/${_timestamp}/${currentUser!.uid}_image3");
-    UploadTask uploadTask3 = storageRef.putFile(imageFile1!);
+    Reference storageRef3 =
+        FirebaseStorage.instance.ref().child("files/${_timestamp}-img2");
+    UploadTask uploadTask3 = storageRef3.putFile(imageFile3!);
     // UploadTask uploadTask2 = storageRef.putFile(imageFile2!);
     // UploadTask uploadTask3 = storageRef.putFile(imageFile3!);
 
     await uploadTask3.whenComplete(() async {
-      var _url = await storageRef.getDownloadURL();
+      var _url = await storageRef3.getDownloadURL();
       var _imageUrl3 = _url.toString();
       if (_imageUrl3 != null) {
         setState(() {
@@ -395,14 +408,19 @@ class _UploadProductState extends State<UploadProduct> {
       body: Form(
           key: formKey,
           child: ListView(
+            
             children: <Widget>[
               SizedBox(
-                height: h * 0.0003,
+                height: h * 0.002,
               ),
-              Text(
+              Container(
+                padding: EdgeInsets.only(left: 12, right: 12),
+                child: Text(
                 'Upload your Product here',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
               ).tr(),
+              ),
+              
               SizedBox(
                 height: 20,
               ),
@@ -411,7 +429,7 @@ class _UploadProductState extends State<UploadProduct> {
                 height: 20,
               ),
               Container(
-                padding: EdgeInsets.only(left: 8, right: 8),
+                padding: EdgeInsets.only(left: 14, right: 14),
                 child: TextFormField(
                   decoration: inputDecoration(
                       'Enter Product Name', 'Product Name', productNameCtrl),
@@ -428,7 +446,7 @@ class _UploadProductState extends State<UploadProduct> {
               ),
 
               Container(
-                padding: EdgeInsets.only(left: 8, right: 8),
+                padding: EdgeInsets.only(left: 14, right: 14),
                 child: TextFormField(
                   decoration:
                       inputDecoration('Enter Phone Number', 'Phone', phoneCtrl),
@@ -445,7 +463,7 @@ class _UploadProductState extends State<UploadProduct> {
                 height: 20,
               ),
               Container(
-                padding: EdgeInsets.only(left: 8, right: 8),
+                padding: EdgeInsets.only(left: 14, right: 14),
                 child: TextFormField(
                   decoration:
                       inputDecoration('Enter Price', 'Price', priceCtrl),
@@ -462,126 +480,13 @@ class _UploadProductState extends State<UploadProduct> {
                 height: 20,
               ),
 
-              Text(
-                "Pick your image products",
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800),
-              ),
+              
 
               SizedBox(
                 height: 10,
               ),
-
-              InkWell(
-                // child: CircleAvatar(
-                //   radius: 70,
-                //   backgroundColor: Colors.grey[300],
-                child: Container(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  height: 120,
-                  width: 120,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1, color: Color.fromARGB(255, 239, 198, 198)),
-                      color: Colors.white,
-                      shape: BoxShape.rectangle,
-                      image: DecorationImage(
-                          image: (imageFile1 == null
-                                  ? CachedNetworkImageProvider(
-                                      Constants.defaultPath)
-                                  : FileImage(imageFile1!))
-                              as ImageProvider<Object>,
-                          fit: BoxFit.contain)),
-                  child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Icon(
-                        Icons.edit,
-                        size: 30,
-                        color: Colors.black,
-                      )),
-                ),
-                // ),
-                onTap: () {
-                  pickImage1();
-                },
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              InkWell(
-                // child: CircleAvatar(
-                //   radius: 70,
-                //   backgroundColor: Colors.grey[300],
-
-                child: Container(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  height: 120,
-                  width: 120,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1, color: Color.fromARGB(255, 239, 198, 198)),
-                      color: Colors.white,
-                      shape: BoxShape.rectangle,
-                      image: DecorationImage(
-                          image: (imageFile2 == null
-                                  ? CachedNetworkImageProvider(
-                                      Constants.defaultPath)
-                                  : FileImage(imageFile2!))
-                              as ImageProvider<Object>,
-                          fit: BoxFit.contain)),
-                  child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Icon(
-                        Icons.edit,
-                        size: 30,
-                        color: Colors.black,
-                      )),
-                ),
-                // ),
-                onTap: () {
-                  pickImage2();
-                },
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              InkWell(
-                // child: CircleAvatar(
-                //   radius: 20,
-                //   backgroundColor: Colors.grey[300],
-                child: Container(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  height: 120,
-                  width: 120,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1, color: Color.fromARGB(255, 239, 198, 198)),
-                      color: Colors.white,
-                      shape: BoxShape.rectangle,
-                      image: DecorationImage(
-                          image: (imageFile3 == null
-                                  ? CachedNetworkImageProvider(
-                                      Constants.defaultPath)
-                                  : FileImage(imageFile3!))
-                              as ImageProvider<Object>,
-                          fit: BoxFit.contain)),
-                  child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Icon(
-                        Icons.edit,
-                        size: 30,
-                        color: Colors.black,
-                      )),
-                ),
-                // ),
-                onTap: () {
-                  pickImage3();
-                },
-              ),
-              SizedBox(
-                height: 20,
-              ),
               Container(
-                padding: EdgeInsets.only(left: 8, right: 8),
+                padding: EdgeInsets.only(left: 14, right: 14),
                 child: TextFormField(
                   decoration: InputDecoration(
                       hintText: 'Enter Product Description',
@@ -613,6 +518,133 @@ class _UploadProductState extends State<UploadProduct> {
                 ),
               ),
 
+              SizedBox(
+                height: 10,
+              ),
+
+              Container(
+                padding: EdgeInsets.only(left: 14, right: 14),
+                child: Text(
+                  "Pick your image products",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+                ),
+              ),
+
+              SizedBox(
+                height: 10,
+              ),
+
+              InkWell(
+                // child: CircleAvatar(
+                //   radius: 70,
+                //   backgroundColor: Colors.grey[300],
+                child: Container(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  height: 150,
+                  width: 100,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 1, color: Color.fromARGB(255, 239, 198, 198)),
+                      color: Colors.white,
+                      shape: BoxShape.rectangle,
+                      image: DecorationImage(
+                          image: (imageFile1 == null
+                                  ? CachedNetworkImageProvider(
+                                      Constants.defaultPath)
+                                  : FileImage(imageFile1!))
+                              as ImageProvider<Object>,
+                          fit: BoxFit.cover)),
+                  child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Icon(
+                        Icons.edit,
+                        size: 30,
+                        color: Colors.black,
+                      )),
+                ),
+                // ),
+                onTap: () {
+                  pickImage1();
+                },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                // child: CircleAvatar(
+                //   radius: 70,
+                //   backgroundColor: Colors.grey[300],
+
+                child: Container(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  height: 150,
+                  width: 100,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 1, color: Color.fromARGB(255, 239, 198, 198)),
+                      color: Colors.white,
+                      shape: BoxShape.rectangle,
+                      image: DecorationImage(
+                          image: (imageFile2 == null
+                                  ? CachedNetworkImageProvider(
+                                      Constants.defaultPath)
+                                  : FileImage(imageFile2!))
+                              as ImageProvider<Object>,
+                          fit: BoxFit.cover)),
+                  child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Icon(
+                        Icons.edit,
+                        size: 30,
+                        color: Colors.black,
+                      )),
+                ),
+                // ),
+                onTap: () {
+                  pickImage2();
+                },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                // child: CircleAvatar(
+                //   radius: 20,
+                //   backgroundColor: Colors.grey[300],
+                child: Container(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  height: 150,
+                  width: 100,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 1, color: Color.fromARGB(255, 239, 198, 198)),
+                      color: Colors.white,
+                      shape: BoxShape.rectangle,
+                      image: DecorationImage(
+                          image: (imageFile3 == null
+                                  ? CachedNetworkImageProvider(
+                                      Constants.defaultPath)
+                                  : FileImage(imageFile3!))
+                              as ImageProvider<Object>,
+                          fit: BoxFit.cover)),
+                  child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Icon(
+                        Icons.edit,
+                        size: 30,
+                        color: Colors.black,
+                      )),
+                ),
+                // ),
+                onTap: () {
+                  pickImage3();
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              
+
               // SizedBox(
               //   height: 100,
               // ),
@@ -641,7 +673,7 @@ class _UploadProductState extends State<UploadProduct> {
               Container(
                   color: Colors.deepPurpleAccent,
                   height: 45,
-                  child: uploadStarted == true
+                  child: loading == true
                       ? Center(
                           child: Container(
                               height: 30,
@@ -660,7 +692,7 @@ class _UploadProductState extends State<UploadProduct> {
                             handlePost();
                           })),
               SizedBox(
-                height: 200,
+                height: 50,
               ),
             ],
           )),
