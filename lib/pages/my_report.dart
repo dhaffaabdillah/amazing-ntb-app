@@ -12,25 +12,26 @@ import 'package:travel_hour/pages/search.dart';
 import 'package:travel_hour/pages/search_product.dart';
 import 'package:travel_hour/pages/update_product.dart';
 import 'package:travel_hour/pages/update_products.dart';
+import 'package:travel_hour/pages/upload_report.dart';
 import 'package:travel_hour/utils/currency_format.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 import 'package:travel_hour/utils/loading_cards.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class MyProductPages extends StatefulWidget {
+class MyReport extends StatefulWidget {
   final String title;
   final Color? color;
   final String? email;
-  MyProductPages(
+  MyReport(
       {Key? key, required this.title, required this.color, required this.email})
       : super(key: key);
 
   @override
-  _MyProductPagesState createState() => _MyProductPagesState();
+  _MyReportState createState() => _MyReportState();
 }
 
-class _MyProductPagesState extends State<MyProductPages> {
+class _MyReportState extends State<MyReport> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final User? currentUser = FirebaseAuth.instance.currentUser;
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -119,10 +120,12 @@ class _MyProductPagesState extends State<MyProductPages> {
     // print(currentUser?.displayName);
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Products"),
+        title: Text("My Reports"),
         actions: [
           IconButton(onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => SearchProductPage())), 
           icon: Icon(Icons.search)),
+          IconButton(onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => UploadReport())),
+          icon: Icon(Icons.add_a_photo)),
         ],
       ),
       body: RefreshIndicator(

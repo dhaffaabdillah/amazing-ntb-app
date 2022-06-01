@@ -1,6 +1,7 @@
 // import 'dart:html';
 import 'dart:io';
-
+import 'dart:math';
+import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,33 +15,30 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travel_hour/blocs/admin_bloc.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/constants/constants.dart';
-import 'package:travel_hour/models/product.dart';
 import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/cached_image.dart';
 import 'package:travel_hour/utils/dialog.dart';
 import 'package:travel_hour/utils/snacbar.dart';
 import 'package:travel_hour/utils/styles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class UpdateProduct extends StatefulWidget {
-  const UpdateProduct({Key? key, required this.productData}) : super(key: key);
-  final Product productData;
+class UploadReport extends StatefulWidget {
+  const UploadReport({Key? key}) : super(key: key);
+
   @override
-  State<UpdateProduct> createState() => _UpdateProductState();
+  State<UploadReport> createState() => _UploadReportState();
 }
 
-class _UpdateProductState extends State<UpdateProduct> {
+class _UploadReportState extends State<UploadReport> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final User? currentUser = FirebaseAuth.instance.currentUser;
   bool loading = false;
-  String? productName;
-  String? productDetail;
-  String? phone;
+  String? reportTitle;
+  String? reportDescription;
   String? email;
   String? status;
   String? imageUrl1;
@@ -58,17 +56,16 @@ class _UpdateProductState extends State<UpdateProduct> {
   String imageName1 = "", imageName2 = "", imageName3 = "";
 
   var statusSelection;
-  var usersSelection = TextEditingController();
   bool notifyUsers = true;
   bool uploadStarted = false;
   String? _timestamp;
   String? _date;
-  var _productData;
+  var _reportData;
 
   var formKey = GlobalKey<FormState>();
   var scaffoldKey = GlobalKey<ScaffoldState>();
-  var productNameCtrl = TextEditingController();
-  var productDetailCtrl = TextEditingController();
+  var titleCtrl = TextEditingController();
+  var descriptionCtrl = TextEditingController();
   var productPrice = TextEditingController();
   var phoneCtrl = TextEditingController();
   var priceCtrl = TextEditingController();
@@ -76,40 +73,36 @@ class _UpdateProductState extends State<UpdateProduct> {
   var statusCtrl = TextEditingController();
 
   Future handlePost() async {
-    Product p = widget.productData;
     await AppService().checkInternet().then((hasInternet) async {
       if (hasInternet == false) {
         openSnacbar(scaffoldKey, 'no internet'.tr());
-      } else if (hasInternet == true && statusSelection == null) {
-        openSnacbar(scaffoldKey, "Please select status first!");
-      } else if (hasInternet == true && productNameCtrl == null) {
+      } else if (hasInternet == true && titleCtrl == null) {
         openSnacbar(scaffoldKey, "Please fill product name");
       } else if (hasInternet == true && phoneCtrl == null) {
         openSnacbar(scaffoldKey, "Please fill your contact number");
-      } else if (hasInternet == true && productDetailCtrl == null) {
+      } else if (hasInternet == true && descriptionCtrl == null) {
         openSnacbar(scaffoldKey, "Please fill your product detail");
       } else {
         if (formKey.currentState!.validate()) {
           formKey.currentState!.save();
           setState(() => loading = true);
-          if (imageFile1 != p.image1 ||
-              imageFile2 != p.image2 ||
-              imageFile3 != p.image3) {
-            await getDate().then((_) async {
-              await uploadImage()
-                  .then((value) => uploadImage2())
-                  .then((value) => uploadImage3())
-                  .then((value) => saveToDatabase());
-              // setState(() => uploadStarted = false);
-              openSnacbar(scaffoldKey, 'Upload Successfully');
-              clearTextFeilds();
-            });
-          } else {
-            await saveToDatabase();
-          }
+          await getDate().then((_) async {
+            await uploadImage()
+                .then((value) => uploadImage2())
+                .then((value) => uploadImage3())
+                .then((value) => saveToDatabase());
+            openSnacbar(scaffoldKey, 'Upload Successfully');
+            clearTextFeilds();
+          });
         }
       }
     });
+  }
+
+  String? getBaseRandomString(int length) {
+    var random = Random.secure();
+    var values = List<int>.generate(length, (index) => random.nextInt(255));
+    return base64UrlEncode(values);
   }
 
   Future pickImage() async {
@@ -180,88 +173,42 @@ class _UpdateProductState extends State<UpdateProduct> {
   }
 
   clearTextFeilds() {
-    productNameCtrl.clear();
-    productDetailCtrl.clear();
-    phoneCtrl.clear();
-    priceCtrl.clear();
-  }
-
-  initBlogData() {
-    Product d = widget.productData;
-    productNameCtrl.text = d.productName!;
-    productDetailCtrl.text = d.productDetail!;
-    phoneCtrl.text = d.phone!;
-    priceCtrl.text = d.price!;
-    imageName1 = d.image1!;
-    imageName2 = d.image2!;
-    imageName3 = d.image3!;
-    statusSelection = d.status!;
-    // created_at = d.created_at!;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    initBlogData();
+    titleCtrl.clear();
+    descriptionCtrl.clear();
   }
 
   Future uploadImage() async {
     // final SignInBloc sb = context.read<SignInBloc>();
     String time = _timestamp.toString();
-    Reference storageRef1 =
-        FirebaseStorage.instance.ref().child("files/${_timestamp}-thumbnail");
+    Reference storageRef1 = FirebaseStorage.instance
+        .ref()
+        .child("Report Files/${_timestamp}-thumbnail");
     // Reference storageRef2 =
-    //     FirebaseStorage.instance.ref().child("files/${_timestamp}-img1");
+    //     FirebaseStorage.instance.ref().child("Report Files/${_timestamp}-img1");
     // Reference storageRef3 =
-    //     FirebaseStorage.instance.ref().child("files/${_timestamp}-img2");
+    //     FirebaseStorage.instance.ref().child("Report Files/${_timestamp}-img2");
     UploadTask uploadTask1 = storageRef1.putFile(imageFile1!);
     // UploadTask uploadTask2 = storageRef2.putFile(imageFile2!);
     // UploadTask uploadTask3 = storageRef3.putFile(imageFile3!);
 
     await uploadTask1.whenComplete(() async {
       var _url1 = await storageRef1.getDownloadURL();
-      // var _url2 = await storageRef2.getDownloadURL(); 
-      // var _url3 = await storageRef3.getDownloadURL();
       var _imageUrl1 = _url1.toString();
-      // var _imageUrl2 = _url2.toString();
-      // var _imageUrl3 = _url3.toString();
       if (_imageUrl1 != null) {
         setState(() {
           imageUrl1 = _imageUrl1;
-          // imageUrl2 = _imageUrl2;
-          // imageUrl3 = _imageUrl3;
         });
       } else {
         imageUrl1 = Constants.defaultPath;
-        // imageUrl2 = Constants.defaultPath;
-        // imageUrl3 = Constants.defaultPath;
       }
     });
-
-    // await uploadTask2.whenComplete(() async {
-    //   var _url2 = await storageRef.getDownloadURL();
-    //   var _imageUrl2 = _url2.toString();
-    //   setState(() {
-    //     imageUrl1 = _imageUrl2;
-    //   });
-    // });
-    // await uploadTask3.whenComplete(() async {
-    //   var _url3 = await storageRef.getDownloadURL();
-    //   var _imageUrl3 = _url3.toString();
-    //   setState(() {
-    //     imageUrl3 = _imageUrl3;
-    //   });
-    // });
   }
 
   Future uploadImage2() async {
-    // final SignInBloc sb = context.read<SignInBloc>();
     String time = _timestamp.toString();
     Reference storageRef2 =
-        FirebaseStorage.instance.ref().child("files/${_timestamp}-img1");
+        FirebaseStorage.instance.ref().child("Report Files/${_timestamp}-img1");
     UploadTask uploadTask2 = storageRef2.putFile(imageFile2!);
-    // UploadTask uploadTask2 = storageRef.putFile(imageFile2!);
-    // UploadTask uploadTask3 = storageRef.putFile(imageFile3!);
 
     await uploadTask2.whenComplete(() async {
       var _url2 = await storageRef2.getDownloadURL();
@@ -277,13 +224,10 @@ class _UpdateProductState extends State<UpdateProduct> {
   }
 
   Future uploadImage3() async {
-    // final SignInBloc sb = context.read<SignInBloc>();
     String time = _timestamp.toString();
     Reference storageRef3 =
-        FirebaseStorage.instance.ref().child("files/${_timestamp}-img2");
+        FirebaseStorage.instance.ref().child("Report Files/${_timestamp}-img2");
     UploadTask uploadTask3 = storageRef3.putFile(imageFile3!);
-    // UploadTask uploadTask2 = storageRef.putFile(imageFile2!);
-    // UploadTask uploadTask3 = storageRef.putFile(imageFile3!);
 
     await uploadTask3.whenComplete(() async {
       var _url = await storageRef3.getDownloadURL();
@@ -296,86 +240,27 @@ class _UpdateProductState extends State<UpdateProduct> {
         imageUrl3 = Constants.defaultPath;
       }
     });
-
-    // await uploadTask2.whenComplete(() async {
-    //   var _url2 = await storageRef.getDownloadURL();
-    //   var _imageUrl2 = _url2.toString();
-    //   setState(() {
-    //     imageUrl1 = _imageUrl2;
-    //   });
-    // });
-    // await uploadTask3.whenComplete(() async {
-    //   var _url3 = await storageRef.getDownloadURL();
-    //   var _imageUrl3 = _url3.toString();
-    //   setState(() {
-    //     imageUrl3 = _imageUrl3;
-    //   });
-    // });
-  }
-
-  Future insertData() async {
-    final SharedPreferences sp = await SharedPreferences.getInstance();
-
-    FirebaseFirestore.instance.collection('product').doc(_timestamp);
-
-    sp.setString('productName', productNameCtrl.text);
-    sp.setString('productDetail', productDetailCtrl.text);
-    sp.setString('phone', phoneCtrl.text);
-    sp.setString('email', currentUser!.email!);
-    sp.setString('image-1', imageUrl1!);
-    sp.setString('image-2', imageUrl2!);
-    sp.setString('image-3', imageUrl3!);
-    sp.setString('image-3', imageUrl3!);
-    sp.setString('status', statusSelection!);
-    sp.setString('image-3', imageUrl3!);
-    sp.setString('image-3', imageUrl3!);
-
-    // notifyListeners();
   }
 
   Future saveToDatabase() async {
     final DocumentReference ref =
-        firestore.collection('product').doc(_timestamp);
+        firestore.collection('reports').doc(_timestamp);
     String time = _timestamp.toString();
     final SharedPreferences sp = await SharedPreferences.getInstance();
-    _productData = {
-      'productName': productNameCtrl.text,
-      'productDetail': productDetailCtrl.text,
-      'email': currentUser!.email,
-      'phone': phoneCtrl.text,
-      'price': priceCtrl.text,
+    _reportData = {
+      'report_title': titleCtrl.text,
+      'report_description': descriptionCtrl.text,
+      'author': currentUser!.email,
       'image-1': imageUrl1,
       'image-2': imageUrl2,
       'image-3': imageUrl3,
-      'status': statusSelection,
-      'updated_at': _date,
-    };
-    await ref.set(_productData);
-  }
-
-  Future insertData1() async {
-    final DocumentReference ref =
-        firestore.collection('product').doc(_timestamp);
-    String time = _timestamp.toString();
-    final SharedPreferences sp = await SharedPreferences.getInstance();
-
-    FirebaseFirestore.instance.collection('users').doc(_timestamp);
-    _productData = {
-      'productName': productNameCtrl.text,
-      'productDetail': productDetailCtrl.text,
-      'email': currentUser!.email,
-      'phone': phoneCtrl.text,
-      'price': priceCtrl.text,
-      'image-1': imageUrl1,
-      'image-2': imageUrl2,
-      'image-3': imageUrl3,
-      'status': statusSelection,
+      'status': 0,
+      'institution': "",
       'created_at': _date,
       'updated_at': _date,
       'timestamp': _timestamp
     };
-    await ref.set(_productData);
-    // notifyListeners();
+    await ref.set(_reportData);
   }
 
   Future getDate() async {
@@ -390,12 +275,11 @@ class _UpdateProductState extends State<UpdateProduct> {
 
   @override
   Widget build(BuildContext context) {
-    Product p = widget.productData;
     double h = MediaQuery.of(context).size.height;
     getDate();
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(title: Text("Add a Product")),
+      appBar: AppBar(title: Text("Add a Community Report")),
       body: Form(
           key: formKey,
           child: ListView(
@@ -406,15 +290,10 @@ class _UpdateProductState extends State<UpdateProduct> {
               Container(
                 padding: EdgeInsets.only(left: 12, right: 12),
                 child: Text(
-                  'Upload your Product here',
+                  'Input your report.',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
                 ).tr(),
               ),
-
-              SizedBox(
-                height: 20,
-              ),
-              statusDropdown(),
               SizedBox(
                 height: 20,
               ),
@@ -422,54 +301,17 @@ class _UpdateProductState extends State<UpdateProduct> {
                 padding: EdgeInsets.only(left: 14, right: 14),
                 child: TextFormField(
                   decoration: inputDecoration(
-                      'Enter Product Name', 'Product Name', productNameCtrl),
-                  controller: productNameCtrl,
+                      'Enter Report Title', 'Report Title', titleCtrl),
+                  controller: titleCtrl,
                   validator: (value) {
                     if (value!.isEmpty) return 'Value is empty';
                     return null;
                   },
                 ),
               ),
-
               SizedBox(
                 height: 20,
               ),
-
-              Container(
-                padding: EdgeInsets.only(left: 14, right: 14),
-                child: TextFormField(
-                  decoration:
-                      inputDecoration('Enter Phone Number', 'Phone', phoneCtrl),
-                  controller: phoneCtrl,
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value!.isEmpty) return 'Value is empty';
-                    return null;
-                  },
-                ),
-              ),
-
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 14, right: 14),
-                child: TextFormField(
-                  decoration:
-                      inputDecoration('Enter Price', 'Price', priceCtrl),
-                  controller: priceCtrl,
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value!.isEmpty) return 'Value is empty';
-                    return null;
-                  },
-                ),
-              ),
-
-              SizedBox(
-                height: 20,
-              ),
-
               SizedBox(
                 height: 10,
               ),
@@ -477,9 +319,9 @@ class _UpdateProductState extends State<UpdateProduct> {
                 padding: EdgeInsets.only(left: 14, right: 14),
                 child: TextFormField(
                   decoration: InputDecoration(
-                      hintText: 'Enter Product Description',
+                      hintText: 'Enter Report Description',
                       border: OutlineInputBorder(),
-                      labelText: 'Product Description',
+                      labelText: 'Report Description',
                       contentPadding: EdgeInsets.only(
                           right: 0, left: 10, top: 15, bottom: 5),
                       suffixIcon: Padding(
@@ -490,7 +332,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                           child: IconButton(
                               icon: Icon(Icons.close, size: 15),
                               onPressed: () {
-                                productDetailCtrl.clear();
+                                descriptionCtrl.clear();
                               }),
                         ),
                       )),
@@ -498,34 +340,27 @@ class _UpdateProductState extends State<UpdateProduct> {
                   minLines: 5,
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
-                  controller: productDetailCtrl,
+                  controller: descriptionCtrl,
                   validator: (value) {
                     if (value!.isEmpty) return 'Value is empty';
                     return null;
                   },
                 ),
               ),
-
               SizedBox(
                 height: 10,
               ),
-
               Container(
                 padding: EdgeInsets.only(left: 14, right: 14),
                 child: Text(
-                  "Pick your image products",
+                  "Upload the pictures.",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
                 ),
               ),
-
               SizedBox(
                 height: 10,
               ),
-
               InkWell(
-                // child: CircleAvatar(
-                //   radius: 70,
-                //   backgroundColor: Colors.grey[300],
                 child: Container(
                   padding: EdgeInsets.only(left: 20, right: 20),
                   height: 150,
@@ -537,7 +372,8 @@ class _UpdateProductState extends State<UpdateProduct> {
                       shape: BoxShape.rectangle,
                       image: DecorationImage(
                           image: (imageFile1 == null
-                                  ? CachedNetworkImageProvider(imageName1)
+                                  ? CachedNetworkImageProvider(
+                                      Constants.defaultPath)
                                   : FileImage(imageFile1!))
                               as ImageProvider<Object>,
                           fit: BoxFit.cover)),
@@ -558,10 +394,6 @@ class _UpdateProductState extends State<UpdateProduct> {
                 height: 10,
               ),
               InkWell(
-                // child: CircleAvatar(
-                //   radius: 70,
-                //   backgroundColor: Colors.grey[300],
-
                 child: Container(
                   padding: EdgeInsets.only(left: 10, right: 10),
                   height: 150,
@@ -573,7 +405,8 @@ class _UpdateProductState extends State<UpdateProduct> {
                       shape: BoxShape.rectangle,
                       image: DecorationImage(
                           image: (imageFile2 == null
-                                  ? CachedNetworkImageProvider(imageName2)
+                                  ? CachedNetworkImageProvider(
+                                      Constants.defaultPath)
                                   : FileImage(imageFile2!))
                               as ImageProvider<Object>,
                           fit: BoxFit.cover)),
@@ -585,7 +418,6 @@ class _UpdateProductState extends State<UpdateProduct> {
                         color: Colors.black,
                       )),
                 ),
-                // ),
                 onTap: () {
                   pickImage2();
                 },
@@ -594,9 +426,6 @@ class _UpdateProductState extends State<UpdateProduct> {
                 height: 10,
               ),
               InkWell(
-                // child: CircleAvatar(
-                //   radius: 20,
-                //   backgroundColor: Colors.grey[300],
                 child: Container(
                   padding: EdgeInsets.only(left: 10, right: 10),
                   height: 150,
@@ -608,7 +437,8 @@ class _UpdateProductState extends State<UpdateProduct> {
                       shape: BoxShape.rectangle,
                       image: DecorationImage(
                           image: (imageFile3 == null
-                                  ? CachedNetworkImageProvider(imageName3)
+                                  ? CachedNetworkImageProvider(
+                                      Constants.defaultPath)
                                   : FileImage(imageFile3!))
                               as ImageProvider<Object>,
                           fit: BoxFit.cover)),
@@ -620,7 +450,6 @@ class _UpdateProductState extends State<UpdateProduct> {
                         color: Colors.black,
                       )),
                 ),
-                // ),
                 onTap: () {
                   pickImage3();
                 },
@@ -628,29 +457,6 @@ class _UpdateProductState extends State<UpdateProduct> {
               SizedBox(
                 height: 20,
               ),
-
-              // SizedBox(
-              //   height: 100,
-              // ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   children: <Widget>[
-              //     TextButton.icon(
-              //         icon: Icon(
-              //           Icons.remove_red_eye,
-              //           size: 25,
-              //           color: Colors.blueAccent,
-              //         ),
-              //         label: Text(
-              //           'Preview',
-              //           style: TextStyle(
-              //               fontWeight: FontWeight.w400, color: Colors.black),
-              //         ),
-              //         onPressed: () {
-              //           handlePreview();
-              //         })
-              //   ],
-              // ),
               SizedBox(
                 height: 10,
               ),
