@@ -116,6 +116,7 @@ class _CategoriesPageState extends State<CategoriesPage>
                 Feather.chevron_right,
                 size: 40,
               ),
+              
               // onTap: () => nextScreenPopup(context, LanguagePopup()),
             ),
             Divider(
