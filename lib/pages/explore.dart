@@ -23,6 +23,7 @@ import 'package:travel_hour/widgets/special_state1.dart';
 import 'package:travel_hour/widgets/special_state2.dart';
 import 'package:travel_hour/widgets/product.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:travel_hour/widgets/sub_menu_widget.dart';
 
 class Explore extends StatefulWidget {
   Explore({Key? key}) : super(key: key);
@@ -31,32 +32,29 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
-
   @override
   void initState() {
     super.initState();
     reloadData();
-    
   }
 
-
-
-
-  Future reloadData () async {
-    Future.delayed(Duration(milliseconds: 0)).then((_) async{
-
-      await context.read<FeaturedBloc>().getData()
-        .then((value) => context.read<PopularPlacesBloc>().getData())
-        .then((value) => context.read<RecentPlacesBloc>().getData())
-        .then((value) => context.read<SpecialStateOneBloc>().getData())
-        .then((value) => context.read<SpecialStateTwoBloc>().getData())
-        .then((value) => context.read<RecommandedPlacesBloc>().getData())
-        .then((value) => context.read<ProductBloc>().getData());
-      });
+  Future reloadData() async {
+    Future.delayed(Duration(milliseconds: 0)).then((_) async {
+      await context
+              .read<FeaturedBloc>()
+              .getData()
+              .then((value) => context.read<PopularPlacesBloc>().getData())
+              .then((value) => context.read<RecentPlacesBloc>().getData())
+              .then((value) => context.read<SpecialStateOneBloc>().getData())
+              .then((value) => context.read<SpecialStateTwoBloc>().getData())
+              .then((value) => context.read<RecommandedPlacesBloc>().getData())
+              .then((value) => context.read<ProductBloc>().getData())
+          // .then((value) => context.read<Report>())
+          ;
+    });
   }
 
-
-  Future _onRefresh () async {
+  Future _onRefresh() async {
     context.read<FeaturedBloc>().onRefresh();
     context.read<PopularPlacesBloc>().onRefresh(mounted);
     context.read<RecentPlacesBloc>().onRefresh(mounted);
@@ -66,42 +64,36 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
     context.read<ProductBloc>().onRefresh(mounted);
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
         backgroundColor: Colors.white,
-          body: SafeArea(
-              child: RefreshIndicator(
-              onRefresh: () async => _onRefresh(),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Header(),
-                    Featured(),
-                    PopularPlaces(),
-                    RecentPlaces(),
-                    SpecialStateOne(),
-                    SpecialStateTwo(),
-                    RecommendedPlaces(),
-                    Products(),
-                  ],
-                ),
+        body: SafeArea(
+          child: RefreshIndicator(
+            onRefresh: () async => _onRefresh(),
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Header(),
+                  Featured(),
+                  SubMenu(),
+                  PopularPlaces(),
+                  RecentPlaces(),
+                  SpecialStateOne(),
+                  SpecialStateTwo(),
+                  RecommendedPlaces(),
+                  Products(),
+                ],
               ),
             ),
-          )
-    );
+          ),
+        ));
   }
 
   @override
   bool get wantKeepAlive => true;
 }
-
-
-
 
 class Header extends StatelessWidget {
   const Header({Key? key}) : super(key: key);
@@ -157,7 +149,8 @@ class Header extends StatelessWidget {
                               color: Colors.grey[300],
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                  image: CachedNetworkImageProvider(sb.imageUrl!),
+                                  image:
+                                      CachedNetworkImageProvider(sb.imageUrl!),
                                   fit: BoxFit.cover)),
                         ),
                   onTap: () {
@@ -196,7 +189,10 @@ class Header extends StatelessWidget {
                     ),
                     Text(
                       'search places',
-                      style: TextStyle(fontSize: 15, color: Colors.blueGrey[700], fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.blueGrey[700],
+                          fontWeight: FontWeight.w500),
                     ).tr(),
                   ],
                 ),
@@ -213,3 +209,14 @@ class Header extends StatelessWidget {
   }
 }
 
+class SubMenu extends StatelessWidget {
+  const SubMenu({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+              padding: EdgeInsets.all(20),
+              child: SubmenuWidget(),
+            );
+  }
+}

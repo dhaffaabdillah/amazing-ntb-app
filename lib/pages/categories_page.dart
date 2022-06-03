@@ -25,13 +25,13 @@ import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/language.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class CategoriesPage extends StatefulWidget {
+  const CategoriesPage({Key? key}) : super(key: key);
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _CategoriesPageState createState() => _CategoriesPageState();
 }
 
-class _ProfilePageState extends State<ProfilePage>
+class _CategoriesPageState extends State<CategoriesPage>
     with AutomaticKeepAliveClientMixin {
   openAboutDialog() {
     final sb = context.read<SignInBloc>();
@@ -61,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage>
     final p = context.watch<ProductBloc>();
     return Scaffold(
         appBar: AppBar(
-          title: Text('profile').tr(),
+          title: Text('Categories').tr(),
           centerTitle: false,
           actions: [
             IconButton(
@@ -72,98 +72,91 @@ class _ProfilePageState extends State<ProfilePage>
         body: ListView(
           padding: EdgeInsets.fromLTRB(15, 20, 15, 50),
           children: [
-            sb.isSignedIn == false
-                ? GuestUserUI()
-                : sb.statusSeller == 2 && sb.isSignedIn == true
-                    ? UserUI()
-                    : sb.statusSeller == 0 && sb.isSignedIn == true
-                        ? UserUI()
-                        : SellerUI(),
 
             Text(
-              "general setting",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              "Categories",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
             ).tr(),
 
             SizedBox(
               height: 15,
             ),
+
             ListTile(
-              title: Text('get notifications', style: _textStyle).tr(),
+              title: Text('Hotel', style: _textStyle).tr(),
               leading: Container(
-                height: 30,
-                width: 30,
+                height: 50,
+                width: 50,
                 decoration: BoxDecoration(
-                    color: Colors.deepPurpleAccent,
+                    color: Color.fromARGB(255, 184, 1, 62),
                     borderRadius: BorderRadius.circular(5)),
-                child: Icon(Feather.bell, size: 20, color: Colors.white),
+                child: Icon(LineIcons.hotel, size: 40, color: Colors.white),
               ),
-              trailing: Switch(
-                  activeColor: Theme.of(context).primaryColor,
-                  value: context.watch<NotificationBloc>().subscribed!,
-                  onChanged: (bool) {
-                    context.read<NotificationBloc>().fcmSubscribe(bool);
-                  }),
+              trailing: Icon(
+                Feather.chevron_right,
+                size: 40,
+              ),
+              // onTap: () => nextScreenPopup(context, LanguagePopup()),
             ),
             Divider(
               height: 5,
             ),
 
             ListTile(
-              title: Text('language', style: _textStyle).tr(),
+              title: Text('Beach', style: _textStyle).tr(),
               leading: Container(
-                height: 30,
-                width: 30,
+                height: 50,
+                width: 50,
                 decoration: BoxDecoration(
                     color: Colors.pinkAccent,
                     borderRadius: BorderRadius.circular(5)),
-                child: Icon(Feather.globe, size: 20, color: Colors.white),
+                child: Icon(LineIcons.umbrellaBeach, size: 40, color: Colors.white),
               ),
               trailing: Icon(
                 Feather.chevron_right,
-                size: 20,
+                size: 40,
               ),
-              onTap: () => nextScreenPopup(context, LanguagePopup()),
+              // onTap: () => nextScreenPopup(context, LanguagePopup()),
             ),
             Divider(
               height: 5,
             ),
 
             ListTile(
-              title: Text('contact us', style: _textStyle).tr(),
+              title: Text('Landmark', style: _textStyle).tr(),
               leading: Container(
-                height: 30,
-                width: 30,
+                height: 50,
+                width: 50,
                 decoration: BoxDecoration(
                     color: Colors.blueAccent,
                     borderRadius: BorderRadius.circular(5)),
-                child: Icon(Feather.mail, size: 20, color: Colors.white),
+                child: Icon(LineIcons.mapMarker, size: 40, color: Colors.white),
               ),
               trailing: Icon(
                 Feather.chevron_right,
-                size: 20,
+                size: 40,
               ),
-              onTap: () async => await AppService().openEmailSupport(context),
+              // onTap: () async => await AppService().openEmailSupport(context),
             ),
             Divider(
               height: 5,
             ),
 
             ListTile(
-              title: Text('rate this app', style: _textStyle).tr(),
+              title: Text('Food', style: _textStyle).tr(),
               leading: Container(
-                height: 30,
-                width: 30,
+                height: 50,
+                width: 50,
                 decoration: BoxDecoration(
                     color: Colors.orangeAccent,
                     borderRadius: BorderRadius.circular(5)),
-                child: Icon(Feather.star, size: 20, color: Colors.white),
+                child: Icon(FlutterIcons.food_fork_drink_mco, size: 40, color: Colors.white),
               ),
               trailing: Icon(
                 Feather.chevron_right,
-                size: 20,
+                size: 40,
               ),
-              onTap: () async => AppService().launchAppReview(context),
+              // onTap: () async => AppService().launchAppReview(context),
             ),
 
             Divider(
@@ -171,42 +164,42 @@ class _ProfilePageState extends State<ProfilePage>
             ),
 
             ListTile(
-              title: Text('privacy policy', style: _textStyle).tr(),
+              title: Text('Health', style: _textStyle).tr(),
               leading: Container(
-                height: 30,
-                width: 30,
+                height: 50,
+                width: 50,
                 decoration: BoxDecoration(
                     color: Colors.redAccent,
                     borderRadius: BorderRadius.circular(5)),
-                child: Icon(Feather.lock, size: 20, color: Colors.white),
+                child: Icon(Icons.local_hospital_rounded, size: 40, color: Colors.white),
               ),
               trailing: Icon(
                 Feather.chevron_right,
-                size: 20,
+                size: 40,
               ),
-              onTap: () => AppService()
-                  .openLinkWithCustomTab(context, Config().privacyPolicyUrl),
+              // onTap: () => AppService()
+              //     .openLinkWithCustomTab(context, Config().privacyPolicyUrl),
             ),
             Divider(
               height: 5,
             ),
 
             ListTile(
-              title: Text('about us', style: _textStyle).tr(),
+              title: Text('Bussiness', style: _textStyle).tr(),
               leading: Container(
-                height: 30,
-                width: 30,
+                height: 50,
+                width: 50,
                 decoration: BoxDecoration(
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(5)),
-                child: Icon(Feather.info, size: 20, color: Colors.white),
+                child: Icon(Feather.dollar_sign , size: 40, color: Colors.white),
               ),
               trailing: Icon(
                 Feather.chevron_right,
-                size: 20,
+                size: 40,
               ),
-              onTap: () => AppService()
-                  .openLinkWithCustomTab(context, Config().yourWebsiteUrl),
+              // onTap: () => AppService()
+              //     .openLinkWithCustomTab(context, Config().yourWebsiteUrl),
             ),
 
             Divider(
@@ -214,21 +207,21 @@ class _ProfilePageState extends State<ProfilePage>
             ),
 
             ListTile(
-              title: Text('facebook', style: _textStyle).tr(),
+              title: Text('Tourism', style: _textStyle).tr(),
               leading: Container(
-                height: 30,
-                width: 30,
+                height: 50,
+                width: 50,
                 decoration: BoxDecoration(
                     color: Colors.indigo,
                     borderRadius: BorderRadius.circular(5)),
-                child: Icon(Feather.facebook, size: 20, color: Colors.white),
+                child: Icon(Feather.compass, size: 40, color: Colors.white),
               ),
               trailing: Icon(
                 Feather.chevron_right,
-                size: 20,
+                size: 40,
               ),
-              onTap: () =>
-                  AppService().openLink(context, Config().facebookPageUrl),
+              // onTap: () =>
+              //     AppService().openLink(context, Config().facebookPageUrl),
             ),
 
             Divider(
@@ -236,21 +229,21 @@ class _ProfilePageState extends State<ProfilePage>
             ),
 
             ListTile(
-              title: Text('youtube', style: _textStyle).tr(),
+              title: Text('Transportation', style: _textStyle).tr(),
               leading: Container(
-                height: 30,
-                width: 30,
+                height: 50,
+                width: 50,
                 decoration: BoxDecoration(
                     color: Colors.redAccent,
                     borderRadius: BorderRadius.circular(5)),
-                child: Icon(Feather.youtube, size: 20, color: Colors.white),
+                child: Icon(LineIcons.car , size: 40, color: Colors.white),
               ),
               trailing: Icon(
                 Feather.chevron_right,
-                size: 20,
+                size: 40,
               ),
-              onTap: () =>
-                  AppService().openLink(context, Config().youtubeChannelUrl),
+              // onTap: () =>
+              //     AppService().openLink(context, Config().youtubeChannelUrl),
             ),
 
             // Divider(height: 10,),
@@ -322,241 +315,7 @@ class GuestUserUI extends StatelessWidget {
   }
 }
 
-class SellerUI extends StatelessWidget {
-  // final Product p;
-  const SellerUI({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    final sb = context.watch<SignInBloc>();
-    // final p = context.watch<ProductBloc>();
-    TextStyle _textStyle = TextStyle(
-        fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[900]);
-    return Column(
-      children: [
-        Container(
-          height: 200,
-          child: Column(
-            children: [
-              CircleAvatar(
-                  radius: 60,
-                  backgroundColor: Colors.grey[300],
-                  backgroundImage: CachedNetworkImageProvider(sb.imageUrl!)),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                sb.name!,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: -0.6,
-                    wordSpacing: 2),
-              )
-            ],
-          ),
-        ),
-        ListTile(
-          title: Text(
-            sb.email!,
-            style: _textStyle,
-          ),
-          leading: Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(5)),
-            child: Icon(Feather.mail, size: 20, color: Colors.white),
-          ),
-        ),
-        Divider(
-          height: 5,
-        ),
-        ListTile(
-          title: Text(
-            sb.joiningDate!,
-            style: _textStyle,
-          ),
-          leading: Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-                color: Colors.green, borderRadius: BorderRadius.circular(5)),
-            child: Icon(LineIcons.timesCircle, size: 20, color: Colors.white),
-          ),
-        ),
-        Divider(
-          height: 5,
-        ),
-        ListTile(
-          title: Text('My Community Reports', style: _textStyle,).tr(),
-          leading: Container(
-              height: 30, 
-              width: 30,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Icon(Feather.alert_circle, size: 20, color: Colors.white,),
-            ),
-            trailing: Icon(
-              Feather.chevron_right, size: 20,
-              ),
-              onTap: () => nextScreen(context, MyReport(title: 'my reports', email: sb.email, color: Colors.amber)),
-        ),
-        Divider(
-          height: 5,
-        ),
-        ListTile(
-          title: Text(
-            'my products',
-            style: _textStyle,
-          ).tr(),
-          leading: Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-                color: Colors.purpleAccent,
-                borderRadius: BorderRadius.circular(5)),
-            child: Icon(Feather.inbox, size: 20, color: Colors.white),
-          ),
-          trailing: Icon(
-            Feather.chevron_right,
-            size: 20,
-          ),
-          // onTap: () => nextScreen(context, MyProduct(data: p.authorId,)),
-          onTap: () => nextScreen(
-              context,
-              MyProductPages(
-                  title: 'my products', email: sb.email, color: Colors.amber)),
-        ),
-        Divider(
-          height: 5,
-        ),
-        ListTile(
-          title: Text(
-            'add a product',
-            style: _textStyle,
-          ).tr(),
-          leading: Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-                color: Colors.purpleAccent,
-                borderRadius: BorderRadius.circular(5)),
-            child: Icon(Feather.inbox, size: 20, color: Colors.white),
-          ),
-          trailing: Icon(
-            Feather.chevron_right,
-            size: 20,
-          ),
-          // onTap: () => nextScreen(context, MyProduct(data: p.authorId,)),
-          onTap: () => nextScreen(
-              context,
-              UploadProduct()),
-        ),
-        Divider(
-          height: 5,
-        ),
-        ListTile(
-            title: Text(
-              'edit profile',
-              style: _textStyle,
-            ).tr(),
-            leading: Container(
-              height: 30,
-              width: 30,
-              decoration: BoxDecoration(
-                  color: Colors.purpleAccent,
-                  borderRadius: BorderRadius.circular(5)),
-              child: Icon(Feather.edit_3, size: 20, color: Colors.white),
-            ),
-            trailing: Icon(
-              Feather.chevron_right,
-              size: 20,
-            ),
-            onTap: () => nextScreen(
-                context, EditProfile(name: sb.name, imageUrl: sb.imageUrl))),
-        Divider(
-          height: 5,
-        ),
-        ListTile(
-          title: Text(
-            'logout',
-            style: _textStyle,
-          ).tr(),
-          leading: Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-                color: Colors.redAccent,
-                borderRadius: BorderRadius.circular(5)),
-            child: Icon(Feather.log_out, size: 20, color: Colors.white),
-          ),
-          trailing: Icon(
-            Feather.chevron_right,
-            size: 20,
-          ),
-          onTap: () => openLogoutDialog(context),
-        ),
-        SizedBox(
-          height: 15,
-        )
-      ],
-    );
-  }
 
-  void openLogoutDialog(context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('logout title').tr(),
-            actions: [
-              TextButton(
-                child: Text('no').tr(),
-                onPressed: () => Navigator.pop(context),
-              ),
-              TextButton(
-                child: Text('yes').tr(),
-                onPressed: () async {
-                  Navigator.pop(context);
-                  await context
-                      .read<SignInBloc>()
-                      .userSignout()
-                      .then((value) =>
-                          context.read<SignInBloc>().afterUserSignOut())
-                      .then((value) =>
-                          nextScreenCloseOthers(context, SignInPage()));
-                },
-              )
-            ],
-          );
-        });
-  }
-
-  // Future handleUpdateData() async {
-  //   final sb = context.read<SignInBloc>();
-  //   await AppService().checkInternet().then((hasInternet) async {
-  //     if (hasInternet == false) {
-  //       openSnacbar(scaffoldKey, 'no internet'.tr());
-  //     } else {
-  //       if (formKey.currentState!.validate()) {
-  //         formKey.currentState!.save();
-  //         setState(() => loading = true);
-
-  //         await sb.updateToSeller(2).then((value) {
-  //           openSnacbar(scaffoldKey, 'request as seller sent'.tr());
-  //           setState(() => loading = false);
-  //         });
-          
-  //       }
-  //     }
-  //   });
-  // }
-
-  
-}
 
 class UserUI extends StatelessWidget {
   const UserUI({Key? key}) : super(key: key);

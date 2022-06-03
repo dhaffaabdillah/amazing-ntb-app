@@ -90,26 +90,6 @@ class _UploadProductState extends State<UploadProduct> {
         if (formKey.currentState!.validate()) {
           formKey.currentState!.save();
           setState(() => loading = true);
-          // if (imageFile2 != null) {
-          //   await getDate().then((_) async {
-          //     await uploadImage()
-          //         .then((value) => uploadImage2())
-          //         .then((value) => saveToDatabase());
-          //     setState(() => uploadStarted = false);
-          //     openSnacbar(scaffoldKey, 'UploadSuccessfully');
-          //     clearTextFeilds();
-          //   });
-          // } else if (imageFile3 != null && imageFile2 != null) {
-          //   await getDate().then((_) async {
-          //     await uploadImage()
-          //         .then((value) => uploadImage2())
-          //         .then((value) => uploadImage3())
-          //         .then((value) => saveToDatabase());
-          //     setState(() => uploadStarted = false);
-          //     openSnacbar(scaffoldKey, 'UploadSuccessfully');
-          //     clearTextFeilds();
-          //   });
-          // } else {
           await getDate().then((_) async {
             await uploadImage()
                 .then((value) => uploadImage2())
@@ -117,23 +97,8 @@ class _UploadProductState extends State<UploadProduct> {
                 .then((value) => saveToDatabase());
             // setState(() => uploadStarted = false);
             openSnacbar(scaffoldKey, 'Upload Successfully');
-            // openDialog(context, 'Upload Successfully', '');
             clearTextFeilds();
           });
-          // }
-          // imageFile1 != null
-          //     ? await uploadImage()
-          //         .then((value) => {saveToDatabase()})
-          //         .then((value) {
-          //         openSnacbar(scaffoldKey, 'upload successfully'.tr());
-          //         setState(() => loading = false);
-          //       })
-          //     : await saveToDatabase()
-          //         .then((value) => {uploadImage()})
-          //         .then((value) {
-          //         openSnacbar(scaffoldKey, 'upload successfully'.tr());
-          //         setState(() => loading = false);
-          //       });
         }
       }
     });
