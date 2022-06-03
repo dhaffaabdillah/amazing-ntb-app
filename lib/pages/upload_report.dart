@@ -77,9 +77,7 @@ class _UploadReportState extends State<UploadReport> {
       if (hasInternet == false) {
         openSnacbar(scaffoldKey, 'no internet'.tr());
       } else if (hasInternet == true && titleCtrl == null) {
-        openSnacbar(scaffoldKey, "Please fill product name");
-      } else if (hasInternet == true && phoneCtrl == null) {
-        openSnacbar(scaffoldKey, "Please fill your contact number");
+        openSnacbar(scaffoldKey, "Please fill title name");
       } else if (hasInternet == true && descriptionCtrl == null) {
         openSnacbar(scaffoldKey, "Please fill your product detail");
       } else {
@@ -248,6 +246,7 @@ class _UploadReportState extends State<UploadReport> {
     String time = _timestamp.toString();
     final SharedPreferences sp = await SharedPreferences.getInstance();
     _reportData = {
+      'report_id' : getBaseRandomString(8),
       'report_title': titleCtrl.text,
       'report_description': descriptionCtrl.text,
       'author': currentUser!.email,
@@ -472,7 +471,7 @@ class _UploadReportState extends State<UploadReport> {
                         )
                       : TextButton(
                           child: Text(
-                            'Upload Product',
+                            'Upload Report',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,

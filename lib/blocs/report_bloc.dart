@@ -7,10 +7,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travel_hour/models/product.dart';
+import 'package:travel_hour/models/reports.dart';
 
-class ProductBloc extends ChangeNotifier {
-  List<Product> _data = [];
-  List<Product> get data => _data;
+class ReportBloc extends ChangeNotifier {
+  List<ReportModels> _data = [];
+  List<ReportModels> get data => _data;
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final User? currentUser = FirebaseAuth.instance.currentUser;
@@ -64,13 +65,13 @@ class ProductBloc extends ChangeNotifier {
 
     List<DocumentSnapshot> _snap = [];
     _snap.addAll(rawData.docs);
-    _data = _snap.map((e) => Product.fromFirestore(e)).toList();
+    _data = _snap.map((e) => ReportModels.fromFirestore(e)).toList();
     notifyListeners();
   }
 
   Future saveToDatabase() async {
     final DocumentReference ref =
-        firestore.collection('product').doc(_timestamp);
+        firestore.collection('reports').doc(_timestamp);
     _productData = {
       'productName': productNameCtrl.text,
       'productDetail': productDetailCtrl.text,

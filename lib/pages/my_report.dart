@@ -6,10 +6,11 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
-import 'package:travel_hour/models/product.dart';
+import 'package:travel_hour/models/reports.dart';
 import 'package:travel_hour/pages/Product_details.dart';
 import 'package:travel_hour/pages/search.dart';
 import 'package:travel_hour/pages/search_product.dart';
+import 'package:travel_hour/pages/search_report_page.dart';
 import 'package:travel_hour/pages/update_product.dart';
 import 'package:travel_hour/pages/update_products.dart';
 import 'package:travel_hour/pages/upload_report.dart';
@@ -35,13 +36,13 @@ class _MyReportState extends State<MyReport> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final User? currentUser = FirebaseAuth.instance.currentUser;
   final FirebaseAuth auth = FirebaseAuth.instance;
-  final String collectionName = 'product';
+  final String collectionName = 'reports';
   final sb = SignInBloc;
   ScrollController? controller;
   DocumentSnapshot? _lastVisible;
   late bool _isLoading;
   List<DocumentSnapshot> _snap = [];
-  List<Product> _data = [];
+  List<ReportModels> _data = [];
   late bool _descending;
   late String _orderBy;
 
@@ -70,7 +71,7 @@ class _MyReportState extends State<MyReport> {
     if (_lastVisible == null)
       data = await firestore
           .collection(collectionName)
-          .where("email", isEqualTo: currentUser!.email.toString())
+          .where("author", isEqualTo: currentUser!.email.toString())
           // .orderBy(_orderBy, descending: _descending)
           // .limit(5)
           .get();
@@ -78,7 +79,7 @@ class _MyReportState extends State<MyReport> {
       data = await firestore
           .collection(collectionName)
           // .orderBy(_orderBy, descending: _descending)
-          .where("email", isEqualTo: currentUser!.email.toString())
+          .where("author", isEqualTo: currentUser!.email.toString())
           // .startAfter([_lastVisible![_orderBy]])
           // .limit(5)
           .get();
@@ -89,7 +90,7 @@ class _MyReportState extends State<MyReport> {
         setState(() {
           _isLoading = false;
           _snap.addAll(data.docs);
-          _data = _snap.map((e) => Product.fromFirestore(e)).toList();
+          _data = _snap.map((e) => ReportModels.fromFirestore(e)).toList();
         });
       }
     } else {
@@ -122,7 +123,7 @@ class _MyReportState extends State<MyReport> {
       appBar: AppBar(
         title: Text("My Reports"),
         actions: [
-          IconButton(onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => SearchProductPage())), 
+          IconButton(onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => SearchReportPage())), 
           icon: Icon(Icons.search)),
           IconButton(onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => UploadReport())),
           icon: Icon(Icons.add_a_photo)),
@@ -177,7 +178,7 @@ class _MyReportState extends State<MyReport> {
 }
 
 class _ListItem extends StatelessWidget {
-  final Product d;
+  final ReportModels d;
   final tag;
   const _ListItem({Key? key, required this.d, required this.tag})
       : super(key: key);
@@ -219,42 +220,12 @@ class _ListItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        d.productName!,
+                        d.report_title!,
                         maxLines: 1,
                         style: TextStyle(
                             fontSize: 17, fontWeight: FontWeight.w600),
                       ),
-                      Row(
-                        children: [
-                          Padding(padding: EdgeInsets.only(left: 5)),
-                          
-                          Text(CurrencyFormat.convertToIdr(int.parse(d.price!), 0), style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),)
-                        ],
-                      ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Feather.phone_call,
-                            size: 16,
-                            color: Colors.grey,
-                          ),
-                          SizedBox(
-                            width: 3,
-                          ),
-                          Expanded(
-                            child: Text(
-                              d.phone!,
-                              maxLines: 1,
-                              style: TextStyle(
-                                  fontSize: 14, color: Colors.grey[700]),
-                            ),
-                          ),
-                        ],
-                      ),
+                      
                       SizedBox(
                         height: 5,
                       ),
@@ -288,9 +259,9 @@ class _ListItem extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10)),
                             child: Icon(Icons.edit,
                                 size: 16, color: Colors.grey[800])),
-                        onTap: () {
-                          nextScreen(context, UpdateProduct(productData: d));
-                        },
+                        // onTap: () {
+                        //   nextScreen(context, UpdateProduct(productData: d));
+                        // },
                       ),
                     ],
                   ),
@@ -298,7 +269,7 @@ class _ListItem extends StatelessWidget {
               ],
             )),
       ),
-      onTap: () => nextScreen(context, ProductDetail(data: d, tag: tag)),
+      // onTap: () => nextScreen(context, ReportDetail(data: d, tag: tag)),
     );
   }
 }

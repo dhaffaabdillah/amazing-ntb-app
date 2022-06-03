@@ -51,7 +51,9 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
         .then((value) => context.read<SpecialStateOneBloc>().getData())
         .then((value) => context.read<SpecialStateTwoBloc>().getData())
         .then((value) => context.read<RecommandedPlacesBloc>().getData())
-        .then((value) => context.read<ProductBloc>().getData());
+        .then((value) => context.read<ProductBloc>().getData())
+        // .then((value) => context.read<Report>())
+        ;
       });
   }
 
