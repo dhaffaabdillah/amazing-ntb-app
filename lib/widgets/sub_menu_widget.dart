@@ -3,8 +3,10 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:travel_hour/models/place.dart';
 import 'package:travel_hour/pages/comments.dart';
+import 'package:travel_hour/pages/food_page.dart';
 import 'package:travel_hour/pages/guide.dart';
 import 'package:travel_hour/pages/hotel.dart';
+import 'package:travel_hour/pages/hotel_page.dart';
 import 'package:travel_hour/pages/more_places.dart';
 import 'package:travel_hour/pages/restaurant.dart';
 import 'package:travel_hour/pages/search_product.dart';
@@ -46,7 +48,7 @@ class SubmenuWidget extends StatelessWidget {
                                 offset: Offset(3, 3),
                                 blurRadius: 0.6)
                           ]),
-                      child: IconButton(icon: Icon(LineIcons.hotel,), tooltip: "Hotel" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 40,onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => SearchProductPage()))),
+                      child: IconButton(icon: Icon(LineIcons.hotel,), tooltip: "Hotel" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 40,onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => HotelPages()))),
                     ),
 
                     Container(
@@ -62,7 +64,7 @@ class SubmenuWidget extends StatelessWidget {
                                 offset: Offset(3, 3),
                                 blurRadius: 0.6)
                           ]),
-                      child: IconButton(icon: Icon(Icons.fastfood_outlined), tooltip: "Food" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 40,onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => SearchProductPage()))),
+                      child: IconButton(icon: Icon(Icons.fastfood_outlined), tooltip: "Food" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 40,onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => FoodPage()))),
                     ),
 
                     Container(
@@ -96,7 +98,7 @@ class SubmenuWidget extends StatelessWidget {
                                 blurRadius: 0.2)
                           ]),
                       child:
-                      IconButton(icon: Icon(Icons.move_down_rounded), tooltip: "Beach" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 40,onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => SearchProductPage()))),
+                      IconButton(icon: Icon(Icons.move_down_rounded), tooltip: "Category" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 40,onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => HotelPages()))),
 
                     ),
                   ]
