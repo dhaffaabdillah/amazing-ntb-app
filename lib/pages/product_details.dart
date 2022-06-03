@@ -187,41 +187,7 @@ class _ProductDetailState extends State<ProductDetail> {
                 fontSize: 17,
               ),
             ),
-
-            Container(
-              alignment: Alignment.bottomCenter,
-              // color: Color.fromARGB(255, 43, 139, 92),
-              height: 45,
-              // width: 8000,
-              // child: TextButton(
-              //         child: Text(
-              //           'Chat Seller',
-              //           style: TextStyle(
-              //               color: Colors.white,
-              //               fontSize: 16,
-              //               fontWeight: FontWeight.w600),
-              //         ),
-              //         onPressed: ()  {
-              //           AppService().openLink(context, Config().whatsappAPI + widget.data!.phone!);
-              //         })
-              child: TextButton.icon(
-                  onPressed: () {
-                    AppService().openLink(
-                        context, Config().whatsappAPI + widget.data!.phone!);
-                  },
-                  style: TextButton.styleFrom(
-                    
-                      textStyle: TextStyle(color: Colors.white),
-                      backgroundColor: Color.fromARGB(255, 109, 178, 53),
-                      elevation: 7,
-                      shape:RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24.0),
-                      ), 
-                    ),
-                  icon: Icon(Icons.whatsapp, color: Colors.white,),
-                  label: Text('Contact Seller', style: TextStyle(color: Colors.white),)),
-            ),
-
+            
             // Padding(
             //   padding: EdgeInsets.only(left: 20, right: 0, bottom: 40),
             //   child: OtherPlaces(
@@ -232,6 +198,16 @@ class _ProductDetailState extends State<ProductDetail> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+             AppService().openLink(
+                        context, Config().whatsappAPI + widget.data!.phone!);
+          },
+          icon: const Icon(Icons.whatsapp, color: Colors.white,),
+          label: Text('Contact Seller', style: TextStyle(color: Colors.white),),
+          backgroundColor: Color.fromARGB(255, 109, 178, 53),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
