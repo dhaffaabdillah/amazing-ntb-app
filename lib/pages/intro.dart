@@ -1,5 +1,6 @@
 import 'package:carousel_pro_nullsafety/carousel_pro_nullsafety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/pages/home.dart';
@@ -24,9 +25,9 @@ class _IntroPageState extends State<IntroPage> {
       body: Column(
         children: <Widget>[
           Container(
-            height: h * 0.82,
+            height: h,
             child: Carousel(
-              dotVerticalPadding: h * 0.00,
+              dotVerticalPadding: h * 0.45,
               dotColor: Colors.grey,
               dotIncreasedColor: Colors.blueAccent,
               autoplay: false,
@@ -34,65 +35,61 @@ class _IntroPageState extends State<IntroPage> {
               dotSize: 6,
               dotSpacing: 15,
               images: [
-                IntroView(title: 'intro-title1', description: 'intro-description1', image: Config().introImage1),
-                IntroView(title: 'intro-title2', description: 'intro-description2', image: Config().introImage2),
-                IntroView(title: 'intro-title3', description: 'intro-description3', image: Config().introImage3),
+                IntroView(smallIntro: 'small-intro', BigIntro: 'big-intro', boldIntro: 'intro-bold1', description: 'intro-description1', image: Config().splashIcon, bgImage: Config().introImage1), 
+                IntroView(smallIntro: 'small-intro', BigIntro: 'big-intro', boldIntro: 'intro-bold2', description: 'intro-description2', image: Config().splashIcon, bgImage: Config().introImage2),
+                IntroView(smallIntro: 'small-intro', BigIntro: 'big-intro', boldIntro: 'intro-bold3', description: 'intro-description3', image: Config().splashIcon, bgImage: Config().introImage2),
               ],
             ),
           ),
-          SizedBox(
-            height: 30,
-          ),
-          Container(
-            height: 50,
-            width: w * 0.70,
+        ],
+      ),
+      floatingActionButton: Container(
+          width: w * 0.30,
             decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(25),
-                ),
-            child: TextButton(
-              style: ButtonStyle(
-                shape: MaterialStateProperty.resolveWith((states) => RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25)))
-              ),
-              child: Text(
-                'get started',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600),
-              ).tr(),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.white.withOpacity(0.5),
+                    spreadRadius: 4,
+                    blurRadius: 6,
+                    offset: Offset(0, 2), // changes position of shadow
+                  ),
+                ],
+            ),
+            child: IconButton(
+              iconSize: 40,
+              color: Colors.black,
+              icon: Icon(Icons.arrow_right_alt_rounded),
               onPressed: () {
                 nextScreenReplace(context, HomePage());
               },
             ),
-          ),
-          SizedBox(
-            height: 0.15,
-          ),
-        ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
-  
-
-
-  
-
   
 }
 
 
 class IntroView extends StatelessWidget {
-  final String title;
+  final String smallIntro, BigIntro, boldIntro;
   final String description;
-  final String image;
-  const IntroView({Key? key, required this.title, required this.description, required this.image}) : super(key: key);
-
+  final String image, bgImage;
+  const IntroView({Key? key, required this.smallIntro, required this.BigIntro, required this.boldIntro, required this.description, required this.image, required this.bgImage}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
-    return Padding(
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(bgImage),
+          fit: BoxFit.cover,
+          repeat: ImageRepeat.noRepeat,
+        ),
+      ),
       padding: const EdgeInsets.all(10.0),
       child: Column(
         children: <Widget>[
@@ -101,51 +98,72 @@ class IntroView extends StatelessWidget {
           ),
           Container(
             alignment: Alignment.center,
-            height: h * 0.38,
+            height: 100,
             child: Image(
               image: AssetImage(image),
               fit: BoxFit.contain,
             ),
           ),
-          SizedBox(
-            height: 25,
-          ),
           
           Padding(
             padding: const EdgeInsets.only(left: 25, right: 25),
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 22, 
-                fontWeight: FontWeight.w900, 
-                color: Colors.grey[800],
-                letterSpacing: - 0.7,
-                wordSpacing: 1
-              ),
-            ).tr(),
-          ),
-          Container(
-                    margin: EdgeInsets.only(top: 10, bottom: 10),
-                    height: 3,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.circular(40)),
+       
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  smallIntro,
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold, 
+                    color: Colors.black,
+                    letterSpacing: - 0.7,
+                    wordSpacing: 1
                   ),
+                ).tr(),
+
+                Text(
+                  BigIntro,
+                  style: TextStyle(
+                    fontSize: 34,
+                    height: 1,
+                    fontWeight: FontWeight.bold, 
+                    color: Colors.black,
+                    letterSpacing: - 0.7,
+                    wordSpacing: 1
+                  ),
+                ).tr()
+              ]
+            ),
+          ),
+  
           SizedBox(
-            height: 15,
+            height: 50,
           ),
           
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Text(
-              description,
+            child: RichText(
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey[700]),
-            ).tr(),
+              text: TextSpan(
+                children: <TextSpan>[
+                   TextSpan(
+                      text: description.tr(),
+                      style: TextStyle(
+                          fontSize: 34,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.grey[700]),
+                    ),
+                    TextSpan(
+                      text: boldIntro.tr(), style: TextStyle(
+                          fontSize: 34,
+                          fontWeight: FontWeight.w700,
+                          color: Color.fromARGB(255, 132, 159, 234)
+                      )
+                    )
+                ]
+              )
+            ),
           ),
         ],
       ),

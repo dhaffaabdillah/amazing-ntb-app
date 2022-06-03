@@ -41,9 +41,8 @@ class Config {
       'assets/images/destination_map_marker.png';
 
   //Intro images
-  final String introImage1 = 'assets/images/travel6.png';
-  final String introImage2 = 'assets/images/travel1.png';
-  final String introImage3 = 'assets/images/travel5.png';
+  final String introImage1 = 'assets/images/introBG1.png';
+  final String introImage2 = 'assets/images/introBG2.png';
 
   //Language Setup
   final List<String> languages = ['English', 'Spanish', 'Arabic'];
