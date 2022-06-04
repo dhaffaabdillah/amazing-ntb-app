@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:travel_hour/blocs/notification_bloc.dart';
 import 'package:travel_hour/blocs/product_bloc.dart';
 import 'package:travel_hour/blocs/product_bloc2.dart';
+import 'package:travel_hour/blocs/search_product_bloc.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/models/product.dart';
@@ -16,6 +17,7 @@ import 'package:travel_hour/pages/my_report.dart';
 import 'package:travel_hour/pages/notifications.dart';
 import 'package:travel_hour/pages/regist_as_seller.dart';
 import 'package:travel_hour/pages/report.dart';
+import 'package:travel_hour/pages/search_product.dart';
 import 'package:travel_hour/pages/sign_in.dart';
 import 'package:travel_hour/pages/my_product.dart';
 import 'package:travel_hour/pages/upload_product.dart';
@@ -52,8 +54,9 @@ class _CategoriesPageState extends State<CategoriesPage>
   }
 
   TextStyle _textStyle = TextStyle(
-      fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[900]);
-
+      fontSize: 20, fontWeight: FontWeight.w600, color: Colors.grey[900]);
+  TextStyle _subtitle = TextStyle(
+      fontSize: 14, fontWeight: FontWeight.w300, color: Colors.grey[500]);
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -63,16 +66,10 @@ class _CategoriesPageState extends State<CategoriesPage>
         appBar: AppBar(
           title: Text('Categories').tr(),
           centerTitle: false,
-          actions: [
-            IconButton(
-                icon: Icon(LineIcons.bell, size: 25),
-                onPressed: () => nextScreen(context, NotificationsPage()))
-          ],
         ),
         body: ListView(
           padding: EdgeInsets.fromLTRB(15, 20, 15, 50),
           children: [
-
             Text(
               "Categories",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
@@ -82,190 +79,159 @@ class _CategoriesPageState extends State<CategoriesPage>
               height: 15,
             ),
 
-            ListTile(
-              title: Text('Hotel', style: _textStyle).tr(),
-              leading: Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 184, 1, 62),
-                    borderRadius: BorderRadius.circular(5)),
-                child: Icon(LineIcons.hotel, size: 40, color: Colors.white),
+            Container(
+              padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
+              child: ListTile(
+                title: Text('Beach', style: _textStyle).tr(),
+                subtitle: Text("20 Destinations", style: _subtitle),
+                tileColor: Colors.grey[200],
+                selectedColor: Colors.blue[250],
+                selectedTileColor: Colors.blue[250],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                leading: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      color: Colors.blue[300],
+                      borderRadius: BorderRadius.circular(100)),
+                  child: Icon(LineIcons.hotel, size: 40, color: Colors.white),
+                ),
+                trailing: Icon(
+                  Feather.chevron_right,
+                  size: 20,
+                ),
+                onTap: () => nextScreen(context, SearchProductPage()),
               ),
-              trailing: Icon(
-                Feather.chevron_right,
-                size: 40,
-              ),
-              // onTap: () => nextScreenPopup(context, LanguagePopup()),
-            ),
-            Divider(
-              height: 5,
-            ),
-
-            ListTile(
-              title: Text('Beach', style: _textStyle).tr(),
-              leading: Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                    color: Colors.pinkAccent,
-                    borderRadius: BorderRadius.circular(5)),
-                child: Icon(LineIcons.umbrellaBeach, size: 40, color: Colors.white),
-              ),
-              trailing: Icon(
-                Feather.chevron_right,
-                size: 40,
-              ),
-              // onTap: () => nextScreenPopup(context, LanguagePopup()),
-            ),
-            Divider(
-              height: 5,
             ),
 
-            ListTile(
-              title: Text('Landmark', style: _textStyle).tr(),
-              leading: Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius: BorderRadius.circular(5)),
-                child: Icon(LineIcons.mapMarker, size: 40, color: Colors.white),
+            Container(
+              padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
+              child: ListTile(
+                title: Text('Food', style: _textStyle).tr(),
+                subtitle: Text("20 Destinations", style: _subtitle),
+                tileColor: Colors.grey[200],
+                selectedColor: Colors.blue[250],
+                selectedTileColor: Colors.blue[250],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                leading: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      color: Colors.blue[300],
+                      borderRadius: BorderRadius.circular(100)),
+                  child: Icon(FlutterIcons.food_fork_drink_mco,
+                    size: 40, color: Colors.white),
+                ),
+                trailing: Icon(
+                  Feather.chevron_right,
+                  size: 20,
+                ),
+                onTap: () => nextScreen(context, SearchProductPage()),
               ),
-              trailing: Icon(
-                Feather.chevron_right,
-                size: 40,
-              ),
-              // onTap: () async => await AppService().openEmailSupport(context),
             ),
-            Divider(
-              height: 5,
-            ),
-
-            ListTile(
-              title: Text('Food', style: _textStyle).tr(),
-              leading: Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                    color: Colors.orangeAccent,
-                    borderRadius: BorderRadius.circular(5)),
-                child: Icon(FlutterIcons.food_fork_drink_mco, size: 40, color: Colors.white),
+            Container(
+              padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
+              child: ListTile(
+                title: Text('Health', style: _textStyle).tr(),
+                subtitle: Text("20 Destinations", style: _subtitle),
+                tileColor: Colors.grey[200],
+                selectedColor: Colors.blue[250],
+                selectedTileColor: Colors.blue[250],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                leading: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      color: Colors.blue[300],
+                      borderRadius: BorderRadius.circular(100)),
+                      child: Icon(Icons.local_hospital_rounded,
+                    size: 40, color: Colors.white),
+                ),
+                trailing: Icon(
+                  Feather.chevron_right,
+                  size: 20,
+                ),
+                onTap: () => nextScreen(context, SearchProductPage()),
               ),
-              trailing: Icon(
-                Feather.chevron_right,
-                size: 40,
-              ),
-              // onTap: () async => AppService().launchAppReview(context),
             ),
-
-            Divider(
-              height: 5,
-            ),
-
-            ListTile(
-              title: Text('Health', style: _textStyle).tr(),
-              leading: Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    borderRadius: BorderRadius.circular(5)),
-                child: Icon(Icons.local_hospital_rounded, size: 40, color: Colors.white),
+            Container(
+              padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
+              child: ListTile(
+                title: Text('Business', style: _textStyle).tr(),
+                subtitle: Text("20 Destinations", style: _subtitle),
+                tileColor: Colors.grey[200],
+                selectedColor: Colors.blue[250],
+                selectedTileColor: Colors.blue[250],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                leading: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      color: Colors.blue[300],
+                      borderRadius: BorderRadius.circular(100)),
+                      child: Icon(Feather.dollar_sign, size: 40, color: Colors.white),
+                ),
+                trailing: Icon(
+                  Feather.chevron_right,
+                  size: 20,
+                ),
+                onTap: () => nextScreen(context, SearchProductPage()),
               ),
-              trailing: Icon(
-                Feather.chevron_right,
-                size: 40,
-              ),
-              // onTap: () => AppService()
-              //     .openLinkWithCustomTab(context, Config().privacyPolicyUrl),
             ),
-            Divider(
-              height: 5,
-            ),
-
-            ListTile(
-              title: Text('Bussiness', style: _textStyle).tr(),
-              leading: Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(5)),
-                child: Icon(Feather.dollar_sign , size: 40, color: Colors.white),
+            Container(
+              padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
+              child: ListTile(
+                title: Text('Tourism', style: _textStyle).tr(),
+                subtitle: Text("20 Destinations", style: _subtitle),
+                tileColor: Colors.grey[200],
+                selectedColor: Colors.blue[250],
+                selectedTileColor: Colors.blue[250],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                leading: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      color: Colors.blue[300],
+                      borderRadius: BorderRadius.circular(100)),
+                      child: Icon(Feather.compass, size: 40, color: Colors.white),
+                ),
+                trailing: Icon(
+                  Feather.chevron_right,
+                  size: 20,
+                ),
+                onTap: () => nextScreen(context, SearchProductPage()),
               ),
-              trailing: Icon(
-                Feather.chevron_right,
-                size: 40,
-              ),
-              // onTap: () => AppService()
-              //     .openLinkWithCustomTab(context, Config().yourWebsiteUrl),
             ),
-
-            Divider(
-              height: 10,
-            ),
-
-            ListTile(
-              title: Text('Tourism', style: _textStyle).tr(),
-              leading: Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                    color: Colors.indigo,
-                    borderRadius: BorderRadius.circular(5)),
-                child: Icon(Feather.compass, size: 40, color: Colors.white),
+            Container(
+              padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
+              child: ListTile(
+                title: Text('Transportation', style: _textStyle).tr(),
+                subtitle: Text("20 Destinations", style: _subtitle),
+                tileColor: Colors.grey[200],
+                selectedColor: Colors.blue[250],
+                selectedTileColor: Colors.blue[250],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                leading: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      color: Colors.blue[300],
+                      borderRadius: BorderRadius.circular(100)),
+                      child: Icon(LineIcons.car, size: 40, color: Colors.white),
+                ),
+                trailing: Icon(
+                  Feather.chevron_right,
+                  size: 20,
+                ),
+                onTap: () => nextScreen(context, SearchProductPage()),
               ),
-              trailing: Icon(
-                Feather.chevron_right,
-                size: 40,
-              ),
-              // onTap: () =>
-              //     AppService().openLink(context, Config().facebookPageUrl),
             ),
-
-            Divider(
-              height: 10,
-            ),
-
-            ListTile(
-              title: Text('Transportation', style: _textStyle).tr(),
-              leading: Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    borderRadius: BorderRadius.circular(5)),
-                child: Icon(LineIcons.car , size: 40, color: Colors.white),
-              ),
-              trailing: Icon(
-                Feather.chevron_right,
-                size: 40,
-              ),
-              // onTap: () =>
-              //     AppService().openLink(context, Config().youtubeChannelUrl),
-            ),
-
-            // Divider(height: 10,),
-
-            // ListTile(
-            //   title: Text('buy now', style: _textStyle,).tr(),
-            //   subtitle: Text('buy now subtitle').tr(),
-            //   leading: Container(
-            //     height: 30,
-            //     width: 30,
-            //     decoration: BoxDecoration(
-            //       color: Colors.blueGrey,
-            //       borderRadius: BorderRadius.circular(5)
-            //     ),
-            //     child: Icon(Feather.shopping_cart, size: 20, color: Colors.white),
-            //   ),
-            //   trailing: Icon(Feather.chevron_right, size: 20,),
-            //   onTap: ()async{
-            //     String _url = 'https://codecanyon.net/item/flutter-travel-app-ui-kit-template-travel-hour/24958845';
-            //     AppService().openLinkWithCustomTab(context, _url);
-            //   },
-            // ),
           ],
         ));
   }
@@ -314,8 +280,6 @@ class GuestUserUI extends StatelessWidget {
     );
   }
 }
-
-
 
 class UserUI extends StatelessWidget {
   const UserUI({Key? key}) : super(key: key);
@@ -383,7 +347,7 @@ class UserUI extends StatelessWidget {
         Divider(
           height: 5,
         ),
-        
+
         ListTile(
           title: Text("My Community Reports", style: _textStyle).tr(),
           leading: Container(
@@ -393,13 +357,20 @@ class UserUI extends StatelessWidget {
               color: Colors.red,
               borderRadius: BorderRadius.circular(5),
             ),
-            child: Icon(Feather.alert_circle, size:20, color: Colors.white,
+            child: Icon(
+              Feather.alert_circle,
+              size: 20,
+              color: Colors.white,
             ),
           ),
           trailing: Icon(
-            Feather.chevron_right, size: 20,
+            Feather.chevron_right,
+            size: 20,
           ),
-          onTap: () => nextScreen(context, MyReport(title: 'my reports', email: sb.email, color: Colors.amber)),
+          onTap: () => nextScreen(
+              context,
+              MyReport(
+                  title: 'my reports', email: sb.email, color: Colors.amber)),
         ),
         Divider(
           height: 5,
@@ -516,11 +487,8 @@ class UserUI extends StatelessWidget {
                 child: Text('yes').tr(),
                 onPressed: () async {
                   Navigator.pop(context);
-                  await context
-                      .read<SignInBloc>()
-                      .updateToSeller(2)
-                      .then((value) =>
-                          nextScreenCloseOthers(context, Explore()));
+                  await context.read<SignInBloc>().updateToSeller(2).then(
+                      (value) => nextScreenCloseOthers(context, Explore()));
                 },
               )
             ],

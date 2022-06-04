@@ -12,7 +12,6 @@ import 'package:travel_hour/models/product.dart';
 import 'package:travel_hour/pages/edit_profile.dart';
 import 'package:travel_hour/pages/explore.dart';
 import 'package:travel_hour/pages/more_products.dart';
-import 'package:travel_hour/pages/my_report.dart';
 import 'package:travel_hour/pages/notifications.dart';
 import 'package:travel_hour/pages/regist_as_seller.dart';
 import 'package:travel_hour/pages/report.dart';
@@ -389,12 +388,12 @@ class SellerUI extends StatelessWidget {
           height: 5,
         ),
         ListTile(
-          title: Text('My Community Reports', style: _textStyle,).tr(),
+          title: Text('Report', style: _textStyle,).tr(),
           leading: Container(
               height: 30, 
               width: 30,
               decoration: BoxDecoration(
-                color: Colors.red,
+                color: Colors.greenAccent,
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Icon(Feather.alert_circle, size: 20, color: Colors.white,),
@@ -402,7 +401,7 @@ class SellerUI extends StatelessWidget {
             trailing: Icon(
               Feather.chevron_right, size: 20,
               ),
-              onTap: () => nextScreen(context, MyReport(title: 'my reports', email: sb.email, color: Colors.amber)),
+              onTap: () => nextScreen(context, Report()),
         ),
         Divider(
           height: 5,
@@ -624,28 +623,27 @@ class UserUI extends StatelessWidget {
         Divider(
           height: 5,
         ),
-        
         ListTile(
-          title: Text("My Community Reports", style: _textStyle).tr(),
+          title: Text('Report', style: _textStyle,).tr(),
           leading: Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(5),
+              height: 30, 
+              width: 30,
+              decoration: BoxDecoration(
+                color: Colors.greenAccent,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Icon(Feather.alert_circle, size: 20, color: Colors.white,),
             ),
-            child: Icon(Feather.alert_circle, size:20, color: Colors.white,
-            ),
-          ),
-          trailing: Icon(
-            Feather.chevron_right, size: 20,
-          ),
-          onTap: () => nextScreen(context, MyReport(title: 'my reports', email: sb.email, color: Colors.amber)),
+            trailing: Icon(
+              Feather.chevron_right, size: 20,
+              ),
+              onTap: () => nextScreen(context, Report()),
         ),
+
+
         Divider(
           height: 5,
         ),
-
         ListTile(
           title: Text(
             'regist as seller',
