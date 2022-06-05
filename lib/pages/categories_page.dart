@@ -12,6 +12,7 @@ import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/models/product.dart';
 import 'package:travel_hour/pages/edit_profile.dart';
 import 'package:travel_hour/pages/explore.dart';
+import 'package:travel_hour/pages/more_places.dart';
 import 'package:travel_hour/pages/more_products.dart';
 import 'package:travel_hour/pages/my_report.dart';
 import 'package:travel_hour/pages/notifications.dart';
@@ -84,7 +85,7 @@ class _CategoriesPageState extends State<CategoriesPage>
               child: ListTile(
                 title: Text('Beach', style: _textStyle).tr(),
                 subtitle: Text("20 Destinations", style: _subtitle),
-                tileColor: Colors.grey[200],
+                tileColor: Colors.grey[50],
                 selectedColor: Colors.blue[250],
                 selectedTileColor: Colors.blue[250],
                 shape: RoundedRectangleBorder(
@@ -93,15 +94,15 @@ class _CategoriesPageState extends State<CategoriesPage>
                   height: 50,
                   width: 50,
                   decoration: BoxDecoration(
-                      color: Colors.blue[300],
+                      color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
-                  child: Icon(LineIcons.hotel, size: 40, color: Colors.white),
+                  child: Icon(LineIcons.hotel, size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, SearchProductPage()),
+                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
               ),
             ),
 
@@ -110,7 +111,8 @@ class _CategoriesPageState extends State<CategoriesPage>
               child: ListTile(
                 title: Text('Food', style: _textStyle).tr(),
                 subtitle: Text("20 Destinations", style: _subtitle),
-                tileColor: Colors.grey[200],
+                tileColor: Colors.grey[50],
+                // selected: Colors.blue[250],
                 selectedColor: Colors.blue[250],
                 selectedTileColor: Colors.blue[250],
                 shape: RoundedRectangleBorder(
@@ -119,16 +121,16 @@ class _CategoriesPageState extends State<CategoriesPage>
                   height: 50,
                   width: 50,
                   decoration: BoxDecoration(
-                      color: Colors.blue[300],
+                      color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
                   child: Icon(FlutterIcons.food_fork_drink_mco,
-                    size: 40, color: Colors.white),
+                    size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, SearchProductPage()),
+                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
               ),
             ),
             Container(
@@ -136,7 +138,7 @@ class _CategoriesPageState extends State<CategoriesPage>
               child: ListTile(
                 title: Text('Health', style: _textStyle).tr(),
                 subtitle: Text("20 Destinations", style: _subtitle),
-                tileColor: Colors.grey[200],
+                tileColor: Colors.grey[50],
                 selectedColor: Colors.blue[250],
                 selectedTileColor: Colors.blue[250],
                 shape: RoundedRectangleBorder(
@@ -145,16 +147,16 @@ class _CategoriesPageState extends State<CategoriesPage>
                   height: 50,
                   width: 50,
                   decoration: BoxDecoration(
-                      color: Colors.blue[300],
+                      color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
                       child: Icon(Icons.local_hospital_rounded,
-                    size: 40, color: Colors.white),
+                    size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, SearchProductPage()),
+                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
               ),
             ),
             Container(
@@ -162,7 +164,7 @@ class _CategoriesPageState extends State<CategoriesPage>
               child: ListTile(
                 title: Text('Business', style: _textStyle).tr(),
                 subtitle: Text("20 Destinations", style: _subtitle),
-                tileColor: Colors.grey[200],
+                tileColor: Colors.grey[50],
                 selectedColor: Colors.blue[250],
                 selectedTileColor: Colors.blue[250],
                 shape: RoundedRectangleBorder(
@@ -171,15 +173,15 @@ class _CategoriesPageState extends State<CategoriesPage>
                   height: 50,
                   width: 50,
                   decoration: BoxDecoration(
-                      color: Colors.blue[300],
+                      color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
-                      child: Icon(Feather.dollar_sign, size: 40, color: Colors.white),
+                      child: Icon(Feather.dollar_sign, size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, SearchProductPage()),
+                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
               ),
             ),
             Container(
@@ -187,7 +189,7 @@ class _CategoriesPageState extends State<CategoriesPage>
               child: ListTile(
                 title: Text('Tourism', style: _textStyle).tr(),
                 subtitle: Text("20 Destinations", style: _subtitle),
-                tileColor: Colors.grey[200],
+                tileColor: Colors.grey[50],
                 selectedColor: Colors.blue[250],
                 selectedTileColor: Colors.blue[250],
                 shape: RoundedRectangleBorder(
@@ -196,15 +198,15 @@ class _CategoriesPageState extends State<CategoriesPage>
                   height: 50,
                   width: 50,
                   decoration: BoxDecoration(
-                      color: Colors.blue[300],
+                      color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
-                      child: Icon(Feather.compass, size: 40, color: Colors.white),
+                      child: Icon(Feather.compass, size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, SearchProductPage()),
+                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
               ),
             ),
             Container(
@@ -212,7 +214,7 @@ class _CategoriesPageState extends State<CategoriesPage>
               child: ListTile(
                 title: Text('Transportation', style: _textStyle).tr(),
                 subtitle: Text("20 Destinations", style: _subtitle),
-                tileColor: Colors.grey[200],
+                tileColor: Colors.grey[50],
                 selectedColor: Colors.blue[250],
                 selectedTileColor: Colors.blue[250],
                 shape: RoundedRectangleBorder(
@@ -221,15 +223,15 @@ class _CategoriesPageState extends State<CategoriesPage>
                   height: 50,
                   width: 50,
                   decoration: BoxDecoration(
-                      color: Colors.blue[300],
+                      color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
-                      child: Icon(LineIcons.car, size: 40, color: Colors.white),
+                      child: Icon(LineIcons.car, size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, SearchProductPage()),
+                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
               ),
             ),
           ],
@@ -261,7 +263,7 @@ class GuestUserUI extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.blueAccent,
                 borderRadius: BorderRadius.circular(5)),
-            child: Icon(Feather.user, size: 20, color: Colors.white),
+            child: Icon(Feather.user, size: 20, color: Colors.blue[900]),
           ),
           trailing: Icon(
             Feather.chevron_right,
@@ -325,7 +327,7 @@ class UserUI extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.blueAccent,
                 borderRadius: BorderRadius.circular(5)),
-            child: Icon(Feather.mail, size: 20, color: Colors.white),
+            child: Icon(Feather.mail, size: 20, color: Colors.blue[900]),
           ),
         ),
         Divider(
@@ -341,7 +343,7 @@ class UserUI extends StatelessWidget {
             width: 30,
             decoration: BoxDecoration(
                 color: Colors.green, borderRadius: BorderRadius.circular(5)),
-            child: Icon(LineIcons.timesCircle, size: 20, color: Colors.white),
+            child: Icon(LineIcons.timesCircle, size: 20, color: Colors.blue[900]),
           ),
         ),
         Divider(
@@ -360,7 +362,7 @@ class UserUI extends StatelessWidget {
             child: Icon(
               Feather.alert_circle,
               size: 20,
-              color: Colors.white,
+              color: Colors.blue[900],
             ),
           ),
           trailing: Icon(
@@ -387,7 +389,7 @@ class UserUI extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.purpleAccent,
                 borderRadius: BorderRadius.circular(5)),
-            child: Icon(Feather.inbox, size: 20, color: Colors.white),
+            child: Icon(Feather.inbox, size: 20, color: Colors.blue[900]),
           ),
           trailing: Icon(
             Feather.chevron_right,
@@ -409,7 +411,7 @@ class UserUI extends StatelessWidget {
         //       decoration: BoxDecoration(
         //           color: Colors.purpleAccent,
         //           borderRadius: BorderRadius.circular(5)),
-        //       child: Icon(Feather.inbox, size: 20, color: Colors.white),
+        //       child: Icon(Feather.inbox, size: 20, color: Colors.blue[900]),
         //     ),
         //     trailing: Icon(
         //       Feather.chevron_right,
@@ -434,7 +436,7 @@ class UserUI extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Colors.purpleAccent,
                   borderRadius: BorderRadius.circular(5)),
-              child: Icon(Feather.edit_3, size: 20, color: Colors.white),
+              child: Icon(Feather.edit_3, size: 20, color: Colors.blue[900]),
             ),
             trailing: Icon(
               Feather.chevron_right,
@@ -456,7 +458,7 @@ class UserUI extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.redAccent,
                 borderRadius: BorderRadius.circular(5)),
-            child: Icon(Feather.log_out, size: 20, color: Colors.white),
+            child: Icon(Feather.log_out, size: 20, color: Colors.blue[900]),
           ),
           trailing: Icon(
             Feather.chevron_right,
