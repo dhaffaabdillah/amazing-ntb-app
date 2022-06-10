@@ -29,7 +29,8 @@ class _HomePageState extends State<HomePage> {
   List<IconData> iconList = [
     Feather.home,
     Feather.grid,
-    Feather.list,
+    // Feather.list,
+    Feather.camera,
     Feather.bookmark,
     Feather.user
   ];

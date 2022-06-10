@@ -12,6 +12,7 @@ import 'package:travel_hour/models/product.dart';
 import 'package:travel_hour/pages/edit_profile.dart';
 import 'package:travel_hour/pages/explore.dart';
 import 'package:travel_hour/pages/more_products.dart';
+import 'package:travel_hour/pages/my_report.dart';
 import 'package:travel_hour/pages/notifications.dart';
 import 'package:travel_hour/pages/regist_as_seller.dart';
 import 'package:travel_hour/pages/report.dart';
@@ -388,7 +389,7 @@ class SellerUI extends StatelessWidget {
           height: 5,
         ),
         ListTile(
-          title: Text('Report', style: _textStyle,).tr(),
+          title: Text('My Community Report', style: _textStyle,).tr(),
           leading: Container(
               height: 30, 
               width: 30,
@@ -401,7 +402,7 @@ class SellerUI extends StatelessWidget {
             trailing: Icon(
               Feather.chevron_right, size: 20,
               ),
-              onTap: () => nextScreen(context, Report()),
+              onTap: () => nextScreen(context, MyReport(title: "MyReport", email: sb.email,)),
         ),
         Divider(
           height: 5,
@@ -624,7 +625,7 @@ class UserUI extends StatelessWidget {
           height: 5,
         ),
         ListTile(
-          title: Text('Report', style: _textStyle,).tr(),
+          title: Text('My Community Report', style: _textStyle,).tr(),
           leading: Container(
               height: 30, 
               width: 30,
@@ -637,7 +638,7 @@ class UserUI extends StatelessWidget {
             trailing: Icon(
               Feather.chevron_right, size: 20,
               ),
-              onTap: () => nextScreen(context, Report()),
+              onTap: () => nextScreen(context, MyReport(email: sb.email, title: 'my community report',)),
         ),
 
 

@@ -22,10 +22,10 @@ import 'package:easy_localization/easy_localization.dart';
 
 class MyReport extends StatefulWidget {
   final String title;
-  final Color? color;
+  // final Color? color;
   final String? email;
   MyReport(
-      {Key? key, required this.title, required this.color, required this.email})
+      {Key? key, required this.title, required this.email})
       : super(key: key);
 
   @override
