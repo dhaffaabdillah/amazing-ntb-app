@@ -48,9 +48,6 @@ class BlogBloc extends ChangeNotifier {
           .get();
 
 
-
-
-
     if (rawData.docs.length > 0) {
       _lastVisible = rawData.docs[rawData.docs.length - 1];
       if (mounted) {

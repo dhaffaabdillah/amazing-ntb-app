@@ -2,6 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/blocs/admin_bloc.dart';
+import 'package:travel_hour/blocs/dashboard_blog_bloc.dart';
 import 'package:travel_hour/blocs/product_bloc.dart';
 import 'package:travel_hour/blocs/product_bloc2.dart';
 import 'package:travel_hour/blocs/report_bloc.dart';
@@ -66,6 +67,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<SearchProductBloc>(create: (context) => SearchProductBloc()),
         ChangeNotifierProvider<SearchReportBloc>(create: (context) => SearchReportBloc()),
         ChangeNotifierProvider<ReportBloc>(create: (context) => ReportBloc()),
+        ChangeNotifierProvider<DashboardBlogBloc>(create: (context) => DashboardBlogBloc()),
 
 
       ],
