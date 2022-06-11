@@ -79,7 +79,7 @@ class _MyAppState extends State<MyApp> {
               primarySwatch: Colors.blue,
               primaryColor: Config.appThemeColor,
               iconTheme: IconThemeData(color: Colors.grey[900]),
-              fontFamily: 'Manrope',
+              fontFamily: 'Poppins',
               scaffoldBackgroundColor: Colors.grey[100],
               appBarTheme: AppBarTheme(
                 color: Colors.white,
@@ -90,7 +90,7 @@ class _MyAppState extends State<MyApp> {
                 titleTextStyle: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'Manrope',
+                    fontFamily: 'Poppins',
                     color: Colors.grey[900]
                   )
               ),),
