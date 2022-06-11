@@ -398,29 +398,30 @@ class _UpdateProductState extends State<UpdateProduct> {
       appBar: AppBar(title: Text("Add a Product")),
       body: Form(
           key: formKey,
-          child: ListView(
-            children: <Widget>[
-              SizedBox(
-                height: h * 0.002,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 12, right: 12),
-                child: Text(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            child: ListView(
+              children: <Widget>[
+                SizedBox(
+                  height: 50,
+                ),
+
+                Text(
                   'Upload your Product here',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
                 ).tr(),
-              ),
 
-              SizedBox(
-                height: 20,
-              ),
-              statusDropdown(),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 14, right: 14),
-                child: TextFormField(
+                SizedBox(
+                  height: 20,
+                ),
+
+                statusDropdown(),
+                
+                SizedBox(
+                  height: 20,
+                ),
+                
+                TextFormField(
                   decoration: inputDecoration(
                       'Enter Product Name', 'Product Name', productNameCtrl),
                   controller: productNameCtrl,
@@ -429,15 +430,12 @@ class _UpdateProductState extends State<UpdateProduct> {
                     return null;
                   },
                 ),
-              ),
 
-              SizedBox(
-                height: 20,
-              ),
+                SizedBox(
+                  height: 20,
+                ),
 
-              Container(
-                padding: EdgeInsets.only(left: 14, right: 14),
-                child: TextFormField(
+                TextFormField(
                   decoration:
                       inputDecoration('Enter Phone Number', 'Phone', phoneCtrl),
                   controller: phoneCtrl,
@@ -447,14 +445,12 @@ class _UpdateProductState extends State<UpdateProduct> {
                     return null;
                   },
                 ),
-              ),
 
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 14, right: 14),
-                child: TextFormField(
+                SizedBox(
+                  height: 20,
+                ),
+
+                TextFormField(
                   decoration:
                       inputDecoration('Enter Price', 'Price', priceCtrl),
                   controller: priceCtrl,
@@ -464,18 +460,12 @@ class _UpdateProductState extends State<UpdateProduct> {
                     return null;
                   },
                 ),
-              ),
 
-              SizedBox(
-                height: 20,
-              ),
+                SizedBox(
+                  height: 20,
+                ),
 
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 14, right: 14),
-                child: TextFormField(
+                TextFormField(
                   decoration: InputDecoration(
                       hintText: 'Enter Product Description',
                       border: OutlineInputBorder(),
@@ -504,182 +494,183 @@ class _UpdateProductState extends State<UpdateProduct> {
                     return null;
                   },
                 ),
-              ),
 
-              SizedBox(
-                height: 10,
-              ),
+                SizedBox(
+                  height: 20,
+                ),
 
-              Container(
-                padding: EdgeInsets.only(left: 14, right: 14),
-                child: Text(
+                Text(
                   "Pick your image products",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
                 ),
-              ),
 
-              SizedBox(
-                height: 10,
-              ),
-
-              InkWell(
-                // child: CircleAvatar(
-                //   radius: 70,
-                //   backgroundColor: Colors.grey[300],
-                child: Container(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  height: 150,
-                  width: 100,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1, color: Color.fromARGB(255, 239, 198, 198)),
-                      color: Colors.white,
-                      shape: BoxShape.rectangle,
-                      image: DecorationImage(
-                          image: (imageFile1 == null
-                                  ? CachedNetworkImageProvider(imageName1)
-                                  : FileImage(imageFile1!))
-                              as ImageProvider<Object>,
-                          fit: BoxFit.cover)),
-                  child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Icon(
-                        Icons.edit,
-                        size: 30,
-                        color: Colors.black,
-                      )),
+                SizedBox(
+                  height: 20,
                 ),
-                // ),
-                onTap: () {
-                  pickImage1();
-                },
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                // child: CircleAvatar(
-                //   radius: 70,
-                //   backgroundColor: Colors.grey[300],
 
-                child: Container(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  height: 150,
-                  width: 100,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1, color: Color.fromARGB(255, 239, 198, 198)),
-                      color: Colors.white,
-                      shape: BoxShape.rectangle,
-                      image: DecorationImage(
-                          image: (imageFile2 == null
-                                  ? CachedNetworkImageProvider(imageName2)
-                                  : FileImage(imageFile2!))
-                              as ImageProvider<Object>,
-                          fit: BoxFit.cover)),
-                  child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Icon(
-                        Icons.edit,
-                        size: 30,
-                        color: Colors.black,
-                      )),
+                InkWell(
+                  // child: CircleAvatar(
+                  //   radius: 70,
+                  //   backgroundColor: Colors.grey[300],
+                  child: Container(
+                    padding: EdgeInsets.only(left: 20, right: 20),
+                    height: 150,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 1, color: Color.fromARGB(255, 239, 198, 198)),
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        image: DecorationImage(
+                            image: (imageFile1 == null
+                                    ? CachedNetworkImageProvider(imageName1)
+                                    : FileImage(imageFile1!))
+                                as ImageProvider<Object>,
+                            fit: BoxFit.cover)),
+                    child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Icon(
+                          Icons.edit,
+                          size: 30,
+                          color: Colors.black,
+                        )),
+                  ),
+                  // ),
+                  onTap: () {
+                    pickImage1();
+                  },
                 ),
-                // ),
-                onTap: () {
-                  pickImage2();
-                },
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                // child: CircleAvatar(
-                //   radius: 20,
-                //   backgroundColor: Colors.grey[300],
-                child: Container(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  height: 150,
-                  width: 100,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1, color: Color.fromARGB(255, 239, 198, 198)),
-                      color: Colors.white,
-                      shape: BoxShape.rectangle,
-                      image: DecorationImage(
-                          image: (imageFile3 == null
-                                  ? CachedNetworkImageProvider(imageName3)
-                                  : FileImage(imageFile3!))
-                              as ImageProvider<Object>,
-                          fit: BoxFit.cover)),
-                  child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Icon(
-                        Icons.edit,
-                        size: 30,
-                        color: Colors.black,
-                      )),
+                
+                SizedBox(
+                  height: 20,
                 ),
-                // ),
-                onTap: () {
-                  pickImage3();
-                },
-              ),
-              SizedBox(
-                height: 20,
-              ),
 
-              // SizedBox(
-              //   height: 100,
-              // ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   children: <Widget>[
-              //     TextButton.icon(
-              //         icon: Icon(
-              //           Icons.remove_red_eye,
-              //           size: 25,
-              //           color: Colors.blueAccent,
-              //         ),
-              //         label: Text(
-              //           'Preview',
-              //           style: TextStyle(
-              //               fontWeight: FontWeight.w400, color: Colors.black),
-              //         ),
-              //         onPressed: () {
-              //           handlePreview();
-              //         })
-              //   ],
-              // ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                  color: Colors.deepPurpleAccent,
-                  height: 45,
-                  child: loading == true
-                      ? Center(
-                          child: Container(
-                              height: 30,
-                              width: 30,
-                              child: CircularProgressIndicator()),
-                        )
-                      : TextButton(
-                          child: Text(
-                            'Upload Product',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          onPressed: () async {
-                            handlePost();
-                          })),
-              SizedBox(
-                height: 50,
-              ),
-            ],
-          )),
+                InkWell(
+                  // child: CircleAvatar(
+                  //   radius: 70,
+                  //   backgroundColor: Colors.grey[300],
+
+                  child: Container(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    height: 150,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 1, color: Color.fromARGB(255, 239, 198, 198)),
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        image: DecorationImage(
+                            image: (imageFile2 == null
+                                    ? CachedNetworkImageProvider(imageName2)
+                                    : FileImage(imageFile2!))
+                                as ImageProvider<Object>,
+                            fit: BoxFit.cover)),
+                    child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Icon(
+                          Icons.edit,
+                          size: 30,
+                          color: Colors.black,
+                        )),
+                  ),
+                  // ),
+                  onTap: () {
+                    pickImage2();
+                  },
+                ),
+                
+                SizedBox(
+                  height: 20,
+                ),
+
+                InkWell(
+                  // child: CircleAvatar(
+                  //   radius: 20,
+                  //   backgroundColor: Colors.grey[300],
+                  child: Container(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    height: 150,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 1, color: Color.fromARGB(255, 239, 198, 198)),
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        image: DecorationImage(
+                            image: (imageFile3 == null
+                                    ? CachedNetworkImageProvider(imageName3)
+                                    : FileImage(imageFile3!))
+                                as ImageProvider<Object>,
+                            fit: BoxFit.cover)),
+                    child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Icon(
+                          Icons.edit,
+                          size: 30,
+                          color: Colors.black,
+                        )),
+                  ),
+                  // ),
+                  onTap: () {
+                    pickImage3();
+                  },
+                ),
+
+                SizedBox(
+                  height: 20,
+                ),
+
+                // SizedBox(
+                //   height: 100,
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: <Widget>[
+                //     TextButton.icon(
+                //         icon: Icon(
+                //           Icons.remove_red_eye,
+                //           size: 25,
+                //           color: Colors.blueAccent,
+                //         ),
+                //         label: Text(
+                //           'Preview',
+                //           style: TextStyle(
+                //               fontWeight: FontWeight.w400, color: Colors.black),
+                //         ),
+                //         onPressed: () {
+                //           handlePreview();
+                //         })
+                //   ],
+                // ),
+          
+                Container(
+                    color: Colors.deepPurpleAccent,
+                    height: 45,
+                    child: loading == true
+                        ? Center(
+                            child: Container(
+                                height: 30,
+                                width: 30,
+                                child: CircularProgressIndicator()),
+                          )
+                        : TextButton(
+                            child: Text(
+                              'Upload Product',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            onPressed: () async {
+                              handlePost();
+                            })),
+                SizedBox(
+                  height: 50,
+                ),
+              ],
+            )
+          ),
+        ),
     );
   }
 
