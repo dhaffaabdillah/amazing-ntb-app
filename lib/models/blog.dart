@@ -34,8 +34,6 @@ class Blog {
       sourceUrl: d['source'],
       date: d['date'],
       timestamp: d['timestamp'], 
-
-
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:travel_hour/blocs/dashboard_blog_bloc.dart';
 import 'package:travel_hour/blocs/featured_bloc.dart';
 import 'package:travel_hour/blocs/popular_places_bloc.dart';
 import 'package:travel_hour/blocs/recent_places_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:travel_hour/blocs/sp_state_one.dart';
 import 'package:travel_hour/blocs/sp_state_two.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:travel_hour/config/config.dart';
+import 'package:travel_hour/widgets/blog_dashboard.dart';
 import 'package:travel_hour/pages/profile.dart';
 import 'package:travel_hour/pages/search.dart';
 import 'package:travel_hour/utils/next_screen.dart';
@@ -49,6 +51,7 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
               .then((value) => context.read<SpecialStateTwoBloc>().getData())
               .then((value) => context.read<RecommandedPlacesBloc>().getData())
               .then((value) => context.read<ProductBloc>().getData())
+              .then((value) => context.read<DashboardBlogBloc>().getData())
           // .then((value) => context.read<Report>())
           ;
     });
@@ -84,6 +87,7 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
                   SpecialStateTwo(),
                   RecommendedPlaces(),
                   Products(),
+                  BlogDashboards()
                 ],
               ),
             ),
