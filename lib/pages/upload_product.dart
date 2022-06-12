@@ -232,21 +232,25 @@ class _UploadProductState extends State<UploadProduct> {
     String time = _timestamp.toString();
     Reference storageRef2 =
         FirebaseStorage.instance.ref().child("files/${_timestamp}-img1");
-    UploadTask uploadTask2 = storageRef2.putFile(imageFile2!);
-    // UploadTask uploadTask2 = storageRef.putFile(imageFile2!);
-    // UploadTask uploadTask3 = storageRef.putFile(imageFile3!);
 
-    await uploadTask2.whenComplete(() async {
-      var _url2 = await storageRef2.getDownloadURL();
-      var _imageUrl2 = _url2.toString();
-      if (_imageUrl2 != null) {
-        setState(() {
-          imageUrl2 = _imageUrl2;
-        });
-      } else {
-        imageUrl2 = Constants.defaultPath;
-      }
-    });
+    if(imageFile2 != null){
+      UploadTask uploadTask2 = storageRef2.putFile(imageFile2!);
+
+      await uploadTask2.whenComplete(() async {
+        var _url2 = await storageRef2.getDownloadURL();
+        var _imageUrl2 = _url2.toString();
+        if (_imageUrl2.length > 0) {
+          setState(() {
+            imageUrl2 = _imageUrl2;
+          });
+        } else {
+          imageUrl2 = Constants.defaultPath;
+        }
+      });
+    } else {
+      imageUrl2 = Constants.defaultPath;
+    }
+
   }
 
   Future uploadImage3() async {
@@ -254,36 +258,27 @@ class _UploadProductState extends State<UploadProduct> {
     String time = _timestamp.toString();
     Reference storageRef3 =
         FirebaseStorage.instance.ref().child("files/${_timestamp}-img2");
-    UploadTask uploadTask3 = storageRef3.putFile(imageFile3!);
-    // UploadTask uploadTask2 = storageRef.putFile(imageFile2!);
-    // UploadTask uploadTask3 = storageRef.putFile(imageFile3!);
 
-    await uploadTask3.whenComplete(() async {
-      var _url = await storageRef3.getDownloadURL();
-      var _imageUrl3 = _url.toString();
-      if (_imageUrl3 != null) {
-        setState(() {
-          imageUrl3 = _imageUrl3;
-        });
-      } else {
-        imageUrl3 = Constants.defaultPath;
-      }
-    });
+    if(imageFile3 != null){
 
-    // await uploadTask2.whenComplete(() async {
-    //   var _url2 = await storageRef.getDownloadURL();
-    //   var _imageUrl2 = _url2.toString();
-    //   setState(() {
-    //     imageUrl1 = _imageUrl2;
-    //   });
-    // });
-    // await uploadTask3.whenComplete(() async {
-    //   var _url3 = await storageRef.getDownloadURL();
-    //   var _imageUrl3 = _url3.toString();
-    //   setState(() {
-    //     imageUrl3 = _imageUrl3;
-    //   });
-    // });
+      UploadTask uploadTask3 = storageRef3.putFile(imageFile3!);
+
+      await uploadTask3.whenComplete(() async {
+        var _url = await storageRef3.getDownloadURL();
+        var _imageUrl3 = _url.toString();
+        if (_imageUrl3.length > 0) {
+          setState(() {
+            imageUrl3 = _imageUrl3;
+          });
+        } else {
+          imageUrl3 = Constants.defaultPath;
+        }
+      });
+
+    } else {
+      imageUrl3 = Constants.defaultPath;
+    }
+
   }
 
   Future insertData() async {
