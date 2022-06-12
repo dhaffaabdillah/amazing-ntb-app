@@ -46,7 +46,7 @@ class _BookmarkPageState extends State<BookmarkPage> with AutomaticKeepAliveClie
               indicatorWeight: 0,
               indicatorSize: TabBarIndicatorSize.tab,
               labelStyle: TextStyle(
-                fontFamily: 'Manrope',
+                fontFamily: 'Poppins',
                 fontSize: 15,
                 fontWeight: FontWeight.w600
               ),

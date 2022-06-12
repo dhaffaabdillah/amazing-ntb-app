@@ -15,6 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travel_hour/blocs/admin_bloc.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/constants/constants.dart';
+import 'package:travel_hour/pages/my_report.dart';
+import 'package:travel_hour/pages/search_report_page.dart';
 import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/cached_image.dart';
 import 'package:travel_hour/utils/dialog.dart';
@@ -278,7 +280,22 @@ class _UploadReportState extends State<UploadReport> {
     getDate();
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(title: Text("Add a Community Report")),
+      appBar: AppBar(
+        title: Text("Lapor Pak!"),
+        actions: [
+          IconButton(
+            onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => SearchReportPage())), 
+            icon: Icon(Icons.search),
+            tooltip: "Search Report",
+          ),
+
+          IconButton(
+            onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => MyReport(title: '', email: currentUser!.email,))), 
+            icon: Icon(Icons.person_outline_rounded),
+            tooltip: "My Report",
+          ),
+        ],
+      ),
       body: Form(
           key: formKey,
           child: ListView(

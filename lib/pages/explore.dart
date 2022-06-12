@@ -121,7 +121,7 @@ class Header extends StatelessWidget {
                       Config().appName,
                       style: TextStyle(
                           fontSize: 22,
-                          fontFamily: 'Muli',
+                          fontFamily: 'Poppins',
                           fontWeight: FontWeight.w900,
                           color: Colors.grey[800]),
                     ),
