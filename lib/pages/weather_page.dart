@@ -4,16 +4,17 @@ import 'dart:convert';
 import 'dart:async';
 
 import 'package:travel_hour/constants/constants.dart';
-import 'package:travel_hour/models/weather.dart';
-import 'package:travel_hour/models/weathersss.dart';
+// import 'package:travel_hour/models/weather.dart';
+import 'package:travel_hour/models/weathersss.dart';  
 
-Future<List<Weather>> fetchWeather() async {
+Future<Weather> fetchWeather() async {
   final res = await http.get(Uri.parse(Constants.weatherAPI));
   if (res.statusCode == 200) {
-    final parsed = json.decode(res.body).cast<Map<String, dynamic>>();
+    return Weather.fromJson(jsonDecode(res.body));
     // return parsed.map<Weather>((json) => Weather.fromMap(json)).toList();
+  } else {
+    throw Exception('Failed to fetch data');
   }
-  throw Exception('Failed to fetch data');
 }
 
 class WeatherPage extends StatefulWidget {
@@ -24,7 +25,8 @@ class WeatherPage extends StatefulWidget {
 }
 
 class _WeatherPageState extends State<WeatherPage> {
-  // late Future<List<Weather>> futureWeather;
+  late Future<Weather> futureWeather;
+
   List<Weather> _list = [];
   var loading = false;
   Future<Null> _fetchWeather() async {
@@ -38,10 +40,9 @@ class _WeatherPageState extends State<WeatherPage> {
       final datax = jsonDecode(res.body);
       // as Map<String, dynamic>;
       setState(() {
-        //  dataforEach
-        // for (Map i in datax) {
-          _list.add(Weather.fromJson(datax));
-        // }
+        for (Map<String, dynamic> i in datax) {
+          _list.add(Weather.fromJson(i));
+        }
         loading = false;
       });
     }
@@ -49,8 +50,9 @@ class _WeatherPageState extends State<WeatherPage> {
 
   @override
   void initState() {
-    super.initState();
+    // futureWeather = fetchWeather();
     _fetchWeather();
+    super.initState();
   }
 
   @override
@@ -60,6 +62,19 @@ class _WeatherPageState extends State<WeatherPage> {
         title: Text('Weather Report is Jojo Reference'),
       ),
       body: Container(
+        // child: FutureBuilder<Weather>(
+        //     future: futureWeather,
+        //     builder: (context, snapshot) {
+        //       if (snapshot.hasData) {
+        //         return Text(snapshot.data!.row!.data!.forecast!.area!.elementAt(0).description.toString());
+        //       } else if (snapshot.hasError) {
+        //         return Text('${snapshot.error}');
+        //       }
+
+        //       // By default, show a loading spinner.
+        //       return const CircularProgressIndicator();
+        //     },
+        //   ),
         child: loading
             ? Center(child: CircularProgressIndicator())
             : ListView.builder(
@@ -71,7 +86,13 @@ class _WeatherPageState extends State<WeatherPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(x.row.data.forecast.area.elementAt(i).description),
+                        Text(
+                          x.row!.data!.forecast!.area!
+                              .elementAt(i)
+                              .description
+                              .toString(),
+                          textAlign: TextAlign.center,
+                        ),
                       ],
                     ),
                   );
