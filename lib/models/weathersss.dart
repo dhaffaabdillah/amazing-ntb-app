@@ -281,7 +281,7 @@ class Timerange {
     type = json['@type'];
     h = json['@h'];
     datetime = json['@datetime'];
-    // value = json['value'] != null ? new Value.fromJson(json['value'][0]) : null;
+    value = json['value'] != null ? new Value.fromJson(json['value']) : null;
     day = json['@day'];
   }
 
