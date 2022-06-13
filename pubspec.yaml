@@ -3,7 +3,7 @@ description: A new Flutter application.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 4.2.0+16
+version: 4.2.0+17
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -97,6 +97,20 @@ flutter:
     
 
   fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+          # weight: 500 
+        - asset: assets/fonts/Poppins-Black.ttf
+          # weight: 500 
+        - asset: assets/fonts/Poppins-Bold.ttf
+          # weight: 500 
+        - asset: assets/fonts/Poppins-ExtraBold.ttf
+        - asset: assets/fonts/Poppins-Light.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
+        - asset: assets/fonts/Poppins-Thin.ttf
+        - asset: assets/fonts/Poppins-Italic.ttf
+          # weight: 500 
 
     - family: Muli
       fonts:

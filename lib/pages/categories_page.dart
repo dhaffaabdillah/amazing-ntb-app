@@ -372,7 +372,7 @@ class UserUI extends StatelessWidget {
           onTap: () => nextScreen(
               context,
               MyReport(
-                  title: 'my reports', email: sb.email, color: Colors.amber)),
+                  title: 'my reports', email: sb.email)),
         ),
         Divider(
           height: 5,

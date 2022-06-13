@@ -2,6 +2,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:travel_hour/blocs/ads_bloc.dart';
 import 'package:travel_hour/blocs/notification_bloc.dart';
 import 'package:travel_hour/pages/blogs.dart';
@@ -10,6 +11,7 @@ import 'package:travel_hour/pages/explore.dart';
 import 'package:travel_hour/pages/profile.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/pages/states.dart';
+import 'package:travel_hour/pages/upload_report.dart';
 import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/snacbar.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -29,7 +31,8 @@ class _HomePageState extends State<HomePage> {
   List<IconData> iconList = [
     Feather.home,
     Feather.grid,
-    Feather.list,
+    // Feather.list,
+    Icons.add_a_photo_outlined,
     Feather.bookmark,
     Feather.user
   ];
@@ -119,7 +122,8 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             Explore(),
             StatesPage(),
-            BlogPage(),
+            // BlogPage(),
+            UploadReport(),
             BookmarkPage(),
             ProfilePage(),
           ],
