@@ -16,6 +16,7 @@ import 'package:travel_hour/pages/more_places.dart';
 import 'package:travel_hour/pages/more_products.dart';
 import 'package:travel_hour/pages/my_report.dart';
 import 'package:travel_hour/pages/notifications.dart';
+import 'package:travel_hour/pages/place_with_category.dart';
 import 'package:travel_hour/pages/regist_as_seller.dart';
 import 'package:travel_hour/pages/report.dart';
 import 'package:travel_hour/pages/search_product.dart';
@@ -75,11 +76,9 @@ class _CategoriesPageState extends State<CategoriesPage>
               "Categories",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
             ).tr(),
-
             SizedBox(
               height: 15,
             ),
-
             Container(
               padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
               child: ListTile(
@@ -96,16 +95,22 @@ class _CategoriesPageState extends State<CategoriesPage>
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
-                  child: Icon(LineIcons.hotel, size: 40, color: Colors.blue[900]),
+                  child:
+                      Icon(LineIcons.hotel, size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
+                onTap: () => nextScreen(
+                    context,
+                    PlaceWithCategory(
+                      title: "Beach",
+                      color: Colors.blue[700],
+                      category: 'beach',
+                    )),
               ),
             ),
-
             Container(
               padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
               child: ListTile(
@@ -122,16 +127,22 @@ class _CategoriesPageState extends State<CategoriesPage>
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
-                  child: Icon(LineIcons.landmark, size: 40, color: Colors.blue[900]),
+                  child: Icon(LineIcons.landmark,
+                      size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
+                onTap: () => nextScreen(
+                    context,
+                    PlaceWithCategory(
+                      title: "Landmark",
+                      color: Colors.blue[700],
+                      category: 'landmark',
+                    )),
               ),
             ),
-
             Container(
               padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
               child: ListTile(
@@ -150,13 +161,19 @@ class _CategoriesPageState extends State<CategoriesPage>
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
                   child: Icon(FlutterIcons.food_fork_drink_mco,
-                    size: 40, color: Colors.blue[900]),
+                      size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
+                onTap: () => nextScreen(
+                    context,
+                    PlaceWithCategory(
+                      title: "Food",
+                      color: Colors.blue[700],
+                      category: 'food',
+                    )),
               ),
             ),
             Container(
@@ -175,14 +192,20 @@ class _CategoriesPageState extends State<CategoriesPage>
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
-                      child: Icon(Icons.local_hospital_rounded,
-                    size: 40, color: Colors.blue[900]),
+                  child: Icon(Icons.local_hospital_rounded,
+                      size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
+                onTap: () => nextScreen(
+                    context,
+                    PlaceWithCategory(
+                      title: "Health",
+                      color: Colors.blue[700],
+                      category: 'health',
+                    )),
               ),
             ),
             Container(
@@ -201,13 +224,20 @@ class _CategoriesPageState extends State<CategoriesPage>
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
-                      child: Icon(Feather.dollar_sign, size: 40, color: Colors.blue[900]),
+                  child: Icon(Feather.dollar_sign,
+                      size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
+                onTap: () => nextScreen(
+                    context,
+                    PlaceWithCategory(
+                      title: "Business",
+                      color: Colors.blue[700],
+                      category: 'business',
+                    )),
               ),
             ),
             Container(
@@ -226,13 +256,20 @@ class _CategoriesPageState extends State<CategoriesPage>
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
-                      child: Icon(Feather.compass, size: 40, color: Colors.blue[900]),
+                  child:
+                      Icon(Feather.compass, size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
+                onTap: () => nextScreen(
+                    context,
+                    PlaceWithCategory(
+                      title: "Tourism",
+                      color: Colors.blue[700],
+                      category: 'tourism',
+                    )),
               ),
             ),
             Container(
@@ -251,13 +288,19 @@ class _CategoriesPageState extends State<CategoriesPage>
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
-                      child: Icon(LineIcons.car, size: 40, color: Colors.blue[900]),
+                  child: Icon(LineIcons.car, size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
+                onTap: () => nextScreen(
+                    context,
+                    PlaceWithCategory(
+                      title: "Transportation",
+                      color: Colors.blue[700],
+                      category: 'transportation',
+                    )),
               ),
             ),
           ],
