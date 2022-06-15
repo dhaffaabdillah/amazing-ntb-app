@@ -13,6 +13,7 @@ import 'package:travel_hour/pages/search_product.dart';
 import 'package:travel_hour/pages/search_report_page.dart';
 import 'package:travel_hour/pages/update_product.dart';
 import 'package:travel_hour/pages/update_products.dart';
+import 'package:travel_hour/pages/update_report.dart';
 import 'package:travel_hour/pages/upload_report.dart';
 import 'package:travel_hour/utils/currency_format.dart';
 import 'package:travel_hour/utils/next_screen.dart';
@@ -259,9 +260,9 @@ class _ListItem extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10)),
                             child: Icon(Icons.edit,
                                 size: 16, color: Colors.grey[800])),
-                        // onTap: () {
-                        //   nextScreen(context, UpdateProduct(productData: d));
-                        // },
+                        onTap: () {
+                          nextScreen(context, UpdateReport(reportData: d));
+                        },
                       ),
                     ],
                   ),

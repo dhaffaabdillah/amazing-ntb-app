@@ -68,11 +68,6 @@ class _UploadReportState extends State<UploadReport> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   var titleCtrl = TextEditingController();
   var descriptionCtrl = TextEditingController();
-  var productPrice = TextEditingController();
-  var phoneCtrl = TextEditingController();
-  var priceCtrl = TextEditingController();
-  var emailCtrl = TextEditingController();
-  var statusCtrl = TextEditingController();
 
   Future handlePost() async {
     await AppService().checkInternet().then((hasInternet) async {

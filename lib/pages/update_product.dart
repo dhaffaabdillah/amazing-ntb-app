@@ -30,6 +30,7 @@ import 'package:provider/provider.dart';
 class UpdateProduct extends StatefulWidget {
   const UpdateProduct({Key? key, required this.productData}) : super(key: key);
   final Product productData;
+  
   @override
   State<UpdateProduct> createState() => _UpdateProductState();
 }
@@ -185,7 +186,7 @@ class _UpdateProductState extends State<UpdateProduct> {
     priceCtrl.clear();
   }
 
-  initBlogData() {
+  initProductData() {
     Product d = widget.productData;
     productNameCtrl.text = d.productName!;
     productDetailCtrl.text = d.productDetail!;
@@ -201,14 +202,14 @@ class _UpdateProductState extends State<UpdateProduct> {
   @override
   void initState() {
     super.initState();
-    initBlogData();
+    initProductData();
   }
 
   Future uploadImage() async {
     // final SignInBloc sb = context.read<SignInBloc>();
-    String time = _timestamp.toString();
+    String time = widget.productData.timestamp.toString();
     Reference storageRef1 =
-        FirebaseStorage.instance.ref().child("files/${_timestamp}-thumbnail");
+        FirebaseStorage.instance.ref().child("files/${time}-thumbnail");
 
     if(imageFile1 != null){
       UploadTask uploadTask1 = storageRef1.putFile(imageFile1!);
@@ -229,10 +230,9 @@ class _UpdateProductState extends State<UpdateProduct> {
   }
 
   Future uploadImage2() async {
-    // final SignInBloc sb = context.read<SignInBloc>();
-    String time = _timestamp.toString();
+    String time = widget.productData.timestamp.toString();
     Reference storageRef2 =
-        FirebaseStorage.instance.ref().child("files/${_timestamp}-img1");
+        FirebaseStorage.instance.ref().child("files/${time}-img1");
 
     if(imageFile2 != null){
       UploadTask uploadTask2 = storageRef2.putFile(imageFile2!);
@@ -252,10 +252,9 @@ class _UpdateProductState extends State<UpdateProduct> {
   }
 
   Future uploadImage3() async {
-    // final SignInBloc sb = context.read<SignInBloc>();
-    String time = _timestamp.toString();
+    String time = widget.productData.timestamp.toString();
     Reference storageRef3 =
-        FirebaseStorage.instance.ref().child("files/${_timestamp}-img2");
+        FirebaseStorage.instance.ref().child("files/${time}-img2");
 
     if(imageFile3 != null){
       UploadTask uploadTask3 = storageRef3.putFile(imageFile3!);
