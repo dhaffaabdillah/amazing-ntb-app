@@ -72,10 +72,10 @@ class _CategoriesPageState extends State<CategoriesPage>
         body: ListView(
           padding: EdgeInsets.fromLTRB(15, 20, 15, 50),
           children: [
-            Text(
-              "Categories",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-            ).tr(),
+            // Text(
+            //   "Categories",
+            //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+            // ).tr(),
             SizedBox(
               height: 15,
             ),
@@ -83,6 +83,38 @@ class _CategoriesPageState extends State<CategoriesPage>
               padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
               child: ListTile(
                 title: Text('Beach', style: _textStyle).tr(),
+                subtitle: Text("7 Destinations", style: _subtitle),
+                tileColor: Colors.grey[50],
+                selectedColor: Colors.blue[250],
+                selectedTileColor: Colors.blue[250],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                leading: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(100)),
+                  child:
+                      Icon(LineIcons.umbrellaBeach, size: 40, color: Colors.blue[900]),
+                ),
+                trailing: Icon(
+                  Feather.chevron_right,
+                  size: 20,
+                ),
+                onTap: () => nextScreen(
+                    context,
+                    PlaceWithCategory(
+                      title: "Beach",
+                      color: Colors.blue[700],
+                      category: 'beach',
+                    )),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
+              child: ListTile(
+                title: Text('Hotel', style: _textStyle).tr(),
                 subtitle: Text("7 Destinations", style: _subtitle),
                 tileColor: Colors.grey[50],
                 selectedColor: Colors.blue[250],
@@ -105,9 +137,9 @@ class _CategoriesPageState extends State<CategoriesPage>
                 onTap: () => nextScreen(
                     context,
                     PlaceWithCategory(
-                      title: "Beach",
+                      title: "Hotel",
                       color: Colors.blue[700],
-                      category: 'beach',
+                      category: 'hotel',
                     )),
               ),
             ),
