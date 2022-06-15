@@ -62,9 +62,10 @@ class Area {
       description,
       domains;
   List<Name> name;
-  List<Parameter> parameter;
+  // List<Parameter> parameter;
 
-  Area(this.name, this.parameter,
+  Area(this.name, 
+  // this.parameter,
       {required this.id,
       required this.latitude,
       required this.longitude,
@@ -77,12 +78,13 @@ class Area {
 
   factory Area.fromJson(Map<String, dynamic> json) {
     var nameObj = json['name'] as List;
-    var parameterObj = json['parameter'] as List;
+    // var parameterObj = json['parameter'] as List;
     
     List<Name> _name = nameObj.map((e) => Name.fromJson(e)).toList();
-    List<Parameter> _parameter = parameterObj.map((e) => Parameter.fromJson(e)).toList();
+    // List<Parameter> _parameter = parameterObj.map((e) => Parameter.fromJson(e)).toList();
 
-    return new Area(_name, _parameter,
+    return new Area(_name, 
+    // _parameter,
         id: json['@id'],
         latitude: json['@latitude'],
         longitude: json['@longitude'],
@@ -106,15 +108,17 @@ class Name {
 
 class Parameter {
   final String id, description, type;
-  List<Timerange> timerange;
-  Parameter(this.timerange,
+  // List<Timerange> timerange;
+  Parameter(
+    // this.timerange,
       {required this.id, required this.description, required this.type});
 
   factory Parameter.fromJson(Map<String, dynamic> json) {
     var timerangeObj = json['timerange'] as List;
     List<Timerange> _timerange =
         timerangeObj.map((e) => Timerange.fromJson(e)).toList();
-    return new Parameter(_timerange,
+    return new Parameter(
+      // _timerange,
         id: json['@id'],
         description: json['@description'],
         type: json['@type']);
@@ -123,14 +127,21 @@ class Parameter {
 
 class Timerange {
   final String type, hour, datetime;
-  List<Value> val;
-  Timerange(this.val,
-      {required this.type, required this.hour, required this.datetime});
+  // final Value val;
+  // List<Value> val;
+  Timerange(
+      {
+        // required this.val,
+        required this.type, required this.hour, required this.datetime});
   factory Timerange.fromJson(Map<String, dynamic> json) {
-    var valObj = json['value'] as List;
-    List<Value> _val = valObj.map((e) => Value.fromJson(e)).toList();
-    return new Timerange(_val,
-        type: json['@type'], hour: json['@h'], datetime: json['@datetime']);
+    // var valObj = json['value'] as List;
+    // List<Value> _val = valObj.map((e) => Value.fromJson(e)).toList();
+    return new Timerange(
+      // val: Value.fromJson(json['value']),
+      type: json['@type'],
+      hour: json['@h'] == null ? "0" : json['@h'], 
+      datetime: json['@datetime']
+    );
   }
 }
 

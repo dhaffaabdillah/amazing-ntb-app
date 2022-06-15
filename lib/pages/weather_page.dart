@@ -57,7 +57,7 @@ class _WeatherPageState extends State<WeatherPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Weather Report is Jojo Reference'),
+        title: Text('Weather Report'),
       ),
       body: Container(
         child: loading
@@ -72,7 +72,8 @@ class _WeatherPageState extends State<WeatherPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(x.row.data.forecast.area.elementAt(0).name.elementAt(1).text.toString()),
-                        Text(x.row.data.forecast.area.elementAt(0).parameter.elementAt(0).type.toString()),
+                        // Text(x.row.data.forecast.area.elementAt(0).parameter.elementAt(0).timerange.elementAt(0).val.unit.toString()),
+                        // Text(x.row.data.forecast.area.elementAt(0).parameter.elementAt(0).timerange.elementAt(0).datetime.toString()),
                       ],
                     ),
                   );
