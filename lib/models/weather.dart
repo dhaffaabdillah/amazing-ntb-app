@@ -62,8 +62,9 @@ class Area {
       description,
       domains;
   List<Name> name;
+  List<Parameter> parameter;
 
-  Area(this.name,
+  Area(this.name, this.parameter,
       {required this.id,
       required this.latitude,
       required this.longitude,
@@ -76,8 +77,12 @@ class Area {
 
   factory Area.fromJson(Map<String, dynamic> json) {
     var nameObj = json['name'] as List;
+    var parameterObj = json['parameter'] as List;
+    
     List<Name> _name = nameObj.map((e) => Name.fromJson(e)).toList();
-    return new Area(_name,
+    List<Parameter> _parameter = parameterObj.map((e) => Parameter.fromJson(e)).toList();
+
+    return new Area(_name, _parameter,
         id: json['@id'],
         latitude: json['@latitude'],
         longitude: json['@longitude'],
@@ -110,7 +115,9 @@ class Parameter {
     List<Timerange> _timerange =
         timerangeObj.map((e) => Timerange.fromJson(e)).toList();
     return new Parameter(_timerange,
-        id: json['@id'], description: json['@description'], type: json['@type']);
+        id: json['@id'],
+        description: json['@description'],
+        type: json['@type']);
   }
 }
 
