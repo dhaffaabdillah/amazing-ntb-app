@@ -37,9 +37,10 @@ class SubmenuWidget extends StatelessWidget {
           child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
+
                     Container(
-                      height: 80,
-                      width: 80,
+                      height: 70,
+                      width: 70,
                       decoration: BoxDecoration(
                           shape: BoxShape.rectangle,
                           color: Colors.white,
@@ -56,8 +57,8 @@ class SubmenuWidget extends StatelessWidget {
                     ),
 
                     Container(
-                      height: 80,
-                      width: 80,
+                      height: 70,
+                      width: 70,
                       decoration: BoxDecoration(
                           shape: BoxShape.rectangle,
                           color: Colors.white,
@@ -74,8 +75,8 @@ class SubmenuWidget extends StatelessWidget {
                     ),
 
                     Container(
-                      height: 80,
-                      width: 80,
+                      height: 70,
+                      width: 70,
                       decoration: BoxDecoration(
                           shape: BoxShape.rectangle,
                           color: Colors.white,
@@ -93,9 +94,10 @@ class SubmenuWidget extends StatelessWidget {
                       ),
                       
                     ),
+
                     Container(
-                      height: 80,
-                      width: 80,
+                      height: 70,
+                      width: 70,
                       decoration: BoxDecoration(
                           shape: BoxShape.rectangle,
                           color: Colors.white,
@@ -107,9 +109,10 @@ class SubmenuWidget extends StatelessWidget {
                                 blurRadius: 0.2)
                           ]),
                       child:
-                      IconButton(icon: Icon(Icons.move_down_rounded), tooltip: "Category" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 40,onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => CategoriesPage()))),
+                      IconButton(icon: Icon(Icons.move_down_rounded), tooltip: "Category" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 25,onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => CategoriesPage()))),
 
                     ),
+
                   ]
             ),
           

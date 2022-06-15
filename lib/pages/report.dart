@@ -166,237 +166,234 @@ class _ReportState extends State<Report> {
       appBar: AppBar(title: Text("Report Nearby Area")),
       body: Form(
           key: formKey,
-          child: ListView(
-            children: <Widget>[
-              SizedBox(
-                height: h * 0.10,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              statusDropdown(),
-              SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                decoration: inputDecoration(
-                    'Enter Product Name', 'Product Name', productNameCtrl),
-                controller: productNameCtrl,
-                validator: (value) {
-                  if (value!.isEmpty) return 'Value is empty';
-                  return null;
-                },
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                decoration: inputDecoration(
-                    'Enter Phone Number', 'Phone', sellerContact),
-                controller: sellerContact,
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value!.isEmpty) return 'Value is empty';
-                  return null;
-                },
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                decoration: inputDecoration('Enter Price', 'Price', priceCtrl),
-                controller: priceCtrl,
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value!.isEmpty) return 'Value is empty';
-                  return null;
-                },
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              // Container(
-              //   height: 150,
-              //   width: MediaQuery.of(context).size.width,
-              //   child: CustomCacheImage(
-              //       imageUrl: "", radius: 0.0)
-              // ),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              TextButton(
-                style: buttonStyleIMG(Colors.grey[200]),
-                onPressed: () async {
-                  FilePickerResult? thumbnailResult =
-                      await FilePicker.platform.pickFiles();
-
-                  if (thumbnailResult != null) {
-                    if (thumbnailResult.files.first.size > 1200000) {
-                      openDialog(context, "Image Too Large", "");
-                    } else {
-                      thumbnail = thumbnailResult.files.first.bytes;
-                      thumbnailName = thumbnailResult.files.first.name;
-                    }
-                  }
-                },
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Upload Thumnail (Image 1)",
-                      style: TextStyle(color: Colors.black)),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            child: ListView(
+              children: <Widget>[
+                SizedBox(
+                  height: 50,
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              // Container(
-              //   height: 150,
-              //   width: MediaQuery.of(context).size.width,
-              //   child: CustomCacheImage(
-              //       imageUrl: "", radius: 0.0)
-              // ),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              TextButton(
-                style: buttonStyleIMG(Colors.grey[200]),
-                onPressed: () async {
-                  FilePickerResult? thumbnailResult =
-                      await FilePicker.platform.pickFiles();
-
-                  if (thumbnailResult != null) {
-                    if (thumbnailResult.files.first.size > 1200000) {
-                      openDialog(context, "Image Too Large", "");
-                    } else {
-                      img1 = thumbnailResult.files.first.bytes;
-                      img1Name = thumbnailResult.files.first.name;
-                    }
-                  }
-                },
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Upload Image 2",
-                      style: TextStyle(color: Colors.black)),
+                statusDropdown(),
+                SizedBox(
+                  height: 20,
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              // Container(
-              //   height: 150,
-              //   width: MediaQuery.of(context).size.width,
-              //   child: CustomCacheImage(
-              //       imageUrl: "", radius: 0.0)
-              // ),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              TextButton(
-                style: buttonStyleIMG(Colors.grey[200]),
-                onPressed: () async {
-                  FilePickerResult? thumbnailResult =
-                      await FilePicker.platform.pickFiles();
-
-                  if (thumbnailResult != null) {
-                    if (thumbnailResult.files.first.size > 1200000) {
-                      openDialog(context, "Image Too Large", "");
-                    } else {
-                      img2 = thumbnailResult.files.first.bytes;
-                      img2Name = thumbnailResult.files.first.name;
-                    }
-                  }
-                },
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Upload Image 3",
-                      style: TextStyle(color: Colors.black)),
+                TextFormField(
+                  decoration: inputDecoration(
+                      'Enter Product Name', 'Product Name', productNameCtrl),
+                  controller: productNameCtrl,
+                  validator: (value) {
+                    if (value!.isEmpty) return 'Value is empty';
+                    return null;
+                  },
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                    hintText: 'Enter Description (Html or Normal Text)',
-                    border: OutlineInputBorder(),
-                    labelText: 'Product Description',
-                    contentPadding:
-                        EdgeInsets.only(right: 0, left: 10, top: 15, bottom: 5),
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CircleAvatar(
-                        radius: 15,
-                        backgroundColor: Colors.grey[300],
-                        child: IconButton(
-                            icon: Icon(Icons.close, size: 15),
-                            onPressed: () {
-                              productDetailCtrl.clear();
-                            }),
-                      ),
-                    )),
-                textAlignVertical: TextAlignVertical.top,
-                minLines: 5,
-                maxLines: null,
-                keyboardType: TextInputType.multiline,
-                controller: productDetailCtrl,
-                validator: (value) {
-                  if (value!.isEmpty) return 'Value is empty';
-                  return null;
-                },
-              ),
-              SizedBox(
-                height: 100,
-              ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   children: <Widget>[
-              //     TextButton.icon(
-              //         icon: Icon(
-              //           Icons.remove_red_eye,
-              //           size: 25,
-              //           color: Colors.blueAccent,
-              //         ),
-              //         label: Text(
-              //           'Preview',
-              //           style: TextStyle(
-              //               fontWeight: FontWeight.w400, color: Colors.black),
-              //         ),
-              //         onPressed: () {
-              //           handlePreview();
-              //         })
-              //   ],
-              // ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                  color: Colors.deepPurpleAccent,
-                  height: 45,
-                  child: uploadStarted == true
-                      ? Center(
-                          child: Container(
-                              height: 30,
-                              width: 30,
-                              child: CircularProgressIndicator()),
-                        )
-                      : TextButton(
-                          child: Text(
-                            'Upload Product',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          onPressed: () async {
-                            handleSubmit();
-                          })),
-              SizedBox(
-                height: 200,
-              ),
-            ],
-          )),
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  decoration: inputDecoration(
+                      'Enter Phone Number', 'Phone', sellerContact),
+                  controller: sellerContact,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value!.isEmpty) return 'Value is empty';
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  decoration: inputDecoration('Enter Price', 'Price', priceCtrl),
+                  controller: priceCtrl,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value!.isEmpty) return 'Value is empty';
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                // Container(
+                //   height: 150,
+                //   width: MediaQuery.of(context).size.width,
+                //   child: CustomCacheImage(
+                //       imageUrl: "", radius: 0.0)
+                // ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                TextButton(
+                  style: buttonStyleIMG(Colors.grey[200]),
+                  onPressed: () async {
+                    FilePickerResult? thumbnailResult =
+                        await FilePicker.platform.pickFiles();
+
+                    if (thumbnailResult != null) {
+                      if (thumbnailResult.files.first.size > 1200000) {
+                        openDialog(context, "Image Too Large", "");
+                      } else {
+                        thumbnail = thumbnailResult.files.first.bytes;
+                        thumbnailName = thumbnailResult.files.first.name;
+                      }
+                    }
+                  },
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Upload Thumnail (Image 1)",
+                        style: TextStyle(color: Colors.black)),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                // Container(
+                //   height: 150,
+                //   width: MediaQuery.of(context).size.width,
+                //   child: CustomCacheImage(
+                //       imageUrl: "", radius: 0.0)
+                // ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                TextButton(
+                  style: buttonStyleIMG(Colors.grey[200]),
+                  onPressed: () async {
+                    FilePickerResult? thumbnailResult =
+                        await FilePicker.platform.pickFiles();
+
+                    if (thumbnailResult != null) {
+                      if (thumbnailResult.files.first.size > 1200000) {
+                        openDialog(context, "Image Too Large", "");
+                      } else {
+                        img1 = thumbnailResult.files.first.bytes;
+                        img1Name = thumbnailResult.files.first.name;
+                      }
+                    }
+                  },
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Upload Image 2",
+                        style: TextStyle(color: Colors.black)),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                // Container(
+                //   height: 150,
+                //   width: MediaQuery.of(context).size.width,
+                //   child: CustomCacheImage(
+                //       imageUrl: "", radius: 0.0)
+                // ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                TextButton(
+                  style: buttonStyleIMG(Colors.grey[200]),
+                  onPressed: () async {
+                    FilePickerResult? thumbnailResult =
+                        await FilePicker.platform.pickFiles();
+
+                    if (thumbnailResult != null) {
+                      if (thumbnailResult.files.first.size > 1200000) {
+                        openDialog(context, "Image Too Large", "");
+                      } else {
+                        img2 = thumbnailResult.files.first.bytes;
+                        img2Name = thumbnailResult.files.first.name;
+                      }
+                    }
+                  },
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Upload Image 3",
+                        style: TextStyle(color: Colors.black)),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      hintText: 'Enter Description (Html or Normal Text)',
+                      border: OutlineInputBorder(),
+                      labelText: 'Product Description',
+                      contentPadding:
+                          EdgeInsets.only(right: 0, left: 10, top: 15, bottom: 5),
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CircleAvatar(
+                          radius: 15,
+                          backgroundColor: Colors.grey[300],
+                          child: IconButton(
+                              icon: Icon(Icons.close, size: 15),
+                              onPressed: () {
+                                productDetailCtrl.clear();
+                              }),
+                        ),
+                      )),
+                  textAlignVertical: TextAlignVertical.top,
+                  minLines: 5,
+                  maxLines: null,
+                  keyboardType: TextInputType.multiline,
+                  controller: productDetailCtrl,
+                  validator: (value) {
+                    if (value!.isEmpty) return 'Value is empty';
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: <Widget>[
+                //     TextButton.icon(
+                //         icon: Icon(
+                //           Icons.remove_red_eye,
+                //           size: 25,
+                //           color: Colors.blueAccent,
+                //         ),
+                //         label: Text(
+                //           'Preview',
+                //           style: TextStyle(
+                //               fontWeight: FontWeight.w400, color: Colors.black),
+                //         ),
+                //         onPressed: () {
+                //           handlePreview();
+                //         })
+                //   ],
+                // ),
+                Container(
+                    color: Colors.deepPurpleAccent,
+                    height: 45,
+                    child: uploadStarted == true
+                        ? Center(
+                            child: Container(
+                                height: 30,
+                                width: 30,
+                                child: CircularProgressIndicator()),
+                          )
+                        : TextButton(
+                            child: Text(
+                              'Upload Report',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            onPressed: () async {
+                              handleSubmit();
+                            }
+                          )
+                        ),
+                SizedBox(
+                  height: 50,
+                ),
+              ],
+            )
+          )
+        ),
     );
   }
 
