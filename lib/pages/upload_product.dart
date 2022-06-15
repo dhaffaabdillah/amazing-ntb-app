@@ -635,6 +635,9 @@ class _UploadProductState extends State<UploadProduct> {
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600),
                             ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.resolveWith((states) => Theme.of(context).primaryColor)
+                            ),
                             onPressed: () async {
                               handlePost();
                             }

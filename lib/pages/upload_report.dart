@@ -298,42 +298,30 @@ class _UploadReportState extends State<UploadReport> {
       ),
       body: Form(
           key: formKey,
-          child: ListView(
-            children: <Widget>[
-              SizedBox(
-                height: h * 0.002,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 12, right: 12),
-                child: Text(
-                  'Input your report.',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
-                ).tr(),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 14, right: 14),
-                child: TextFormField(
-                  decoration: inputDecoration(
-                      'Enter Report Title', 'Report Title', titleCtrl),
-                  controller: titleCtrl,
-                  validator: (value) {
-                    if (value!.isEmpty) return 'Value is empty';
-                    return null;
-                  },
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15),
+              child: ListView(
+              children: <Widget>[
+                
+                SizedBox(
+                  height: 50,
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 14, right: 14),
-                child: TextFormField(
+
+                TextFormField(
+                    decoration: inputDecoration(
+                        'Enter Report Title', 'Report Title', titleCtrl),
+                    controller: titleCtrl,
+                    validator: (value) {
+                      if (value!.isEmpty) return 'Value is empty';
+                      return null;
+                    },
+                  ),
+
+                SizedBox(
+                  height: 20,
+                ),
+          
+                TextFormField(
                   decoration: InputDecoration(
                       hintText: 'Enter Report Description',
                       border: OutlineInputBorder(),
@@ -362,146 +350,153 @@ class _UploadReportState extends State<UploadReport> {
                     return null;
                   },
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 14, right: 14),
-                child: Text(
+
+                SizedBox(
+                  height: 20,
+                ),
+
+                Text(
                   "Upload the pictures.",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                child: Container(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  height: 150,
-                  width: 100,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1, color: Color.fromARGB(255, 239, 198, 198)),
-                      color: Colors.white,
-                      shape: BoxShape.rectangle,
-                      image: DecorationImage(
-                          image: (imageFile1 == null
-                                  ? CachedNetworkImageProvider(
-                                      Constants.defaultPath)
-                                  : FileImage(imageFile1!))
-                              as ImageProvider<Object>,
-                          fit: BoxFit.cover)),
-                  child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Icon(
-                        Icons.edit,
-                        size: 30,
-                        color: Colors.black,
-                      )),
+
+                SizedBox(
+                  height: 20,
                 ),
-                // ),
-                onTap: () {
-                  pickImage1();
-                },
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                child: Container(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  height: 150,
-                  width: 100,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1, color: Color.fromARGB(255, 239, 198, 198)),
-                      color: Colors.white,
-                      shape: BoxShape.rectangle,
-                      image: DecorationImage(
-                          image: (imageFile2 == null
-                                  ? CachedNetworkImageProvider(
-                                      Constants.defaultPath)
-                                  : FileImage(imageFile2!))
-                              as ImageProvider<Object>,
-                          fit: BoxFit.cover)),
-                  child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Icon(
-                        Icons.edit,
-                        size: 30,
-                        color: Colors.black,
-                      )),
+                
+                InkWell(
+                  child: Container(
+                    padding: EdgeInsets.only(left: 20, right: 20),
+                    height: 150,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 1, color: Color.fromARGB(255, 239, 198, 198)),
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        image: DecorationImage(
+                            image: (imageFile1 == null
+                                    ? CachedNetworkImageProvider(
+                                        Constants.defaultPath)
+                                    : FileImage(imageFile1!))
+                                as ImageProvider<Object>,
+                            fit: BoxFit.cover)),
+                    child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Icon(
+                          Icons.edit,
+                          size: 30,
+                          color: Colors.black,
+                        )),
+                  ),
+                  onTap: () {
+                    pickImage1();
+                  },
                 ),
-                onTap: () {
-                  pickImage2();
-                },
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                child: Container(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  height: 150,
-                  width: 100,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1, color: Color.fromARGB(255, 239, 198, 198)),
-                      color: Colors.white,
-                      shape: BoxShape.rectangle,
-                      image: DecorationImage(
-                          image: (imageFile3 == null
-                                  ? CachedNetworkImageProvider(
-                                      Constants.defaultPath)
-                                  : FileImage(imageFile3!))
-                              as ImageProvider<Object>,
-                          fit: BoxFit.cover)),
-                  child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Icon(
-                        Icons.edit,
-                        size: 30,
-                        color: Colors.black,
-                      )),
+
+                SizedBox(
+                  height: 20,
                 ),
-                onTap: () {
-                  pickImage3();
-                },
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                  color: Colors.deepPurpleAccent,
-                  height: 45,
-                  child: loading == true
-                      ? Center(
-                          child: Container(
-                              height: 30,
-                              width: 30,
-                              child: CircularProgressIndicator()),
-                        )
-                      : TextButton(
-                          child: Text(
-                            'Upload Report',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          onPressed: () async {
-                            handlePost();
-                          })),
-              SizedBox(
-                height: 50,
-              ),
-            ],
-          )),
+                
+                InkWell(
+                  child: Container(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    height: 150,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 1, color: Color.fromARGB(255, 239, 198, 198)),
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        image: DecorationImage(
+                            image: (imageFile2 == null
+                                    ? CachedNetworkImageProvider(
+                                        Constants.defaultPath)
+                                    : FileImage(imageFile2!))
+                                as ImageProvider<Object>,
+                            fit: BoxFit.cover)),
+                    child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Icon(
+                          Icons.edit,
+                          size: 30,
+                          color: Colors.black,
+                        )),
+                  ),
+                  onTap: () {
+                    pickImage2();
+                  },
+                ),
+                
+                SizedBox(
+                  height: 20,
+                ),
+
+                InkWell(
+                  child: Container(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    height: 150,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 1, color: Color.fromARGB(255, 239, 198, 198)),
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        image: DecorationImage(
+                            image: (imageFile3 == null
+                                    ? CachedNetworkImageProvider(
+                                        Constants.defaultPath)
+                                    : FileImage(imageFile3!))
+                                as ImageProvider<Object>,
+                            fit: BoxFit.cover)),
+                    child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Icon(
+                          Icons.edit,
+                          size: 30,
+                          color: Colors.black,
+                        )),
+                  ),
+                  onTap: () {
+                    pickImage3();
+                  },
+                ),
+                
+                SizedBox(
+                  height: 20,
+                ),
+
+                Container(
+                    color: Colors.deepPurpleAccent,
+                    height: 45,
+                    child: loading == true
+                        ? Center(
+                            child: Container(
+                                height: 30,
+                                width: 30,
+                                child: CircularProgressIndicator()),
+                          )
+                        : TextButton(
+                            child: Text(
+                              'Upload Report',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.resolveWith((states) => Theme.of(context).primaryColor)
+                            ),
+                            onPressed: () async {
+                              handlePost();
+                            })),
+                SizedBox(
+                  height: 50,
+                ),
+              ],
+            )
+          )
+        ),
     );
   }
 
