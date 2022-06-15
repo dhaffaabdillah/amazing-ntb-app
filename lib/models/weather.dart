@@ -77,7 +77,8 @@ class Area {
   factory Area.fromJson(Map<String, dynamic> json) {
     var nameObj = json['name'] as List;
     List<Name> _name = nameObj.map((e) => Name.fromJson(e)).toList();
-    return new Area(_name,
+    return new Area(
+      _name,
         id: json['@id'],
         latitude: json['@latitude'],
         longitude: json['@longitude'],

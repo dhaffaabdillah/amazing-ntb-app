@@ -71,7 +71,7 @@ class _WeatherPageState extends State<WeatherPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(x.row.data.forecast.area.elementAt(1).description.toString()),
+                        Text(x.row.data.forecast.area.elementAt(0).name.elementAt(1).text.toString()),
                       ],
                     ),
                   );
