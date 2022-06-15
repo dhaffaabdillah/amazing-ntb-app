@@ -159,15 +159,49 @@ class _ItemList extends StatelessWidget {
                 child: CustomCacheImage(imageUrl: d.thumbnailUrl,)),
             ),
 
-            Align(
-              alignment: Alignment.center,
-              child: Text(d.name!.toUpperCase(), style: TextStyle(
-                fontSize: 22,
-                color: Colors.white,
-                fontWeight: FontWeight.w600
-              ),),
-            )
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(d.name!.toUpperCase(), style: TextStyle(
+                    fontSize: 22,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600
+                  ),),
+                ),
 
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+                    Text("Cerah Berawan", style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600
+                      )
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10),
+                      height: 2,
+                      width: 25,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
+                    ),
+
+                    Text("26 C", style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600
+                      )
+                    )
+                  ]
+                ),
+  
+              ],
+            ),
             
           ],
         )

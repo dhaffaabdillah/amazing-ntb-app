@@ -131,7 +131,42 @@ class Header extends StatelessWidget {
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Colors.grey[600]),
-                    ).tr()
+                    ).tr(),
+
+                    Row(
+                      children: [
+
+                        Text("Mandalika, ", style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w500
+                          )
+                        ),
+
+                        Text("Cerah Berawan", style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w500
+                          )
+                        ),
+
+                        Container(
+                          margin: EdgeInsets.only(left: 10, right: 10),
+                          height: 2,
+                          width: 25,
+                          decoration: BoxDecoration(
+                              color: Colors.grey[600],
+                              borderRadius: BorderRadius.circular(15)),
+                        ),
+
+                        Text("26 C", style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w500
+                          )
+                        )
+                      ]
+                    ),
                   ],
                 ),
                 Spacer(),
