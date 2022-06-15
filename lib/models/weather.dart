@@ -46,11 +46,8 @@ class Forecast {
   factory Forecast.fromJson(Map<String, dynamic> json) {
     var areaObj = json['area'] as List;
     List<Area> _area = areaObj.map((e) => Area.fromJson(e)).toList();
-    return new Forecast(
-        _area,
-        domain: json['@domain'], 
-        issue: Issue.fromJson(json['issue'])
-    );
+    return new Forecast(_area,
+        domain: json['@domain'], issue: Issue.fromJson(json['issue']));
   }
 }
 
@@ -64,8 +61,9 @@ class Area {
       level,
       description,
       domains;
+  List<Name> name;
 
-  Area(
+  Area(this.name,
       {required this.id,
       required this.latitude,
       required this.longitude,
@@ -77,7 +75,9 @@ class Area {
       required this.domains});
 
   factory Area.fromJson(Map<String, dynamic> json) {
-    return new Area(
+    var nameObj = json['name'] as List;
+    List<Name> _name = nameObj.map((e) => Name.fromJson(e)).toList();
+    return new Area(_name,
         id: json['@id'],
         latitude: json['@latitude'],
         longitude: json['@longitude'],
@@ -89,6 +89,17 @@ class Area {
         domains: json['@domain']);
   }
 }
+
+class Name {
+  final String xmlLang, text;
+  Name({required this.xmlLang, required this.text});
+
+  factory Name.fromJson(Map<String, dynamic> json) {
+    return new Name(text: json['#text'], xmlLang: json['@xml:lang']);
+  }
+}
+
+class Parameter {}
 
 class Issue {
   final String timestamp, year, month, day, hour, minute, second;
@@ -113,7 +124,3 @@ class Issue {
     );
   }
 }
-
-class Name {}
-
-class Parameter {}
