@@ -1,165 +1,174 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:travel_hour/blocs/blog_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:travel_hour/blocs/dashboard_blog_bloc.dart';
-import 'package:travel_hour/blocs/popular_places_bloc.dart';
-import 'package:travel_hour/blocs/product_bloc.dart';
-import 'package:travel_hour/blocs/recent_places_bloc.dart';
+import 'package:travel_hour/blocs/recommanded_places_bloc.dart';
 import 'package:travel_hour/models/blog.dart';
 import 'package:travel_hour/models/place.dart';
-import 'package:provider/provider.dart';
-import 'package:travel_hour/models/product.dart';
 import 'package:travel_hour/pages/blog_details.dart';
 import 'package:travel_hour/pages/blogs.dart';
 import 'package:travel_hour/pages/more_places.dart';
-import 'package:travel_hour/pages/more_products.dart';
 import 'package:travel_hour/pages/place_details.dart';
-import 'package:travel_hour/pages/product_details.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
-import 'package:travel_hour/utils/loading_cards.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class BlogDashboards extends StatelessWidget {
   BlogDashboards({Key? key}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
-    final pb = context.watch<DashboardBlogBloc>();
+    final DashboardBlogBloc rpb = Provider.of<DashboardBlogBloc>(context);
 
     return Column(
       children: <Widget>[
         Container(
-          margin: EdgeInsets.only(left: 15, top: 15, right: 10),
-          child: Row(children: <Widget>[
-            Text('list blogs', style: TextStyle(
-              fontSize: 18, 
-              fontWeight: FontWeight.bold, 
-              color: Colors.grey[900],
-              wordSpacing: 1,
-              letterSpacing: -0.6
-              ),
-            ).tr(),
-            Spacer(),
-            IconButton(icon: Icon(Icons.arrow_forward),
-              onPressed: () => nextScreen(context, BlogPage()),            
-            )
-          ],),
-        ),
-        
-
-        Container(
-          height: 245,
-          width: MediaQuery.of(context).size.width,
-          child: ListView.builder(
-            padding: EdgeInsets.only(left: 15, right: 15),
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: pb.data.isEmpty ? 3 : pb.data.length,
-            itemBuilder: (BuildContext context, int index) {
-              if(pb.data.isEmpty) return LoadingPopularPlacesCard();
-              return _ItemList(d: pb.data[index],);
-           },
+          margin: EdgeInsets.only(
+            left: 15,
+            top: 30,
+            right: 15,
           ),
-        )
-        
-        
+          child: Row(
+            children: <Widget>[
+              Text(
+                'list blogs',
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey[800], 
+                    wordSpacing: 1, 
+                    letterSpacing: -0.6
+                  ),
+              ).tr(),
+              Spacer(),
+            ],
+          ),
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          child: ListView.separated(
+            padding: EdgeInsets.only(top: 10, bottom: 30, left: 15, right: 15),
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: 3,
+            separatorBuilder: (context, index) => SizedBox(height: 15,),
+            itemBuilder: (BuildContext context, int index) {
+              if (rpb.data.isEmpty) return Container();
+              return _BlogList(data: rpb.data[index]);
+            },
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(bottom: 30, left: 15, right: 15),
+          height: 35,
+          width: MediaQuery.of(context).size.width,
+          child: ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.resolveWith((states) => Theme.of(context).primaryColor),
+              textStyle: MaterialStateProperty.resolveWith((states) => TextStyle(
+                color: Colors.white
+              ))
+            ),
+            child: Text('show more blogs', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)).tr(),
+            onPressed: (){
+              nextScreen(context, BlogPage());
+            },
+
+            
+          ),
+        ),
       ],
     );
   }
 }
 
 
-class _ItemList extends StatelessWidget {
-  final Blog d;
-  const _ItemList({Key? key, required this.d}) : super(key: key);
+
+
+
+class _BlogList extends StatelessWidget {
+  final Blog? data;
+  const _BlogList({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-          child: Container(
-                margin: EdgeInsets.only(left: 0, right: 10, top: 5, bottom: 5),
-                width: MediaQuery.of(context).size.width * 0.40,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(10)
-                  
-                ),
-                child: Stack(
-                   children: [
-                     Hero(
-                       tag: 'blogs${d.timestamp}',
-                        child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        // child: CustomCacheImage(imageUrl: "https://media.suara.com/pictures/970x544/2021/12/30/18778-ilustrasi-kipas-anginpixabaycom.jpg")
-                        child: CustomCacheImage(imageUrl: d.thumbnailImagelUrl)
-                       ),
-                     ),
+      child: Container(
+        height: 120,
+        width: double.infinity,
+        decoration: BoxDecoration(
 
-                    Positioned(
-                        bottom: 0,
-                        right: 0,
-                        left: 0,
-                        child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.all(15),
-                        height: 90,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[900]!.withOpacity(0.6),
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(5),
-                              bottomRight: Radius.circular(5)
-                            )
-                                ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              d.title!,
-                              maxLines: 1,
-                              overflow: TextOverflow.clip,
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(3)
+        ),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(3),
+              child: Hero(
+                  tag: 'bookmark${data!.timestamp}',
+                  child: Container(
+                    width: 140,
+                    child: CustomCacheImage(imageUrl: data!.thumbnailImagelUrl),
+                  )),
+            ),
+            Flexible(
+              child: Container(
+                margin: EdgeInsets.only(left: 15, top: 15, right: 10, bottom: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      data!.title!,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(CupertinoIcons.time,
+                                size: 16, color: Colors.grey),
+                            SizedBox(
+                              width: 3,
                             ),
-                            SizedBox(height: 5,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(right: 10),
-                                  child:  Icon(Feather.heart,
-                                    size: 15, color: Colors.grey[400],)
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    d.loves!.toString(),
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey[400],
-                                        fontWeight: FontWeight.w500,
-                                        ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
-                            )
+                            Text(data!.date!,
+                                style: TextStyle(
+                                    fontSize: 13, color: Colors.grey)),
                           ],
                         ),
-                    ),
-                  ),
-
-                   ],
+                        Row(
+                          children: [
+                            Icon(Icons.favorite, size: 16, color: Colors.grey),
+                            SizedBox(
+                              width: 3,
+                            ),
+                            Text(data!.loves.toString(),
+                                style: TextStyle(
+                                    fontSize: 13, color: Colors.grey)),
+                          ],
+                        ),
+                      ],
+                    )
+                  ],
                 ),
-                
               ),
-
-              onTap: () => nextScreen(context, BlogDetails(blogData: d, tag: 'blogs${d.timestamp}')),
+            ),
+          ],
+        ),
+      ),
+      onTap: () {
+        nextScreen(context, BlogDetails(blogData: data, tag: 'blogs${data!.timestamp}'));
+      },
     );
   }
 }
-
-

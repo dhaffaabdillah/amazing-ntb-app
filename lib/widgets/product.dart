@@ -33,7 +33,7 @@ class Products extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-          margin: EdgeInsets.only(left: 15, top: 15, right: 10),
+          margin: EdgeInsets.only(left: 15, right: 10),
           child: Row(children: <Widget>[
             Text('products', style: TextStyle(
               fontSize: 18, 

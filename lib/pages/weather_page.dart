@@ -27,6 +27,7 @@ class _WeatherPageState extends State<WeatherPage> {
   // late Future<List<Weather>> futureWeather;
   List<Weather> _list = [];
   var loading = false;
+  
   Future<Null> _fetchWeather() async {
     setState(() {
       loading = true;
