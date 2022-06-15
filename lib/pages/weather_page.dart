@@ -5,7 +5,7 @@ import 'dart:async';
 
 import 'package:travel_hour/constants/constants.dart';
 // import 'package:travel_hour/models/weather.dart';
-import 'package:travel_hour/models/weathersss.dart';  
+import 'package:travel_hour/models/weathersss.dart';
 
 Future<Weather> fetchWeather() async {
   final res = await http.get(Uri.parse(Constants.weatherAPI));
@@ -40,9 +40,12 @@ class _WeatherPageState extends State<WeatherPage> {
       final datax = jsonDecode(res.body);
       // as Map<String, dynamic>;
       setState(() {
-        for (Map<String, dynamic> i in datax) {
-          _list.add(Weather.fromJson(i));
-        }
+        // for (Map<String, dynamic> i in datax) {
+        //   _list.add(Weather.fromJson(i));
+        // }
+        datax.forEach((v) {
+          _list.add(new Weather.fromJson(v));
+        });
         loading = false;
       });
     }

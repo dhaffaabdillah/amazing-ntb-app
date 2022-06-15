@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:ffi';
 
-List<Weather> modelWeatherFromJson(String str) => List<Weather>.from(json.decode(str).map((x) => Weather.fromJson(x)));
-String modelUserToJson(List<Weather> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+// List<Weather> modelWeatherFromJson(String str) => List<Weather>.from(json.decode(str).map((x) => Weather.fromJson(x)));
+// String modelUserToJson(List<Weather> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 
 class Weather {
