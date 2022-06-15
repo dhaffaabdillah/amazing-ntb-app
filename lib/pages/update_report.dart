@@ -73,7 +73,7 @@ class _UpdateReportState extends State<UpdateReport> {
       } else if (hasInternet == true && titleCtrl == null) {
         openSnacbar(scaffoldKey, "Please fill title name");
       } else if (hasInternet == true && descriptionCtrl == null) {
-        openSnacbar(scaffoldKey, "Please fill your product detail");
+        openSnacbar(scaffoldKey, "Please fill your report detail");
       } else {
         if (formKey.currentState!.validate()) {
           formKey.currentState!.save();
