@@ -208,38 +208,50 @@ class _UploadReportState extends State<UploadReport> {
     String time = _timestamp.toString();
     Reference storageRef2 =
         FirebaseStorage.instance.ref().child("Report Files/${_timestamp}-img1");
-    UploadTask uploadTask2 = storageRef2.putFile(imageFile2!);
 
-    await uploadTask2.whenComplete(() async {
-      var _url2 = await storageRef2.getDownloadURL();
-      var _imageUrl2 = _url2.toString();
-      if (_imageUrl2 != null) {
-        setState(() {
-          imageUrl2 = _imageUrl2;
-        });
-      } else {
-        imageUrl2 = Constants.defaultPath;
-      }
-    });
+    if(imageFile2 != null){
+      UploadTask uploadTask2 = storageRef2.putFile(imageFile2!);
+
+      await uploadTask2.whenComplete(() async {
+        var _url2 = await storageRef2.getDownloadURL();
+        var _imageUrl2 = _url2.toString();
+        if (_imageUrl2 != null) {
+          setState(() {
+            imageUrl2 = _imageUrl2;
+          });
+        } else {
+          imageUrl2 = Constants.defaultPath;
+        }
+      });
+    } else {
+      imageUrl2 = Constants.defaultPath;
+    }
+
   }
 
   Future uploadImage3() async {
     String time = _timestamp.toString();
     Reference storageRef3 =
         FirebaseStorage.instance.ref().child("Report Files/${_timestamp}-img2");
-    UploadTask uploadTask3 = storageRef3.putFile(imageFile3!);
 
-    await uploadTask3.whenComplete(() async {
-      var _url = await storageRef3.getDownloadURL();
-      var _imageUrl3 = _url.toString();
-      if (_imageUrl3 != null) {
-        setState(() {
-          imageUrl3 = _imageUrl3;
-        });
-      } else {
-        imageUrl3 = Constants.defaultPath;
-      }
-    });
+    if(imageFile3 != null){
+      UploadTask uploadTask3 = storageRef3.putFile(imageFile3!);
+
+      await uploadTask3.whenComplete(() async {
+        var _url = await storageRef3.getDownloadURL();
+        var _imageUrl3 = _url.toString();
+        if (_imageUrl3 != null) {
+          setState(() {
+            imageUrl3 = _imageUrl3;
+          });
+        } else {
+          imageUrl3 = Constants.defaultPath;
+        }
+      });
+    } else {
+      imageUrl3 = Constants.defaultPath;
+    }
+
   }
 
   Future saveToDatabase() async {
