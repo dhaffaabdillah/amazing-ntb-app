@@ -126,7 +126,7 @@ class Header extends StatelessWidget {
                           color: Colors.grey[800]),
                     ),
                     Text(
-                      'explore country',
+                      'Mandalika',
                       style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
@@ -135,13 +135,6 @@ class Header extends StatelessWidget {
 
                     Row(
                       children: [
-
-                        Text("Mandalika, ", style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.w500
-                          )
-                        ),
 
                         Text("Cerah Berawan", style: TextStyle(
                             fontSize: 13,
