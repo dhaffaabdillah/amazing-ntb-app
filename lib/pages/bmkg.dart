@@ -4,6 +4,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 class BMKGPage extends StatefulWidget {
   final url;
   BMKGPage(this.url);
+  
   @override
   createState() => _BMKGPageState(this.url);
 }
