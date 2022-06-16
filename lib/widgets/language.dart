@@ -41,6 +41,8 @@ class _LanguagePopupState extends State<LanguagePopup> {
               context.setLocale(Locale('es'));
             } else if (d == 'Arabic') {
               context.setLocale(Locale('ar'));
+            } else if (d == 'Indonesia') {
+              context.setLocale(Locale('id'));
             }
             // else if(d == 'your_language_name'){
             //   context.setLocale(Locale('your_language_code'));

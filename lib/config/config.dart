@@ -45,5 +45,5 @@ class Config {
   final String introImage2 = 'assets/images/introBG2.png';
 
   //Language Setup
-  final List<String> languages = ['English', 'Spanish', 'Arabic'];
+  final List<String> languages = ['English', 'Spanish', 'Arabic', "Indonesia"];
 }
