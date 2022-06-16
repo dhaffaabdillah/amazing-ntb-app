@@ -152,7 +152,7 @@ class Header extends StatelessWidget {
                               borderRadius: BorderRadius.circular(15)),
                         ),
 
-                        Text("26 C", style: TextStyle(
+                        Text("27 °C", style: TextStyle(
                             fontSize: 13,
                             color: Colors.grey[600],
                             fontWeight: FontWeight.w500
