@@ -3,7 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Config {
   final String appName = 'Amazing NTB';
-  final String mapAPIKey = 'AIzaSyA5HNiWOkqTNUDReBBNKJSqRsishS0zUN0';
+  final String mapAPIKey = 'AIzaSyAVBeNtegNaOBRwO7Sm66_UIcsmFByn-D8';
   final String countryName = 'Indonesia';
   final String splashIcon = 'assets/images/icon-app.png';
   final String supportEmail = 'info@redcorp.id';
