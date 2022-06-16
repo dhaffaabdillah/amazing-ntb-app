@@ -5,7 +5,7 @@ import 'dart:async';
 
 import 'package:travel_hour/constants/constants.dart';
 import 'package:travel_hour/models/weather.dart';
-import 'package:travel_hour/models/weathersss.dart';
+// import 'package:travel_hour/models/weathersss.dart';
 
 Future<List<Weather>> fetchWeather() async {
   final res = await http.get(Uri.parse(Constants.weatherAPI));
@@ -72,7 +72,8 @@ class _WeatherPageState extends State<WeatherPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(x.row.data.forecast.area.elementAt(i).description),
+                        Text(x.row.data.forecast.area.elementAt(0).name.elementAt(1).text.toString()),
+                        Text(x.row.data.forecast.area.elementAt(0).parameter.elementAt(0).type.toString()),
                       ],
                     ),
                   );

@@ -16,6 +16,7 @@ import 'package:travel_hour/pages/more_places.dart';
 import 'package:travel_hour/pages/more_products.dart';
 import 'package:travel_hour/pages/my_report.dart';
 import 'package:travel_hour/pages/notifications.dart';
+import 'package:travel_hour/pages/place_with_category.dart';
 import 'package:travel_hour/pages/regist_as_seller.dart';
 import 'package:travel_hour/pages/report.dart';
 import 'package:travel_hour/pages/search_product.dart';
@@ -71,20 +72,18 @@ class _CategoriesPageState extends State<CategoriesPage>
         body: ListView(
           padding: EdgeInsets.fromLTRB(15, 20, 15, 50),
           children: [
-            Text(
-              "Categories",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-            ).tr(),
-
+            // Text(
+            //   "Categories",
+            //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+            // ).tr(),
             SizedBox(
               height: 15,
             ),
-
             Container(
               padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
               child: ListTile(
                 title: Text('Beach', style: _textStyle).tr(),
-                subtitle: Text("20 Destinations", style: _subtitle),
+                subtitle: Text("7 Destinations", style: _subtitle),
                 tileColor: Colors.grey[50],
                 selectedColor: Colors.blue[250],
                 selectedTileColor: Colors.blue[250],
@@ -96,21 +95,91 @@ class _CategoriesPageState extends State<CategoriesPage>
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
-                  child: Icon(LineIcons.hotel, size: 40, color: Colors.blue[900]),
+                  child:
+                      Icon(LineIcons.umbrellaBeach, size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
+                onTap: () => nextScreen(
+                    context,
+                    PlaceWithCategory(
+                      title: "Beach",
+                      color: Colors.blue[700],
+                      category: 'beach',
+                    )),
               ),
             ),
-
+            Container(
+              padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
+              child: ListTile(
+                title: Text('Hotel', style: _textStyle).tr(),
+                subtitle: Text("7 Destinations", style: _subtitle),
+                tileColor: Colors.grey[50],
+                selectedColor: Colors.blue[250],
+                selectedTileColor: Colors.blue[250],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                leading: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(100)),
+                  child:
+                      Icon(LineIcons.hotel, size: 40, color: Colors.blue[900]),
+                ),
+                trailing: Icon(
+                  Feather.chevron_right,
+                  size: 20,
+                ),
+                onTap: () => nextScreen(
+                    context,
+                    PlaceWithCategory(
+                      title: "Hotel",
+                      color: Colors.blue[700],
+                      category: 'hotel',
+                    )),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
+              child: ListTile(
+                title: Text('Landmark', style: _textStyle).tr(),
+                subtitle: Text("5 Destinations", style: _subtitle),
+                tileColor: Colors.grey[50],
+                selectedColor: Colors.blue[250],
+                selectedTileColor: Colors.blue[250],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                leading: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(100)),
+                  child: Icon(LineIcons.landmark,
+                      size: 40, color: Colors.blue[900]),
+                ),
+                trailing: Icon(
+                  Feather.chevron_right,
+                  size: 20,
+                ),
+                onTap: () => nextScreen(
+                    context,
+                    PlaceWithCategory(
+                      title: "Landmark",
+                      color: Colors.blue[700],
+                      category: 'landmark',
+                    )),
+              ),
+            ),
             Container(
               padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
               child: ListTile(
                 title: Text('Food', style: _textStyle).tr(),
-                subtitle: Text("20 Destinations", style: _subtitle),
+                subtitle: Text("2 Destinations", style: _subtitle),
                 tileColor: Colors.grey[50],
                 // selected: Colors.blue[250],
                 selectedColor: Colors.blue[250],
@@ -124,20 +193,26 @@ class _CategoriesPageState extends State<CategoriesPage>
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
                   child: Icon(FlutterIcons.food_fork_drink_mco,
-                    size: 40, color: Colors.blue[900]),
+                      size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
+                onTap: () => nextScreen(
+                    context,
+                    PlaceWithCategory(
+                      title: "Food",
+                      color: Colors.blue[700],
+                      category: 'food',
+                    )),
               ),
             ),
             Container(
               padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
               child: ListTile(
                 title: Text('Health', style: _textStyle).tr(),
-                subtitle: Text("20 Destinations", style: _subtitle),
+                subtitle: Text("1 Destinations", style: _subtitle),
                 tileColor: Colors.grey[50],
                 selectedColor: Colors.blue[250],
                 selectedTileColor: Colors.blue[250],
@@ -149,21 +224,27 @@ class _CategoriesPageState extends State<CategoriesPage>
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
-                      child: Icon(Icons.local_hospital_rounded,
-                    size: 40, color: Colors.blue[900]),
+                  child: Icon(Icons.local_hospital_rounded,
+                      size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
+                onTap: () => nextScreen(
+                    context,
+                    PlaceWithCategory(
+                      title: "Health",
+                      color: Colors.blue[700],
+                      category: 'health',
+                    )),
               ),
             ),
             Container(
               padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
               child: ListTile(
                 title: Text('Business', style: _textStyle).tr(),
-                subtitle: Text("20 Destinations", style: _subtitle),
+                subtitle: Text("8 Destinations", style: _subtitle),
                 tileColor: Colors.grey[50],
                 selectedColor: Colors.blue[250],
                 selectedTileColor: Colors.blue[250],
@@ -175,20 +256,27 @@ class _CategoriesPageState extends State<CategoriesPage>
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
-                      child: Icon(Feather.dollar_sign, size: 40, color: Colors.blue[900]),
+                  child: Icon(Feather.dollar_sign,
+                      size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
+                onTap: () => nextScreen(
+                    context,
+                    PlaceWithCategory(
+                      title: "Business",
+                      color: Colors.blue[700],
+                      category: 'business',
+                    )),
               ),
             ),
             Container(
               padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
               child: ListTile(
                 title: Text('Tourism', style: _textStyle).tr(),
-                subtitle: Text("20 Destinations", style: _subtitle),
+                subtitle: Text("14 Destinations", style: _subtitle),
                 tileColor: Colors.grey[50],
                 selectedColor: Colors.blue[250],
                 selectedTileColor: Colors.blue[250],
@@ -200,20 +288,27 @@ class _CategoriesPageState extends State<CategoriesPage>
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
-                      child: Icon(Feather.compass, size: 40, color: Colors.blue[900]),
+                  child:
+                      Icon(Feather.compass, size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
+                onTap: () => nextScreen(
+                    context,
+                    PlaceWithCategory(
+                      title: "Tourism",
+                      color: Colors.blue[700],
+                      category: 'tourism',
+                    )),
               ),
             ),
             Container(
               padding: EdgeInsets.only(left: 7, right: 7, bottom: 18),
               child: ListTile(
                 title: Text('Transportation', style: _textStyle).tr(),
-                subtitle: Text("20 Destinations", style: _subtitle),
+                subtitle: Text("3 Destinations", style: _subtitle),
                 tileColor: Colors.grey[50],
                 selectedColor: Colors.blue[250],
                 selectedTileColor: Colors.blue[250],
@@ -225,13 +320,19 @@ class _CategoriesPageState extends State<CategoriesPage>
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(100)),
-                      child: Icon(LineIcons.car, size: 40, color: Colors.blue[900]),
+                  child: Icon(LineIcons.car, size: 40, color: Colors.blue[900]),
                 ),
                 trailing: Icon(
                   Feather.chevron_right,
                   size: 20,
                 ),
-                onTap: () => nextScreen(context, MorePlacesPage(title: "Place", color: Colors.blue[700],)),
+                onTap: () => nextScreen(
+                    context,
+                    PlaceWithCategory(
+                      title: "Transportation",
+                      color: Colors.blue[700],
+                      category: 'transportation',
+                    )),
               ),
             ),
           ],
@@ -240,290 +341,4 @@ class _CategoriesPageState extends State<CategoriesPage>
 
   @override
   bool get wantKeepAlive => true;
-}
-
-class GuestUserUI extends StatelessWidget {
-  const GuestUserUI({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    TextStyle _textStyle = TextStyle(
-        fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[900]);
-
-    return Column(
-      children: [
-        ListTile(
-          title: Text(
-            'login',
-            style: _textStyle,
-          ).tr(),
-          leading: Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(5)),
-            child: Icon(Feather.user, size: 20, color: Colors.blue[900]),
-          ),
-          trailing: Icon(
-            Feather.chevron_right,
-            size: 20,
-          ),
-          onTap: () => nextScreenPopup(
-              context,
-              SignInPage(
-                tag: 'popup',
-              )),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-      ],
-    );
-  }
-}
-
-class UserUI extends StatelessWidget {
-  const UserUI({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final sb = context.watch<SignInBloc>();
-    final p = context.watch<ProductBloc>();
-    TextStyle _textStyle = TextStyle(
-        fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[900]);
-    return Column(
-      children: [
-        Container(
-          height: 200,
-          child: Column(
-            children: [
-              CircleAvatar(
-                  radius: 60,
-                  backgroundColor: Colors.grey[300],
-                  backgroundImage: CachedNetworkImageProvider(sb.imageUrl!)),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                sb.name!,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: -0.6,
-                    wordSpacing: 2),
-              )
-            ],
-          ),
-        ),
-        ListTile(
-          title: Text(
-            sb.email!,
-            style: _textStyle,
-          ),
-          leading: Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(5)),
-            child: Icon(Feather.mail, size: 20, color: Colors.blue[900]),
-          ),
-        ),
-        Divider(
-          height: 5,
-        ),
-        ListTile(
-          title: Text(
-            sb.joiningDate!,
-            style: _textStyle,
-          ),
-          leading: Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-                color: Colors.green, borderRadius: BorderRadius.circular(5)),
-            child: Icon(LineIcons.timesCircle, size: 20, color: Colors.blue[900]),
-          ),
-        ),
-        Divider(
-          height: 5,
-        ),
-
-        ListTile(
-          title: Text("My Community Reports", style: _textStyle).tr(),
-          leading: Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Icon(
-              Feather.alert_circle,
-              size: 20,
-              color: Colors.blue[900],
-            ),
-          ),
-          trailing: Icon(
-            Feather.chevron_right,
-            size: 20,
-          ),
-          onTap: () => nextScreen(
-              context,
-              MyReport(
-                  title: 'my reports', email: sb.email)),
-        ),
-        Divider(
-          height: 5,
-        ),
-
-        ListTile(
-          title: Text(
-            'regist as seller',
-            style: _textStyle,
-          ).tr(),
-          leading: Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-                color: Colors.purpleAccent,
-                borderRadius: BorderRadius.circular(5)),
-            child: Icon(Feather.inbox, size: 20, color: Colors.blue[900]),
-          ),
-          trailing: Icon(
-            Feather.chevron_right,
-            size: 20,
-          ),
-          onTap: () => openRegistSellerDialog(context),
-          // onTap: () => nextScreen(
-          //     context,
-          //     UploadProduct()),
-        ),
-        // ListTile(
-        //     title: Text(
-        //       'regist as seller',
-        //       style: _textStyle,
-        //     ).tr(),
-        //     leading: Container(
-        //       height: 30,
-        //       width: 30,
-        //       decoration: BoxDecoration(
-        //           color: Colors.purpleAccent,
-        //           borderRadius: BorderRadius.circular(5)),
-        //       child: Icon(Feather.inbox, size: 20, color: Colors.blue[900]),
-        //     ),
-        //     trailing: Icon(
-        //       Feather.chevron_right,
-        //       size: 20,
-        //     ),
-        //     onTap: () => nextScreen(
-        //         context,
-        //         RegistAsSeller(
-        //           statusSeller: sb.statusSeller,
-        //         ))),
-        Divider(
-          height: 5,
-        ),
-        ListTile(
-            title: Text(
-              'edit profile',
-              style: _textStyle,
-            ).tr(),
-            leading: Container(
-              height: 30,
-              width: 30,
-              decoration: BoxDecoration(
-                  color: Colors.purpleAccent,
-                  borderRadius: BorderRadius.circular(5)),
-              child: Icon(Feather.edit_3, size: 20, color: Colors.blue[900]),
-            ),
-            trailing: Icon(
-              Feather.chevron_right,
-              size: 20,
-            ),
-            onTap: () => nextScreen(
-                context, EditProfile(name: sb.name, imageUrl: sb.imageUrl))),
-        Divider(
-          height: 5,
-        ),
-        ListTile(
-          title: Text(
-            'logout',
-            style: _textStyle,
-          ).tr(),
-          leading: Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-                color: Colors.redAccent,
-                borderRadius: BorderRadius.circular(5)),
-            child: Icon(Feather.log_out, size: 20, color: Colors.blue[900]),
-          ),
-          trailing: Icon(
-            Feather.chevron_right,
-            size: 20,
-          ),
-          onTap: () => openLogoutDialog(context),
-        ),
-        SizedBox(
-          height: 15,
-        )
-      ],
-    );
-  }
-
-  void openRegistSellerDialog(context) {
-    // final sb = context.read<SignInBloc>();
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('regist as seller').tr(),
-            actions: [
-              TextButton(
-                child: Text('no').tr(),
-                onPressed: () => Navigator.pop(context),
-              ),
-              TextButton(
-                child: Text('yes').tr(),
-                onPressed: () async {
-                  Navigator.pop(context);
-                  await context.read<SignInBloc>().updateToSeller(2).then(
-                      (value) => nextScreenCloseOthers(context, Explore()));
-                },
-              )
-            ],
-          );
-        });
-  }
-
-  void openLogoutDialog(context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('logout title').tr(),
-            actions: [
-              TextButton(
-                child: Text('no').tr(),
-                onPressed: () => Navigator.pop(context),
-              ),
-              TextButton(
-                child: Text('yes').tr(),
-                onPressed: () async {
-                  Navigator.pop(context);
-                  await context
-                      .read<SignInBloc>()
-                      .userSignout()
-                      .then((value) =>
-                          context.read<SignInBloc>().afterUserSignOut())
-                      .then((value) =>
-                          nextScreenCloseOthers(context, SignInPage()));
-                },
-              )
-            ],
-          );
-        });
-  }
 }
