@@ -408,25 +408,25 @@ class SellerUI extends StatelessWidget {
         Divider(
           height: 5,
         ),
-        ListTile(
-          title: Text('test weather api', style: _textStyle,).tr(),
-          leading: Container(
-              height: 30, 
-              width: 30,
-              decoration: BoxDecoration(
-                color: Colors.greenAccent,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Icon(Feather.alert_circle, size: 20, color: Colors.white,),
-            ),
-            trailing: Icon(
-              Feather.chevron_right, size: 20,
-              ),
-              onTap: () => nextScreen(context, WeatherPage()),
-        ),
-        Divider(
-          height: 5,
-        ),
+        // ListTile(
+        //   title: Text('test weather api', style: _textStyle,).tr(),
+        //   leading: Container(
+        //       height: 30, 
+        //       width: 30,
+        //       decoration: BoxDecoration(
+        //         color: Colors.greenAccent,
+        //         borderRadius: BorderRadius.circular(5),
+        //       ),
+        //       child: Icon(Feather.alert_circle, size: 20, color: Colors.white,),
+        //     ),
+        //     trailing: Icon(
+        //       Feather.chevron_right, size: 20,
+        //       ),
+        //       onTap: () => nextScreen(context, WeatherPage()),
+        // ),
+        // Divider(
+        //   height: 5,
+        // ),
         ListTile(
           title: Text(
             'my products',

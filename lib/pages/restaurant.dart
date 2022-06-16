@@ -115,8 +115,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
   }
 
   _restaurantList(index) {
-    final String _photoUrl =
-        'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${_alldata[index].photoReference}&key=${Config().mapAPIKey}';
+    // final String _photoUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${_alldata[index].photoReference}&key=${Config().mapAPIKey}';
     return AnimatedBuilder(
         animation: _pageController!,
         builder: (BuildContext context, Widget? widget) {
@@ -135,7 +134,8 @@ class _RestaurantPageState extends State<RestaurantPage> {
         },
         child: InkWell(
           onTap: () {
-            _onCardTap(index, _photoUrl);
+            // _onCardTap(index, _photoUrl);
+            _onCardTap(index);
           },
           child: Container(
             margin: EdgeInsets.only(left: 5, right: 5),
@@ -159,9 +159,10 @@ class _RestaurantPageState extends State<RestaurantPage> {
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(5),
                       border: Border.all(width: 0.5, color: Colors.grey[500]!),
-                      image: DecorationImage(
-                          image: CachedNetworkImageProvider(_photoUrl),
-                          fit: BoxFit.cover)),
+                      // image: DecorationImage(
+                      //     image: CachedNetworkImageProvider(_photoUrl),
+                      //     fit: BoxFit.cover)
+                          ),
                 ),
                 Flexible(
                   child: Wrap(
@@ -222,7 +223,8 @@ class _RestaurantPageState extends State<RestaurantPage> {
         ));
   }
 
-  _onCardTap(index, _photoUrl) {
+  // _onCardTap(index, _photoUrl) {
+  _onCardTap(index) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -240,9 +242,10 @@ class _RestaurantPageState extends State<RestaurantPage> {
                         width: double.infinity,
                         decoration: BoxDecoration(
                             color: Colors.orangeAccent,
-                            image: DecorationImage(
-                                image: CachedNetworkImageProvider(_photoUrl),
-                                fit: BoxFit.cover)),
+                            // image: DecorationImage(
+                            //     image: CachedNetworkImageProvider(_photoUrl),
+                            //     fit: BoxFit.cover)
+                            ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(10),

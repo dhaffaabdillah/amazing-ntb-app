@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.redcorp.amazingntb">
+    package="com.redcorp.amazingntbapp">
 
 
    <uses-permission android:name="android.permission.INTERNET"/>
@@ -51,7 +51,7 @@
         <!--Google Map API Key-->
         <meta-data 
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA5HNiWOkqTNUDReBBNKJSqRsishS0zUN0"/>
+            android:value="AIzaSyAVBeNtegNaOBRwO7Sm66_UIcsmFByn-D8"/>
 
 
         <!-- Facebook Sign In -->
