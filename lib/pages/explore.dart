@@ -12,6 +12,8 @@ import 'package:travel_hour/blocs/sp_state_one.dart';
 import 'package:travel_hour/blocs/sp_state_two.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:travel_hour/config/config.dart';
+import 'package:travel_hour/constants/constants.dart';
+import 'package:travel_hour/pages/bmkg.dart';
 import 'package:travel_hour/widgets/blog_dashboard.dart';
 import 'package:travel_hour/pages/profile.dart';
 import 'package:travel_hour/pages/search.dart';
@@ -125,13 +127,19 @@ class Header extends StatelessWidget {
                           fontWeight: FontWeight.w900,
                           color: Colors.grey[800]),
                     ),
-                    Text(
-                      'Mandalika',
-                      style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey[600]),
-                    ).tr(),
+
+                    InkWell(
+                      child: Text(
+                        'Mandalika',
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey[600]),
+                      ).tr(),
+                      onTap: () {
+                        nextScreen(context, BMKGPage(Constants.bmkgPath));
+                      },
+                    ),
 
                     Row(
                       children: [
