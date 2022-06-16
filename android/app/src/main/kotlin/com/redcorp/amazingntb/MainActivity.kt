@@ -1,4 +1,4 @@
-package com.redcorp.amazingntb
+package com.redcorp.amazingntbapp
 
 import io.flutter.embedding.android.FlutterActivity
 
