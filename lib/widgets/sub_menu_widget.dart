@@ -9,6 +9,7 @@ import 'package:travel_hour/pages/guide.dart';
 import 'package:travel_hour/pages/hotel.dart';
 import 'package:travel_hour/pages/hotel_page.dart';
 import 'package:travel_hour/pages/more_places.dart';
+import 'package:travel_hour/pages/place_with_category.dart';
 import 'package:travel_hour/pages/restaurant.dart';
 import 'package:travel_hour/pages/search_product.dart';
 import 'package:travel_hour/pages/states.dart';
@@ -50,7 +51,9 @@ class SubmenuWidget extends StatelessWidget {
                                 offset: Offset(3, 3),
                                 blurRadius: 0.6)
                           ]),
-                      child: IconButton(icon: Icon(LineIcons.hotel,), tooltip: "Hotel" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 25, onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => HotelPages()))),
+                      child: IconButton(icon: Icon(LineIcons.hotel,), tooltip: "Hotel" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 40,
+                      onPressed: () =>  nextScreen(context, PlaceWithCategory(title: 'Hotel', color: Color.fromARGB(255, 163, 174, 243), category: 'hotel',))
+                      ),
                     ),
 
                     Container(
@@ -66,7 +69,9 @@ class SubmenuWidget extends StatelessWidget {
                                 offset: Offset(3, 3),
                                 blurRadius: 0.6)
                           ]),
-                      child: IconButton(icon: Icon(Icons.fastfood_outlined), tooltip: "Food" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 25,onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => FoodPage()))),
+                      child: IconButton(icon: Icon(Icons.fastfood_outlined), tooltip: "Food" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 40,
+                      onPressed: () =>  nextScreen(context, PlaceWithCategory(title: 'Food', color: Color.fromARGB(255, 163, 174, 243), category: 'food',))
+                      ),
                     ),
 
                     Container(
@@ -83,7 +88,10 @@ class SubmenuWidget extends StatelessWidget {
                                 blurRadius: 0.2)
                           ]),
                       child:
-                      IconButton(icon: Icon(LineIcons.umbrellaBeach), tooltip: "Beach" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 25, onPressed: () =>  nextScreen(context, MorePlacesPage(title: 'Beach', color: Color.fromARGB(255, 163, 174, 243),))),
+                      IconButton(
+                        icon: Icon(LineIcons.umbrellaBeach), tooltip: "Beach" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 40,
+                        onPressed: () =>  nextScreen(context, PlaceWithCategory(title: 'Beach', color: Color.fromARGB(255, 163, 174, 243), category: 'beach',))
+                      ),
                       
                     ),
 
