@@ -21,7 +21,7 @@ class Restaurant {
       lng: json['geometry']['location']['lng'] ?? 0.0,
       rating: json['rating'] ?? 4,
       price: json['price_level'] ?? 0,
-      // photoReference: json['photos'][0]['photo_reference'] ?? '',
+      photoReference: json['photos'][0]['photo_reference'] ?? '',
       placeId: json['place_id']
     );
   }

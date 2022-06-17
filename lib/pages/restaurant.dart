@@ -7,6 +7,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:http/http.dart' as http;
 import 'package:travel_hour/blocs/ads_bloc.dart';
 import 'package:travel_hour/config/config.dart';
+import 'package:travel_hour/constants/constants.dart';
 import 'package:travel_hour/models/place.dart';
 import 'package:travel_hour/models/restaurant.dart';
 import 'package:travel_hour/services/map_service.dart';
@@ -115,7 +116,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
   }
 
   _restaurantList(index) {
-    // final String _photoUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${_alldata[index].photoReference}&key=${Config().mapAPIKey}';
+    final String _photoUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${_alldata[index].photoReference}&key=${Config().mapAPIKey}';
     return AnimatedBuilder(
         animation: _pageController!,
         builder: (BuildContext context, Widget? widget) {
@@ -159,9 +160,11 @@ class _RestaurantPageState extends State<RestaurantPage> {
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(5),
                       border: Border.all(width: 0.5, color: Colors.grey[500]!),
-                      // image: DecorationImage(
-                      //     image: CachedNetworkImageProvider(_photoUrl),
-                      //     fit: BoxFit.cover)
+                      image: DecorationImage(
+                          image: _photoUrl != null ? 
+                          CachedNetworkImageProvider(_photoUrl)
+                          : CachedNetworkImageProvider(Constants.defaultPath),
+                          fit: BoxFit.cover)
                           ),
                 ),
                 Flexible(

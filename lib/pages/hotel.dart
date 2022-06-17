@@ -7,6 +7,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:http/http.dart' as http;
 import 'package:travel_hour/blocs/ads_bloc.dart';
 import 'package:travel_hour/config/config.dart';
+import 'package:travel_hour/constants/constants.dart';
 import 'package:travel_hour/models/hotel.dart';
 import 'package:travel_hour/models/place.dart';
 import 'package:travel_hour/services/map_service.dart';
@@ -116,7 +117,7 @@ class _HotelPageState extends State<HotelPage> {
 
 
   _hotelList(index) {
-    // final String _photoUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${_alldata[index].photoReference}&key=${Config().mapAPIKey}';
+    final String _photoUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${_alldata[index].photoReference}&key=${Config().mapAPIKey}';
     return AnimatedBuilder(
         animation: _pageController!,
         builder: (BuildContext context, Widget? widget) {
@@ -135,7 +136,7 @@ class _HotelPageState extends State<HotelPage> {
         },
         child: InkWell(
           onTap: () {
-            _onCardTap(index);
+            _onCardTap(index, _photoUrl);
           },
           child: Container(
             margin: EdgeInsets.only(left: 5, right: 5),
@@ -159,10 +160,13 @@ class _HotelPageState extends State<HotelPage> {
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(5),
                       border: Border.all(width: 0.5, color: Colors.grey[500]!),
-                      // image: DecorationImage(
-                      //   image: CachedNetworkImageProvider(_photoUrl),
-                      //   fit: BoxFit.cover
-                      // )
+                      image: DecorationImage(
+                        image: _photoUrl != null ? 
+                        CachedNetworkImageProvider(_photoUrl) :
+                        CachedNetworkImageProvider(Constants.defaultPath)
+                        ,
+                        fit: BoxFit.cover
+                      )
                     ),
                 ),
                 Flexible(
@@ -226,7 +230,7 @@ class _HotelPageState extends State<HotelPage> {
 
 
 
-  _onCardTap(index) {
+  _onCardTap(index, _photoUrl) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -244,10 +248,14 @@ class _HotelPageState extends State<HotelPage> {
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.orangeAccent,
-                          // image: DecorationImage(
-                          //   image: CachedNetworkImageProvider(_photoUrl),
-                          //   fit: BoxFit.cover
-                          // )
+                          image: DecorationImage(
+                            image: _photoUrl != null ? 
+                                  CachedNetworkImageProvider(_photoUrl) :
+                                  CachedNetworkImageProvider(Constants.defaultPath)
+                              ,
+                            fit: BoxFit.cover
+                            
+                          )
                         ),
 
 
