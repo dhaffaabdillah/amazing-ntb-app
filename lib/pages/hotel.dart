@@ -160,13 +160,13 @@ class _HotelPageState extends State<HotelPage> {
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(5),
                       border: Border.all(width: 0.5, color: Colors.grey[500]!),
-                      image: DecorationImage(
-                        image: _photoUrl != null ? 
-                        CachedNetworkImageProvider(_photoUrl) :
-                        CachedNetworkImageProvider(Constants.defaultPath)
-                        ,
-                        fit: BoxFit.cover
-                      )
+                      // image: DecorationImage(
+                      //   image: _photoUrl != null ? 
+                      //   CachedNetworkImageProvider(_photoUrl) :
+                      //   CachedNetworkImageProvider(Constants.defaultPath)
+                      //   ,
+                      //   fit: BoxFit.cover
+                      // )
                     ),
                 ),
                 Flexible(
@@ -248,14 +248,14 @@ class _HotelPageState extends State<HotelPage> {
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.orangeAccent,
-                          image: DecorationImage(
-                            image: _photoUrl != null ? 
-                                  CachedNetworkImageProvider(_photoUrl) :
-                                  CachedNetworkImageProvider(Constants.defaultPath)
-                              ,
-                            fit: BoxFit.cover
+                          // image: DecorationImage(
+                          //   image: _photoUrl != null ? 
+                          //         CachedNetworkImageProvider(_photoUrl) :
+                          //         CachedNetworkImageProvider(Constants.defaultPath)
+                          //     ,
+                          //   fit: BoxFit.cover
                             
-                          )
+                          // )
                         ),
 
 
