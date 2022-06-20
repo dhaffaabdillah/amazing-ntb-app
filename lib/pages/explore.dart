@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/blocs/dashboard_blog_bloc.dart';
 import 'package:travel_hour/blocs/featured_bloc.dart';
@@ -101,12 +103,67 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
   bool get wantKeepAlive => true;
 }
 
-class Header extends StatelessWidget {
+class Header extends StatefulWidget {
   const Header({Key? key}) : super(key: key);
+
+  @override
+  State<Header> createState() => _HeaderState();
+}
+
+class _HeaderState extends State<Header> {
+  String location = "null, press reload button";
+  String Address = "search";
+
+  Future<Position> _getGeoLocationPosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      await Geolocator.openLocationSettings();
+      return Future.error('Location permission are not enabled');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permission are denied.');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permission are permanenently denied, we cannot handle your permission.');
+    }
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _getCurrentLocation();
+  //   // Position position = await _getGeoLocationPosition();
+  //   // location = 'Lat: ${position.latitude} , Long: ${position.longitude}';
+  //   // GetAddressFromLatLong(position);
+  // }
+
+  Future<void> GetAddressFromLatLong(Position position) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(placemarks);
+    Placemark place = placemarks[1];
+    // Address =
+    //     '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    Address = '${place.subAdministrativeArea}';
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     final SignInBloc sb = Provider.of<SignInBloc>(context);
+    // Position position = await _getGeoLocationPosition();
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15, top: 30, bottom: 20),
       child: Column(
@@ -127,47 +184,77 @@ class Header extends StatelessWidget {
                           fontWeight: FontWeight.w900,
                           color: Colors.grey[800]),
                     ),
-
-                    InkWell(
-                      child: Text(
-                        'Mandalika',
-                        style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey[600]),
-                      ).tr(),
-                      onTap: () {
-                        nextScreen(context, BMKGPage(Constants.bmkgPath));
-                      },
-                    ),
-
                     Row(
                       children: [
-
-                        Text("Cerah Berawan", style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.w500
-                          )
+                        InkWell(
+                          
+                          child: Address != null
+                              ? Text(
+                                  '${Address}',
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey[600]),
+                                ).tr()
+                              : Text(
+                                  'Sumbawa',
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey[600]),
+                                ).tr(),
+                          onTap: () {
+                            nextScreen(context, BMKGPage(Constants.bmkgPath));
+                          },
                         ),
-
-                        Container(
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                          height: 2,
-                          width: 25,
-                          decoration: BoxDecoration(
-                              color: Colors.grey[600],
-                              borderRadius: BorderRadius.circular(15)),
-                        ),
-
-                        Text("27 °C", style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.w500
-                          )
-                        )
-                      ]
+                      Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.blue[500],
+                                onPrimary: Colors.grey[10],
+                                shadowColor: Colors.transparent,
+                                padding: EdgeInsets.only(left: 7),
+                                fixedSize: Size(5, 5),
+                                shape: CircleBorder(),
+                                side: BorderSide(
+                                  style: BorderStyle.none
+                                ),
+                              ),
+                              onPressed: () async {
+                                Position position =
+                                    await _getGeoLocationPosition();
+                                location =
+                                    'Lat: ${position.latitude} , Long: ${position.longitude}';
+                                GetAddressFromLatLong(position);
+                                print(location);
+                                print(position);
+                              },
+                              icon: Icon(Feather.refresh_cw),
+                              label: Text("")
+                          )),
+                      ],
                     ),
+                    Row(children: [
+                      Text("Cerah Berawan",
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.w500)),
+                      Container(
+                        margin: EdgeInsets.only(left: 10, right: 10),
+                        height: 2,
+                        width: 25,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[600],
+                            borderRadius: BorderRadius.circular(15)),
+                      ),
+                      Text("27 °C",
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.w500))
+                    ]),
                   ],
                 ),
                 Spacer(),
@@ -255,8 +342,8 @@ class SubMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-              padding: EdgeInsets.all(20),
-              child: SubmenuWidget(),
-            );
+      padding: EdgeInsets.all(20),
+      child: SubmenuWidget(),
+    );
   }
 }

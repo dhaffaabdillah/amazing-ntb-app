@@ -17,7 +17,9 @@ class _BMKGPageState extends State<BMKGPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: Text("Prakiraan Cuaca"),
+        ),
         body: Column(
           children: [
             Expanded(

@@ -30,7 +30,7 @@ import 'package:provider/provider.dart';
 class UpdateProduct extends StatefulWidget {
   const UpdateProduct({Key? key, required this.productData}) : super(key: key);
   final Product productData;
-  
+
   @override
   State<UpdateProduct> createState() => _UpdateProductState();
 }
@@ -211,7 +211,7 @@ class _UpdateProductState extends State<UpdateProduct> {
     Reference storageRef1 =
         FirebaseStorage.instance.ref().child("files/${time}-thumbnail");
 
-    if(imageFile1 != null){
+    if (imageFile1 != null) {
       UploadTask uploadTask1 = storageRef1.putFile(imageFile1!);
 
       await uploadTask1.whenComplete(() async {
@@ -225,8 +225,7 @@ class _UpdateProductState extends State<UpdateProduct> {
           imageUrl1 = Constants.defaultPath;
         }
       });
-    } 
-
+    }
   }
 
   Future uploadImage2() async {
@@ -234,7 +233,7 @@ class _UpdateProductState extends State<UpdateProduct> {
     Reference storageRef2 =
         FirebaseStorage.instance.ref().child("files/${time}-img1");
 
-    if(imageFile2 != null){
+    if (imageFile2 != null) {
       UploadTask uploadTask2 = storageRef2.putFile(imageFile2!);
 
       await uploadTask2.whenComplete(() async {
@@ -248,7 +247,7 @@ class _UpdateProductState extends State<UpdateProduct> {
           imageUrl2 = Constants.defaultPath;
         }
       });
-    } 
+    }
   }
 
   Future uploadImage3() async {
@@ -256,7 +255,7 @@ class _UpdateProductState extends State<UpdateProduct> {
     Reference storageRef3 =
         FirebaseStorage.instance.ref().child("files/${time}-img2");
 
-    if(imageFile3 != null){
+    if (imageFile3 != null) {
       UploadTask uploadTask3 = storageRef3.putFile(imageFile3!);
 
       await uploadTask3.whenComplete(() async {
@@ -270,13 +269,14 @@ class _UpdateProductState extends State<UpdateProduct> {
           imageUrl3 = Constants.defaultPath;
         }
       });
-    } 
-
+    }
   }
 
   Future insertData() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
-    FirebaseFirestore.instance.collection('product').doc(widget.productData.timestamp);
+    FirebaseFirestore.instance
+        .collection('product')
+        .doc(widget.productData.timestamp);
 
     sp.setString('productName', productNameCtrl.text);
     sp.setString('productDetail', productDetailCtrl.text);
@@ -297,7 +297,7 @@ class _UpdateProductState extends State<UpdateProduct> {
     final DocumentReference ref =
         firestore.collection('product').doc(widget.productData.timestamp);
     String time = _timestamp.toString();
-    
+
     _productData = {
       'productName': productNameCtrl.text,
       'productDetail': productDetailCtrl.text,
@@ -315,7 +315,8 @@ class _UpdateProductState extends State<UpdateProduct> {
   }
 
   Future insertData1() async {
-    final DocumentReference ref = firestore.collection('product').doc(_timestamp);
+    final DocumentReference ref =
+        firestore.collection('product').doc(_timestamp);
     String time = _timestamp.toString();
     final SharedPreferences sp = await SharedPreferences.getInstance();
 
@@ -357,8 +358,8 @@ class _UpdateProductState extends State<UpdateProduct> {
       key: scaffoldKey,
       appBar: AppBar(title: Text("Update a Product")),
       body: Form(
-          key: formKey,
-          child: Padding(
+        key: formKey,
+        child: Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: ListView(
               children: <Widget>[
@@ -376,11 +377,11 @@ class _UpdateProductState extends State<UpdateProduct> {
                 ),
 
                 statusDropdown(),
-                
+
                 SizedBox(
                   height: 20,
                 ),
-                
+
                 TextFormField(
                   decoration: inputDecoration(
                       'Enter Product Name', 'Product Name', productNameCtrl),
@@ -478,7 +479,8 @@ class _UpdateProductState extends State<UpdateProduct> {
                     width: 100,
                     decoration: BoxDecoration(
                         border: Border.all(
-                            width: 1, color: Color.fromARGB(255, 239, 198, 198)),
+                            width: 1,
+                            color: Color.fromARGB(255, 239, 198, 198)),
                         color: Colors.white,
                         shape: BoxShape.rectangle,
                         image: DecorationImage(
@@ -500,7 +502,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                     pickImage1();
                   },
                 ),
-                
+
                 SizedBox(
                   height: 20,
                 ),
@@ -516,7 +518,8 @@ class _UpdateProductState extends State<UpdateProduct> {
                     width: 100,
                     decoration: BoxDecoration(
                         border: Border.all(
-                            width: 1, color: Color.fromARGB(255, 239, 198, 198)),
+                            width: 1,
+                            color: Color.fromARGB(255, 239, 198, 198)),
                         color: Colors.white,
                         shape: BoxShape.rectangle,
                         image: DecorationImage(
@@ -538,7 +541,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                     pickImage2();
                   },
                 ),
-                
+
                 SizedBox(
                   height: 20,
                 ),
@@ -553,7 +556,8 @@ class _UpdateProductState extends State<UpdateProduct> {
                     width: 100,
                     decoration: BoxDecoration(
                         border: Border.all(
-                            width: 1, color: Color.fromARGB(255, 239, 198, 198)),
+                            width: 1,
+                            color: Color.fromARGB(255, 239, 198, 198)),
                         color: Colors.white,
                         shape: BoxShape.rectangle,
                         image: DecorationImage(
@@ -602,7 +606,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                 //         })
                 //   ],
                 // ),
-          
+
                 Container(
                     color: Colors.deepPurpleAccent,
                     height: 45,
@@ -622,8 +626,10 @@ class _UpdateProductState extends State<UpdateProduct> {
                                   fontWeight: FontWeight.w600),
                             ),
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.resolveWith((states) => Theme.of(context).primaryColor)
-                            ),
+                                backgroundColor:
+                                    MaterialStateProperty.resolveWith(
+                                        (states) =>
+                                            Theme.of(context).primaryColor)),
                             onPressed: () async {
                               handlePost();
                             })),
@@ -631,9 +637,8 @@ class _UpdateProductState extends State<UpdateProduct> {
                   height: 50,
                 ),
               ],
-            )
-          ),
-        ),
+            )),
+      ),
     );
   }
 
