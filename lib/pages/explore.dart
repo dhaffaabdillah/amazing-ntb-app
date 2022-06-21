@@ -200,30 +200,42 @@ class _HeaderState extends State<Header> {
                         ),
                       Padding(
                         padding: EdgeInsets.only(left: 10),
-                        child: ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.blue[500],
-                                onPrimary: Colors.grey[10],
-                                shadowColor: Colors.transparent,
-                                padding: EdgeInsets.only(left: 7),
-                                fixedSize: Size(5, 5),
-                                shape: CircleBorder(),
-                                side: BorderSide(
-                                  style: BorderStyle.none
-                                ),
-                              ),
-                              onPressed: () async {
-                                Position position =
+                        child: IconButton(
+                          onPressed: () async {
+                          Position position =
                                     await _getGeoLocationPosition();
                                 location =
                                     'Lat: ${position.latitude} , Long: ${position.longitude}';
                                 GetAddressFromLatLong(position);
                                 print(location);
                                 print(position);
-                              },
-                              icon: Icon(Feather.refresh_cw),
-                              label: Text("")
-                          )),
+
+                        } , icon: Icon(Icons.restart_alt_rounded, color: Colors.blue, size: 20,), iconSize: 5,),
+                        // child: ElevatedButton.icon(
+                        //       style: ElevatedButton.styleFrom(
+                        //         primary: Colors.blue[500],
+                        //         onPrimary: Colors.grey[10],
+                        //         shadowColor: Colors.transparent,
+                        //         padding: EdgeInsets.only(left: 7),
+                        //         fixedSize: Size(5, 5),
+                        //         shape: CircleBorder(),
+                        //         side: BorderSide(
+                        //           style: BorderStyle.none
+                        //         ),
+                        //       ),
+                        //       onPressed: () async {
+                        //         Position position =
+                        //             await _getGeoLocationPosition();
+                        //         location =
+                        //             'Lat: ${position.latitude} , Long: ${position.longitude}';
+                        //         GetAddressFromLatLong(position);
+                        //         print(location);
+                        //         print(position);
+                        //       },
+                        //       icon: Icon(Feather.refresh_cw),
+                        //       label: Text("")
+                        //   )
+                        ),
                       ],
                     ),
                     Row(children: [

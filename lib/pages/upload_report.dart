@@ -51,6 +51,7 @@ class _UploadReportState extends State<UploadReport> {
   String? imageUrl3 = Constants.defaultPath;
   String location = "Null, press reload button.";
   String Address = "Location not found";
+  String administrativeArea = "Nusa Tenggara Barat";
 
   // String? imageName1;
   // String? imageName2;
@@ -280,7 +281,9 @@ class _UploadReportState extends State<UploadReport> {
     Placemark place = placemarks[1];
     // Address =
     //     '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
-    Address = '${place.subAdministrativeArea}';
+    Address =
+        '${place.street}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.administrativeArea}';
+    administrativeArea = '${place.administrativeArea}';
     setState(() {});
   }
 
@@ -293,7 +296,7 @@ class _UploadReportState extends State<UploadReport> {
       'report_id': getBaseRandomString(8),
       'report_title': titleCtrl.text,
       'report_description': descriptionCtrl.text,
-      'location': currLocCtrl.text,
+      'location': currLocCtrl,
       'author': currentUser!.email,
       'image-1': imageUrl1,
       'image-2': imageUrl2,
@@ -369,17 +372,47 @@ class _UploadReportState extends State<UploadReport> {
                     height: 20,
                   ),
                   TextFormField(
-                    decoration: inputDecoration('Enter current location',
-                        'Lokasi Saat Ini', currLocCtrl),
-                    controller: currLocCtrl,
+                    // decoration: inputDecoration(
+                    //   'Enter current location',
+                    //     'Lokasi Saat Ini', currLocCtrl),
+
+                    decoration: InputDecoration(
+                        hintText: 'Current Position',
+                        border: OutlineInputBorder(),
+                        labelText: 'Current Position',
+                        contentPadding: EdgeInsets.only(
+                            right: 0, left: 10, top: 15, bottom: 5),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircleAvatar(
+                            radius: 15,
+                            backgroundColor: Colors.grey[300],
+                            child: IconButton(
+                                icon: Icon(Icons.close, size: 15),
+                                onPressed: () {
+                                  currLocCtrl.clear();
+                                }),
+                          ),
+                        )
+                    ),
+                    controller: currLocCtrl..text = "${Address}",
+                    // enableSuggestions: true,
+                    // autofillHints: ,
+                    textAlignVertical: TextAlignVertical.top,
+                    minLines: 4,
+                    maxLines: null,
+                    keyboardType: TextInputType.multiline, 
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Value is empty';
-                      } else if (value.isNotEmpty) {
-                        return "${Address}";
-                      } else {
+                        return 'Please turn on your GPS';
+                      } 
+                      // else if ("${administrativeArea}" != "Nusa Tenggara Barat" || "${administrativeArea}" != "West Nusa Tenggara") {
+                      //   return "You're outside of the West Nusa Tenggara area.";
+                      // } 
+                      else {
                         return null;
                       }
+                      // return "${Address}";
                     },
                     onTap: () async {
                       Position position = await _getGeoLocationPosition();
@@ -411,11 +444,12 @@ class _UploadReportState extends State<UploadReport> {
                                   descriptionCtrl.clear();
                                 }),
                           ),
-                        )),
+                        )
+                    ),
                     textAlignVertical: TextAlignVertical.top,
                     minLines: 5,
                     maxLines: null,
-                    keyboardType: TextInputType.multiline,
+                    keyboardType: TextInputType.multiline, 
                     controller: descriptionCtrl,
                     validator: (value) {
                       if (value!.isEmpty) return 'Value is empty';
