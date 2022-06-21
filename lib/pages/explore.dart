@@ -111,8 +111,8 @@ class Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<Header> {
-  String location = "null, press reload button";
-  String Address = "search";
+  String location = "Null, press reload button.";
+  String Address = "Location not found";
 
   Future<Position> _getGeoLocationPosition() async {
     bool serviceEnabled;
@@ -139,15 +139,6 @@ class _HeaderState extends State<Header> {
     return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
   }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _getCurrentLocation();
-  //   // Position position = await _getGeoLocationPosition();
-  //   // location = 'Lat: ${position.latitude} , Long: ${position.longitude}';
-  //   // GetAddressFromLatLong(position);
-  // }
 
   Future<void> GetAddressFromLatLong(Position position) async {
     List<Placemark> placemarks =
@@ -249,7 +240,7 @@ class _HeaderState extends State<Header> {
                             color: Colors.grey[600],
                             borderRadius: BorderRadius.circular(15)),
                       ),
-                      Text("27 °C",
+                      Text("27° C",
                           style: TextStyle(
                               fontSize: 13,
                               color: Colors.grey[600],

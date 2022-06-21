@@ -9,6 +9,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,9 +45,12 @@ class _UploadReportState extends State<UploadReport> {
   String? reportDescription;
   String? email;
   String? status;
+  String? currentLocation;
   String? imageUrl1;
   String? imageUrl2 = Constants.defaultPath;
   String? imageUrl3 = Constants.defaultPath;
+  String location = "Null, press reload button.";
+  String Address = "Location not found";
 
   // String? imageName1;
   // String? imageName2;
@@ -68,6 +73,7 @@ class _UploadReportState extends State<UploadReport> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   var titleCtrl = TextEditingController();
   var descriptionCtrl = TextEditingController();
+  var currLocCtrl = TextEditingController();
 
   Future handlePost() async {
     await AppService().checkInternet().then((hasInternet) async {
@@ -119,28 +125,28 @@ class _UploadReportState extends State<UploadReport> {
         imageName3 = (imageFile3!.path);
       });
     } else {
-      openSnacbar(scaffoldKey, 'You must upload 1 image of your product!');
+      openSnacbar(scaffoldKey, 'You must upload 1 image of your report!');
     }
   }
 
   Future pickImage1() async {
     final _imagePicker1 = ImagePicker();
-    var imagePicked1 =
-        await _imagePicker1.pickImage(source: ImageSource.camera);
+    var imagePicked1 = await _imagePicker1.pickImage(
+        source: ImageSource.camera, imageQuality: 25);
     if (imagePicked1 != null) {
       setState(() {
         imageFile1 = File(imagePicked1.path);
         imageName1 = (imageFile1!.path);
       });
     } else {
-      openSnacbar(scaffoldKey, 'You must upload 1 image of your product!');
+      openSnacbar(scaffoldKey, 'You must upload 1 image of your report!');
     }
   }
 
   Future pickImage2() async {
     final _imagePicker2 = ImagePicker();
-    var imagePicked2 =
-        await _imagePicker2.pickImage(source: ImageSource.camera);
+    var imagePicked2 = await _imagePicker2.pickImage(
+        source: ImageSource.camera, imageQuality: 25);
     if (imagePicked2 != null) {
       setState(() {
         imageFile2 = File(imagePicked2.path);
@@ -154,8 +160,8 @@ class _UploadReportState extends State<UploadReport> {
 
   Future pickImage3() async {
     final _imagePicker3 = ImagePicker();
-    var imagePicked3 =
-        await _imagePicker3.pickImage(source: ImageSource.camera);
+    var imagePicked3 = await _imagePicker3.pickImage(
+        source: ImageSource.camera, imageQuality: 25);
     if (imagePicked3 != null) {
       setState(() {
         imageFile3 = File(imagePicked3.path);
@@ -170,6 +176,7 @@ class _UploadReportState extends State<UploadReport> {
   clearTextFeilds() {
     titleCtrl.clear();
     descriptionCtrl.clear();
+    currLocCtrl.clear();
   }
 
   Future uploadImage() async {
@@ -178,14 +185,7 @@ class _UploadReportState extends State<UploadReport> {
     Reference storageRef1 = FirebaseStorage.instance
         .ref()
         .child("Report Files/${_timestamp}-thumbnail");
-    // Reference storageRef2 =
-    //     FirebaseStorage.instance.ref().child("Report Files/${_timestamp}-img1");
-    // Reference storageRef3 =
-    //     FirebaseStorage.instance.ref().child("Report Files/${_timestamp}-img2");
     UploadTask uploadTask1 = storageRef1.putFile(imageFile1!);
-    // UploadTask uploadTask2 = storageRef2.putFile(imageFile2!);
-    // UploadTask uploadTask3 = storageRef3.putFile(imageFile3!);
-
     await uploadTask1.whenComplete(() async {
       var _url1 = await storageRef1.getDownloadURL();
       var _imageUrl1 = _url1.toString();
@@ -204,7 +204,7 @@ class _UploadReportState extends State<UploadReport> {
     Reference storageRef2 =
         FirebaseStorage.instance.ref().child("Report Files/${_timestamp}-img1");
 
-    if(imageFile2 != null){
+    if (imageFile2 != null) {
       UploadTask uploadTask2 = storageRef2.putFile(imageFile2!);
 
       await uploadTask2.whenComplete(() async {
@@ -221,7 +221,6 @@ class _UploadReportState extends State<UploadReport> {
     } else {
       imageUrl2 = Constants.defaultPath;
     }
-
   }
 
   Future uploadImage3() async {
@@ -229,7 +228,7 @@ class _UploadReportState extends State<UploadReport> {
     Reference storageRef3 =
         FirebaseStorage.instance.ref().child("Report Files/${_timestamp}-img2");
 
-    if(imageFile3 != null){
+    if (imageFile3 != null) {
       UploadTask uploadTask3 = storageRef3.putFile(imageFile3!);
 
       await uploadTask3.whenComplete(() async {
@@ -246,7 +245,43 @@ class _UploadReportState extends State<UploadReport> {
     } else {
       imageUrl3 = Constants.defaultPath;
     }
+  }
 
+  Future<Position> _getGeoLocationPosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      await Geolocator.openLocationSettings();
+      return Future.error('Location permission are not enabled');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permission are denied.');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permission are permanenently denied, we cannot handle your permission.');
+    }
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
+  Future<void> GetAddressFromLatLong(Position position) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(placemarks);
+    Placemark place = placemarks[1];
+    // Address =
+    //     '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    Address = '${place.subAdministrativeArea}';
+    setState(() {});
   }
 
   Future saveToDatabase() async {
@@ -255,9 +290,10 @@ class _UploadReportState extends State<UploadReport> {
     String time = _timestamp.toString();
     final SharedPreferences sp = await SharedPreferences.getInstance();
     _reportData = {
-      'report_id' : getBaseRandomString(8),
+      'report_id': getBaseRandomString(8),
       'report_title': titleCtrl.text,
       'report_description': descriptionCtrl.text,
+      'location': currLocCtrl.text,
       'author': currentUser!.email,
       'image-1': imageUrl1,
       'image-2': imageUrl2,
@@ -269,6 +305,10 @@ class _UploadReportState extends State<UploadReport> {
       'timestamp': _timestamp
     };
     await ref.set(_reportData);
+  }
+
+  initReportsData() {
+    currLocCtrl.text = Address;
   }
 
   Future getDate() async {
@@ -291,13 +331,17 @@ class _UploadReportState extends State<UploadReport> {
         title: Text("Lapor Pak!"),
         actions: [
           IconButton(
-            onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => SearchReportPage())), 
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => SearchReportPage())),
             icon: Icon(Icons.search),
             tooltip: "Search Report",
           ),
-
           IconButton(
-            onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => MyReport(title: '', email: currentUser!.email,))), 
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => MyReport(
+                      title: '',
+                      email: currentUser!.email,
+                    ))),
             icon: Icon(Icons.person_outline_rounded),
             tooltip: "My Report",
           ),
@@ -306,15 +350,13 @@ class _UploadReportState extends State<UploadReport> {
       body: Form(
           key: formKey,
           child: Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
+              padding: const EdgeInsets.only(left: 15, right: 15),
               child: ListView(
-              children: <Widget>[
-                
-                SizedBox(
-                  height: 50,
-                ),
-
-                TextFormField(
+                children: <Widget>[
+                  SizedBox(
+                    height: 50,
+                  ),
+                  TextFormField(
                     decoration: inputDecoration(
                         'Enter Report Title', 'Report Title', titleCtrl),
                     controller: titleCtrl,
@@ -323,187 +365,203 @@ class _UploadReportState extends State<UploadReport> {
                       return null;
                     },
                   ),
-
-                SizedBox(
-                  height: 20,
-                ),
-          
-                TextFormField(
-                  decoration: InputDecoration(
-                      hintText: 'Enter Report Description',
-                      border: OutlineInputBorder(),
-                      labelText: 'Report Description',
-                      contentPadding: EdgeInsets.only(
-                          right: 0, left: 10, top: 15, bottom: 5),
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CircleAvatar(
-                          radius: 15,
-                          backgroundColor: Colors.grey[300],
-                          child: IconButton(
-                              icon: Icon(Icons.close, size: 15),
-                              onPressed: () {
-                                descriptionCtrl.clear();
-                              }),
-                        ),
-                      )),
-                  textAlignVertical: TextAlignVertical.top,
-                  minLines: 5,
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                  controller: descriptionCtrl,
-                  validator: (value) {
-                    if (value!.isEmpty) return 'Value is empty';
-                    return null;
-                  },
-                ),
-
-                SizedBox(
-                  height: 20,
-                ),
-
-                Text(
-                  "Upload the pictures.",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
-                ),
-
-                SizedBox(
-                  height: 20,
-                ),
-                
-                InkWell(
-                  child: Container(
-                    padding: EdgeInsets.only(left: 20, right: 20),
-                    height: 150,
-                    width: 100,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1, color: Color.fromARGB(255, 239, 198, 198)),
-                        color: Colors.white,
-                        shape: BoxShape.rectangle,
-                        image: DecorationImage(
-                            image: (imageFile1 == null
-                                    ? CachedNetworkImageProvider(
-                                        Constants.defaultPath)
-                                    : FileImage(imageFile1!))
-                                as ImageProvider<Object>,
-                            fit: BoxFit.cover)),
-                    child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: Icon(
-                          Icons.edit,
-                          size: 30,
-                          color: Colors.black,
-                        )),
+                  SizedBox(
+                    height: 20,
                   ),
-                  onTap: () {
-                    pickImage1();
-                  },
-                ),
-
-                SizedBox(
-                  height: 20,
-                ),
-                
-                InkWell(
-                  child: Container(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    height: 150,
-                    width: 100,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1, color: Color.fromARGB(255, 239, 198, 198)),
-                        color: Colors.white,
-                        shape: BoxShape.rectangle,
-                        image: DecorationImage(
-                            image: (imageFile2 == null
-                                    ? CachedNetworkImageProvider(
-                                        Constants.defaultPath)
-                                    : FileImage(imageFile2!))
-                                as ImageProvider<Object>,
-                            fit: BoxFit.cover)),
-                    child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: Icon(
-                          Icons.edit,
-                          size: 30,
-                          color: Colors.black,
-                        )),
+                  TextFormField(
+                    decoration: inputDecoration('Enter current location',
+                        'Lokasi Saat Ini', currLocCtrl),
+                    controller: currLocCtrl,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Value is empty';
+                      } else if (value.isNotEmpty) {
+                        return "${Address}";
+                      } else {
+                        return null;
+                      }
+                    },
+                    onTap: () async {
+                      Position position = await _getGeoLocationPosition();
+                      location =
+                          'Lat: ${position.latitude} , Long: ${position.longitude}';
+                      GetAddressFromLatLong(position);
+                      print(location);
+                      print(position);
+                    },
                   ),
-                  onTap: () {
-                    pickImage2();
-                  },
-                ),
-                
-                SizedBox(
-                  height: 20,
-                ),
-
-                InkWell(
-                  child: Container(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    height: 150,
-                    width: 100,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1, color: Color.fromARGB(255, 239, 198, 198)),
-                        color: Colors.white,
-                        shape: BoxShape.rectangle,
-                        image: DecorationImage(
-                            image: (imageFile3 == null
-                                    ? CachedNetworkImageProvider(
-                                        Constants.defaultPath)
-                                    : FileImage(imageFile3!))
-                                as ImageProvider<Object>,
-                            fit: BoxFit.cover)),
-                    child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: Icon(
-                          Icons.edit,
-                          size: 30,
-                          color: Colors.black,
-                        )),
+                  SizedBox(
+                    height: 20,
                   ),
-                  onTap: () {
-                    pickImage3();
-                  },
-                ),
-                
-                SizedBox(
-                  height: 20,
-                ),
-
-                Container(
-                    color: Colors.deepPurpleAccent,
-                    height: 45,
-                    child: loading == true
-                        ? Center(
-                            child: Container(
-                                height: 30,
-                                width: 30,
-                                child: CircularProgressIndicator()),
-                          )
-                        : TextButton(
-                            child: Text(
-                              'Upload Report',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.resolveWith((states) => Theme.of(context).primaryColor)
-                            ),
-                            onPressed: () async {
-                              handlePost();
-                            })),
-                SizedBox(
-                  height: 50,
-                ),
-              ],
-            )
-          )
-        ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                        hintText: 'Enter Report Description',
+                        border: OutlineInputBorder(),
+                        labelText: 'Report Description',
+                        contentPadding: EdgeInsets.only(
+                            right: 0, left: 10, top: 15, bottom: 5),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircleAvatar(
+                            radius: 15,
+                            backgroundColor: Colors.grey[300],
+                            child: IconButton(
+                                icon: Icon(Icons.close, size: 15),
+                                onPressed: () {
+                                  descriptionCtrl.clear();
+                                }),
+                          ),
+                        )),
+                    textAlignVertical: TextAlignVertical.top,
+                    minLines: 5,
+                    maxLines: null,
+                    keyboardType: TextInputType.multiline,
+                    controller: descriptionCtrl,
+                    validator: (value) {
+                      if (value!.isEmpty) return 'Value is empty';
+                      return null;
+                    },
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Upload the pictures.",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  InkWell(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 20, right: 20),
+                      height: 150,
+                      width: 100,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 1,
+                              color: Color.fromARGB(255, 239, 198, 198)),
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          image: DecorationImage(
+                              image: (imageFile1 == null
+                                      ? CachedNetworkImageProvider(
+                                          Constants.defaultPath)
+                                      : FileImage(imageFile1!))
+                                  as ImageProvider<Object>,
+                              fit: BoxFit.cover)),
+                      child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Icon(
+                            Icons.edit,
+                            size: 30,
+                            color: Colors.black,
+                          )),
+                    ),
+                    onTap: () {
+                      pickImage1();
+                    },
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  InkWell(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      height: 150,
+                      width: 100,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 1,
+                              color: Color.fromARGB(255, 239, 198, 198)),
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          image: DecorationImage(
+                              image: (imageFile2 == null
+                                      ? CachedNetworkImageProvider(
+                                          Constants.defaultPath)
+                                      : FileImage(imageFile2!))
+                                  as ImageProvider<Object>,
+                              fit: BoxFit.cover)),
+                      child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Icon(
+                            Icons.edit,
+                            size: 30,
+                            color: Colors.black,
+                          )),
+                    ),
+                    onTap: () {
+                      pickImage2();
+                    },
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  InkWell(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      height: 150,
+                      width: 100,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 1,
+                              color: Color.fromARGB(255, 239, 198, 198)),
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          image: DecorationImage(
+                              image: (imageFile3 == null
+                                      ? CachedNetworkImageProvider(
+                                          Constants.defaultPath)
+                                      : FileImage(imageFile3!))
+                                  as ImageProvider<Object>,
+                              fit: BoxFit.cover)),
+                      child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Icon(
+                            Icons.edit,
+                            size: 30,
+                            color: Colors.black,
+                          )),
+                    ),
+                    onTap: () {
+                      pickImage3();
+                    },
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                      color: Colors.deepPurpleAccent,
+                      height: 45,
+                      child: loading == true
+                          ? Center(
+                              child: Container(
+                                  height: 30,
+                                  width: 30,
+                                  child: CircularProgressIndicator()),
+                            )
+                          : TextButton(
+                              child: Text(
+                                'Upload Report',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.resolveWith(
+                                          (states) =>
+                                              Theme.of(context).primaryColor)),
+                              onPressed: () async {
+                                handlePost();
+                              })),
+                  SizedBox(
+                    height: 50,
+                  ),
+                ],
+              ))),
     );
   }
 
