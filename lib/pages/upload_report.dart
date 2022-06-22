@@ -296,7 +296,7 @@ class _UploadReportState extends State<UploadReport> {
       'report_id': getBaseRandomString(8),
       'report_title': titleCtrl.text,
       'report_description': descriptionCtrl.text,
-      'location': currLocCtrl,
+      'location': currLocCtrl.text,
       'author': currentUser!.email,
       'image-1': imageUrl1,
       'image-2': imageUrl2,
@@ -312,6 +312,7 @@ class _UploadReportState extends State<UploadReport> {
 
   initReportsData() {
     currLocCtrl.text = Address;
+    print(currentUser!.displayName);
   }
 
   Future getDate() async {
@@ -393,22 +394,21 @@ class _UploadReportState extends State<UploadReport> {
                                   currLocCtrl.clear();
                                 }),
                           ),
-                        )
-                    ),
+                        )),
                     controller: currLocCtrl..text = "${Address}",
                     // enableSuggestions: true,
                     // autofillHints: ,
                     textAlignVertical: TextAlignVertical.top,
                     minLines: 4,
                     maxLines: null,
-                    keyboardType: TextInputType.multiline, 
+                    keyboardType: TextInputType.multiline,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Please turn on your GPS';
-                      } 
+                      }
                       // else if ("${administrativeArea}" != "Nusa Tenggara Barat" || "${administrativeArea}" != "West Nusa Tenggara") {
                       //   return "You're outside of the West Nusa Tenggara area.";
-                      // } 
+                      // }
                       else {
                         return null;
                       }
@@ -419,8 +419,9 @@ class _UploadReportState extends State<UploadReport> {
                       location =
                           'Lat: ${position.latitude} , Long: ${position.longitude}';
                       GetAddressFromLatLong(position);
-                      print(location);
-                      print(position);
+                      // print(location);
+                      // print(position);
+                      print(currentUser?.email);
                     },
                   ),
                   SizedBox(
@@ -444,12 +445,11 @@ class _UploadReportState extends State<UploadReport> {
                                   descriptionCtrl.clear();
                                 }),
                           ),
-                        )
-                    ),
+                        )),
                     textAlignVertical: TextAlignVertical.top,
                     minLines: 5,
                     maxLines: null,
-                    keyboardType: TextInputType.multiline, 
+                    keyboardType: TextInputType.multiline,
                     controller: descriptionCtrl,
                     validator: (value) {
                       if (value!.isEmpty) return 'Value is empty';

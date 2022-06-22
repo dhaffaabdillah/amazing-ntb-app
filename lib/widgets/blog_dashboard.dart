@@ -35,7 +35,7 @@ class BlogDashboards extends StatelessWidget {
               Text(
                 'list blogs',
                 style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Colors.grey[800], 
                     wordSpacing: 1, 

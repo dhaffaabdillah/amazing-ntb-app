@@ -28,7 +28,7 @@ class SpecialStateOne extends StatelessWidget {
               Text(
                 'special state-1 places',
                 style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: Colors.grey[800], 
                     wordSpacing: 1, 

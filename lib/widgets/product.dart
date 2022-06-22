@@ -36,7 +36,7 @@ class Products extends StatelessWidget {
           margin: EdgeInsets.only(left: 15, right: 10),
           child: Row(children: <Widget>[
             Text('products', style: TextStyle(
-              fontSize: 18, 
+              fontSize: 16, 
               fontWeight: FontWeight.bold, 
               color: Colors.grey[900],
               wordSpacing: 1,

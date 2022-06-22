@@ -28,7 +28,7 @@ class SpecialStateTwo extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(left: 15, top: 20, right: 15,),
           child: Row(children: <Widget>[
-            Text('special state-2 places', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.grey[800], wordSpacing: 1, letterSpacing: -0.6),).tr(),
+            Text('special state-2 places', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.grey[800], wordSpacing: 1, letterSpacing: -0.6),).tr(),
             Spacer(),
             IconButton(icon: Icon(Icons.arrow_forward),
               onPressed: () => nextScreen(

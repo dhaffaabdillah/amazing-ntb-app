@@ -179,7 +179,7 @@ class _HeaderState extends State<Header> {
                       children: [
                         InkWell(
                           
-                          child: Address != null
+                          child: Address.isNotEmpty
                               ? Text(
                                   '${Address}',
                                   style: TextStyle(
@@ -199,8 +199,10 @@ class _HeaderState extends State<Header> {
                           },
                         ),
                       Padding(
-                        padding: EdgeInsets.only(left: 10),
+                        padding: EdgeInsets.only(left: 3),
                         child: IconButton(
+                          tooltip: "Refresh",
+                          splashRadius: 10,
                           onPressed: () async {
                           Position position =
                                     await _getGeoLocationPosition();
@@ -210,7 +212,7 @@ class _HeaderState extends State<Header> {
                                 print(location);
                                 print(position);
 
-                        } , icon: Icon(Icons.restart_alt_rounded, color: Colors.blue, size: 20,), iconSize: 5,),
+                        } , icon: Icon(Icons.restart_alt_rounded, color: Colors.blue, size: 15,), iconSize: 15,),
                         // child: ElevatedButton.icon(
                         //       style: ElevatedButton.styleFrom(
                         //         primary: Colors.blue[500],

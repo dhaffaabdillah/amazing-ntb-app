@@ -47,11 +47,11 @@ class SubmenuWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: <BoxShadow>[
                             BoxShadow(
-                                color: Colors.grey[400]!,
-                                offset: Offset(3, 3),
-                                blurRadius: 0.6)
+                                color: Colors.grey[300]!,
+                                offset: Offset(5, 5),
+                                blurRadius: 12)
                           ]),
-                      child: IconButton(icon: Icon(LineIcons.hotel,), tooltip: "Hotel" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 40,
+                      child: IconButton(icon: Icon(LineIcons.hotel,), tooltip: "Hotel" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 30,
                       onPressed: () =>  nextScreen(context, PlaceWithCategory(title: 'Hotel', color: Color.fromARGB(255, 163, 174, 243), category: 'hotel',))
                       ),
                     ),
@@ -65,11 +65,11 @@ class SubmenuWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: <BoxShadow>[
                             BoxShadow(
-                                color: Colors.grey[400]!,
-                                offset: Offset(3, 3),
-                                blurRadius: 0.6)
+                                color: Colors.grey[300]!,
+                                offset: Offset(5, 5),
+                                blurRadius: 12)
                           ]),
-                      child: IconButton(icon: Icon(Icons.fastfood_outlined), tooltip: "Food" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 40,
+                      child: IconButton(icon: Icon(Icons.fastfood_outlined), tooltip: "Food" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 30,
                       onPressed: () =>  nextScreen(context, PlaceWithCategory(title: 'Food', color: Color.fromARGB(255, 163, 174, 243), category: 'food',))
                       ),
                     ),
@@ -83,13 +83,13 @@ class SubmenuWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: <BoxShadow>[
                             BoxShadow(
-                                color: Colors.grey[400]!,
-                                offset: Offset(2, 3),
-                                blurRadius: 0.2)
+                                color: Colors.grey[300]!,
+                                offset: Offset(5, 5),
+                                blurRadius: 12)
                           ]),
                       child:
                       IconButton(
-                        icon: Icon(LineIcons.umbrellaBeach), tooltip: "Beach" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 40,
+                        icon: Icon(LineIcons.umbrellaBeach), tooltip: "Beach" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 30,
                         onPressed: () =>  nextScreen(context, PlaceWithCategory(title: 'Beach', color: Color.fromARGB(255, 163, 174, 243), category: 'beach',))
                       ),
                       
@@ -104,12 +104,12 @@ class SubmenuWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: <BoxShadow>[
                             BoxShadow(
-                                color: Colors.grey[400]!,
-                                offset: Offset(2, 3),
-                                blurRadius: 0.2)
+                                color: Colors.grey[300]!,
+                                offset: Offset(5, 5),
+                                blurRadius: 12)
                           ]),
                       child:
-                      IconButton(icon: Icon(Icons.move_down_rounded), tooltip: "Category" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 25,onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => CategoriesPage()))),
+                      IconButton(icon: Icon(Icons.move_down_rounded), tooltip: "Category" , color: Color.fromARGB(255, 132, 159, 234) ,iconSize: 30,onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => CategoriesPage()))),
 
                     ),
 
