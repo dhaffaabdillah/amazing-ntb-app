@@ -131,6 +131,10 @@
      "facebook" :  "Halaman Facebook",
      "youtube" :  "Saluran Youtube",
      "no notifications" :  "Tidak ada pemberitahuan yang ditemukan",
-     "no blogs" :  "Tidak ada blog yang ditemukan"
-
+     "no blogs" :  "Tidak ada blog yang ditemukan",
+     "Location not found" : "Lokasi tidak ditemukan.",
+     "My Community Report" : "Laporan Masyarakat Saya",
+     "My Reports" : "Laporan Saya",
+     "Search Report" : "Cari Laporan",
+     "search for reports" : "Mencari Laporan"
 }
