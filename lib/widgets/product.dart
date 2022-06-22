@@ -21,9 +21,6 @@ class Products extends StatelessWidget {
   Products({Key? key}) : super(key: key);
 
   
-
-
-  
   @override
   Widget build(BuildContext context) {
     final pb = context.watch<ProductBloc>();
@@ -62,7 +59,6 @@ class Products extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               if(pb.data.isEmpty) return LoadingPopularPlacesCard();
               return _ItemList(d: pb.data[index],);
-              //return LoadingCard1();
            },
           ),
         )
@@ -93,10 +89,8 @@ class _ItemList extends StatelessWidget {
                    children: [
                      Hero(
                        tag: 'product${d.timestamp}',
-                      //  tag: 'product',
                         child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        // child: CustomCacheImage(imageUrl: "https://media.suara.com/pictures/970x544/2021/12/30/18778-ilustrasi-kipas-anginpixabaycom.jpg")
                         child: CustomCacheImage(imageUrl: d.image1)
                        ),
                      ),
@@ -154,23 +148,7 @@ class _ItemList extends StatelessWidget {
                           ],
                         ),
                     ),
-                  ),
-
-                    //  Align(
-                    //    alignment: Alignment.bottomLeft,
-                    //    child: Padding(
-                    //      padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
-                    //      child: Text(d.productName!, 
-                    //      maxLines: 2,
-                    //      style: TextStyle(
-                    //        fontSize: 16,
-                    //        fontWeight: FontWeight.w500,
-                    //        color: Colors.white
-                    //      ),),
-                    //    ),
-                    //  ),
-
-                   ],
+                  )],
                 ),
                 
               ),

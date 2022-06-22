@@ -15,7 +15,7 @@ class DashboardBlogBloc extends ChangeNotifier{
     QuerySnapshot rawData;
       rawData = await firestore
           .collection('blogs')
-          .orderBy('loves', descending: true)
+          .orderBy('timestamp', descending: true)
           .limit(10)
           .get();
       
