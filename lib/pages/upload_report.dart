@@ -279,8 +279,6 @@ class _UploadReportState extends State<UploadReport> {
         await placemarkFromCoordinates(position.latitude, position.longitude);
     print(placemarks);
     Placemark place = placemarks[1];
-    // Address =
-    //     '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
     Address =
         '${place.street}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.administrativeArea}';
     administrativeArea = '${place.administrativeArea}';
@@ -296,7 +294,7 @@ class _UploadReportState extends State<UploadReport> {
       'report_id': getBaseRandomString(8),
       'report_title': titleCtrl.text,
       'report_description': descriptionCtrl.text,
-      'location': currLocCtrl,
+      'location': currLocCtrl.text,
       'author': currentUser!.email,
       'image-1': imageUrl1,
       'image-2': imageUrl2,
@@ -419,8 +417,6 @@ class _UploadReportState extends State<UploadReport> {
                       location =
                           'Lat: ${position.latitude} , Long: ${position.longitude}';
                       GetAddressFromLatLong(position);
-                      print(location);
-                      print(position);
                     },
                   ),
                   SizedBox(

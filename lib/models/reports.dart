@@ -6,6 +6,7 @@ class ReportModels {
   String? institution;
   String? report_title;
   String? report_desc;
+  String? location;
   String? image1;
   String? image2;
   String? image3;
@@ -20,6 +21,7 @@ class ReportModels {
     this.institution,
     this.report_title,
     this.report_desc,
+    this.location,
     this.image1,
     this.image2,
     this.image3,
@@ -37,6 +39,7 @@ class ReportModels {
       institution: data['institution'],
       report_title: data['report_title'],
       report_desc: data['report_description'],
+      location: data['location'],
       image1: data['image-1'],
       image2: data['image-2'],
       image3: data['image-3'],
@@ -54,6 +57,7 @@ class ReportModels {
       'institution': institution,
       'report_title': report_title,
       'report_description': report_desc,
+      'location': location,
       'image-1': image1,
       'image-2': image2,
       'image-3': image3,

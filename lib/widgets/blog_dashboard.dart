@@ -174,31 +174,5 @@ class _BlogList extends StatelessWidget {
 
       onTap: () => nextScreen(context, BlogDetails(blogData: data, tag: 'blog${data!.timestamp}'))
     );
-    // return InkWell(
-    //       child: Container(
-    //             margin: EdgeInsets.only(left: 0, right: 10, top: 5, bottom: 5),
-    //             width: MediaQuery.of(context).size.width * 0.40,
-    //             decoration: BoxDecoration(
-    //               color: Colors.grey[300],
-    //               borderRadius: BorderRadius.circular(10)
-                  
-    //             ),
-    //             child: Stack(
-    //                children: [
-    //                  Hero(
-    //                    tag: 'blog${data!.timestamp}',
-    //                     child: ClipRRect(
-    //                     borderRadius: BorderRadius.circular(10),
-    //                     child: CustomCacheImage(imageUrl: data!.thumbnailImagelUrl)
-    //                    ),
-    //                  ),
-
-    //                ],
-    //             ),
-                
-    //           ),
-
-    //           onTap: () => nextScreen(context, BlogDetails(blogData: data, tag: 'blog${data!.timestamp}')),
-    // );
   }
 }

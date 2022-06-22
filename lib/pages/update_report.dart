@@ -8,6 +8,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,6 +45,9 @@ class _UpdateReportState extends State<UpdateReport> {
   String? imageUrl1;
   String? imageUrl2 = Constants.defaultPath;
   String? imageUrl3 = Constants.defaultPath;
+  String location = "Null, press reload button.";
+  String Address = "Location not found";
+  String administrativeArea = "Nusa Tenggara Barat";
 
   // String? imageName1;
   // String? imageName2;
@@ -55,6 +60,7 @@ class _UpdateReportState extends State<UpdateReport> {
 
   var titleCtrl = TextEditingController();
   var descriptionCtrl = TextEditingController();
+  var currLocCtrl = TextEditingController();
 
   bool notifyUsers = true;
   bool uploadStarted = false;
@@ -88,7 +94,6 @@ class _UpdateReportState extends State<UpdateReport> {
                   .then((value) => saveToDatabase());
               // setState(() => uploadStarted = false);
               openSnacbar(scaffoldKey, 'Update Successfully');
-              clearTextFeilds();
             });
           } else {
             await saveToDatabase();
@@ -142,15 +147,11 @@ class _UpdateReportState extends State<UpdateReport> {
     }
   }
 
-  clearTextFeilds() {
-    titleCtrl.clear();
-    descriptionCtrl.clear();
-  }
-
   initReportsData() {
     ReportModels d = widget.reportData;
     titleCtrl.text = d.report_title!;
     descriptionCtrl.text = d.report_desc!;
+    Address = d.location!;
     imageUrl1 = d.image1!;
     imageUrl2 = d.image2!;
     imageUrl3 = d.image3!;
@@ -231,6 +232,43 @@ class _UpdateReportState extends State<UpdateReport> {
 
   }
 
+  Future<Position> _getGeoLocationPosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      await Geolocator.openLocationSettings();
+      return Future.error('Location permission are not enabled');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permission are denied.');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permission are permanenently denied, we cannot handle your permission.');
+    }
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
+  Future<void> GetAddressFromLatLong(Position position) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(placemarks);
+    Placemark place = placemarks[1];
+    Address =
+        '${place.street}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.administrativeArea}';
+    administrativeArea = '${place.administrativeArea}';
+    setState(() {});
+  }
+
   Future saveToDatabase() async {
     final DocumentReference ref =
         firestore.collection('reports').doc(widget.reportData.timestamp);
@@ -239,6 +277,7 @@ class _UpdateReportState extends State<UpdateReport> {
     _reportData = {
       'report_title': titleCtrl.text,
       'report_description': descriptionCtrl.text,
+      'location': currLocCtrl.text,
       'image-1': imageUrl1,
       'image-2': imageUrl2,
       'image-3': imageUrl3,
@@ -287,13 +326,57 @@ class _UpdateReportState extends State<UpdateReport> {
               
               TextFormField(
                 decoration: inputDecoration(
-                    'Enter Report Name', 'Report Name', titleCtrl),
+                    'Enter Report Title', 'Report Title', titleCtrl),
                 controller: titleCtrl,
                 validator: (value) {
                   if (value!.isEmpty) return 'Value is empty';
                   return null;
                 },
               ),
+
+                   SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                        hintText: 'Current Position',
+                        border: OutlineInputBorder(),
+                        labelText: 'Current Position',
+                        contentPadding: EdgeInsets.only(
+                            right: 0, left: 10, top: 15, bottom: 5),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircleAvatar(
+                            radius: 15,
+                            backgroundColor: Colors.grey[300],
+                            child: IconButton(
+                                icon: Icon(Icons.close, size: 15),
+                                onPressed: () {
+                                  currLocCtrl.clear();
+                                }),
+                          ),
+                        )
+                    ),
+                    controller: currLocCtrl..text = "${Address}",
+                    textAlignVertical: TextAlignVertical.top,
+                    minLines: 4,
+                    maxLines: null,
+                    keyboardType: TextInputType.multiline, 
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please turn on your GPS';
+                      } 
+                      else {
+                        return null;
+                      }
+                    },
+                    onTap: () async {
+                      Position position = await _getGeoLocationPosition();
+                      location =
+                          'Lat: ${position.latitude} , Long: ${position.longitude}';
+                      GetAddressFromLatLong(position);
+                    },
+                  ),
 
               SizedBox(
                 height: 20,
