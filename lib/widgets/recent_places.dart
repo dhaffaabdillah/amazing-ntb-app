@@ -27,7 +27,7 @@ class RecentPlaces extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(left: 15, top: 20, right: 10),
           child: Row(children: <Widget>[
-            Text('recently added', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[900], wordSpacing: 1, letterSpacing: -0.6),).tr(),
+            Text('recently added', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey[900], wordSpacing: 1, letterSpacing: -0.6),).tr(),
             Spacer(),
             IconButton(icon: Icon(Icons.arrow_forward),
               onPressed: () => nextScreen(context, MorePlacesPage(title: 'recently added', color: Colors.blueGrey[600],)), 
