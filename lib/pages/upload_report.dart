@@ -164,6 +164,7 @@ class _UploadReportState extends State<UploadReport> {
     var imagePicked3 = await _imagePicker3.pickImage(
         source: ImageSource.camera, imageQuality: 25);
     if (imagePicked3 != null) {
+      
       setState(() {
         imageFile3 = File(imagePicked3.path);
         imageName3 = (imageFile3!.path);
