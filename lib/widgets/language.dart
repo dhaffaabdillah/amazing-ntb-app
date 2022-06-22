@@ -11,8 +11,12 @@ class LanguagePopup extends StatefulWidget {
 }
 
 class _LanguagePopupState extends State<LanguagePopup> {
+  var Lang = Config().languages;
+
   @override
   Widget build(BuildContext context) {
+    Lang.sort();
+    
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -22,7 +26,7 @@ class _LanguagePopupState extends State<LanguagePopup> {
         padding: EdgeInsets.all(15),
         itemCount: Config().languages.length,
         itemBuilder: (BuildContext context, int index) {
-          return _itemList(Config().languages[index], index);
+          return _itemList(Lang[index], index);
         },
       ),
     );
@@ -44,9 +48,6 @@ class _LanguagePopupState extends State<LanguagePopup> {
             } else if (d == 'Indonesia') {
               context.setLocale(Locale('id'));
             }
-            // else if(d == 'your_language_name'){
-            //   context.setLocale(Locale('your_language_code'));
-            // }
             Navigator.pop(context);
           },
         ),
