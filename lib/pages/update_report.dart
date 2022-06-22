@@ -106,7 +106,7 @@ class _UpdateReportState extends State<UpdateReport> {
   Future pickImage1() async {
     final _imagePicker1 = ImagePicker();
     var imagePicked1 =
-        await _imagePicker1.pickImage(source: ImageSource.gallery);
+        await _imagePicker1.pickImage(source: ImageSource.camera, imageQuality: 25);
     if (imagePicked1 != null) {
       setState(() {
         imageFile1 = File(imagePicked1.path);
@@ -120,7 +120,7 @@ class _UpdateReportState extends State<UpdateReport> {
   Future pickImage2() async {
     final _imagePicker2 = ImagePicker();
     var imagePicked2 =
-        await _imagePicker2.pickImage(source: ImageSource.gallery);
+        await _imagePicker2.pickImage(source: ImageSource.camera, imageQuality: 25);
     if (imagePicked2 != null) {
       setState(() {
         imageFile2 = File(imagePicked2.path);
@@ -135,7 +135,7 @@ class _UpdateReportState extends State<UpdateReport> {
   Future pickImage3() async {
     final _imagePicker3 = ImagePicker();
     var imagePicked3 =
-        await _imagePicker3.pickImage(source: ImageSource.gallery);
+        await _imagePicker3.pickImage(source: ImageSource.camera, imageQuality: 25);
     if (imagePicked3 != null) {
       setState(() {
         imageFile3 = File(imagePicked3.path);
