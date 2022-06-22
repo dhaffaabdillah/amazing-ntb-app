@@ -178,7 +178,6 @@ class _HeaderState extends State<Header> {
                     Row(
                       children: [
                         InkWell(
-                          
                           child: Address.isNotEmpty
                               ? Text(
                                   '${Address}',
@@ -199,9 +198,9 @@ class _HeaderState extends State<Header> {
                             nextScreen(context, BMKGPage(Constants.bmkgPath));
                           },
                         ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 3),
-                        child: IconButton(
+                        IconButton(
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          constraints: BoxConstraints(minHeight: 0),
                           tooltip: "Refresh",
                           splashRadius: 10,
                           onPressed: () async {
@@ -214,31 +213,6 @@ class _HeaderState extends State<Header> {
                                 print(position);
 
                         } , icon: Icon(Icons.restart_alt_rounded, color: Colors.blue, size: 15,), iconSize: 15,),
-                        // child: ElevatedButton.icon(
-                        //       style: ElevatedButton.styleFrom(
-                        //         primary: Colors.blue[500],
-                        //         onPrimary: Colors.grey[10],
-                        //         shadowColor: Colors.transparent,
-                        //         padding: EdgeInsets.only(left: 7),
-                        //         fixedSize: Size(5, 5),
-                        //         shape: CircleBorder(),
-                        //         side: BorderSide(
-                        //           style: BorderStyle.none
-                        //         ),
-                        //       ),
-                        //       onPressed: () async {
-                        //         Position position =
-                        //             await _getGeoLocationPosition();
-                        //         location =
-                        //             'Lat: ${position.latitude} , Long: ${position.longitude}';
-                        //         GetAddressFromLatLong(position);
-                        //         print(location);
-                        //         print(position);
-                        //       },
-                        //       icon: Icon(Feather.refresh_cw),
-                        //       label: Text("")
-                        //   )
-                        ),
                       ],
                     ),
                     Row(children: [
