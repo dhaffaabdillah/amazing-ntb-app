@@ -182,6 +182,7 @@ class _HeaderState extends State<Header> {
                               ? Text(
                                   '${Address}',
                                   style: TextStyle(
+                                    height: 0,
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.grey[600]),

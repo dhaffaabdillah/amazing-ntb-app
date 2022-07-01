@@ -122,7 +122,7 @@ class _MyReportState extends State<MyReport> {
     // print(currentUser?.displayName);
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Reports"),
+        title: Text("My Reports").tr(),
         actions: [
           IconButton(onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(builder: (_) => SearchReportPage())), 
           icon: Icon(Icons.search)),
