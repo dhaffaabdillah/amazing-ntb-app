@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class Config {
   final String appName = 'Amazing NTB';
   final String mapAPIKey = 'AIzaSyAVBeNtegNaOBRwO7Sm66_UIcsmFByn-D8';
+  final String weatherAPIKey = 'dc4acf223ee7225d88d44cb1390ce222';
   final String countryName = 'Indonesia';
   final String splashIcon = 'assets/images/icon-app.png';
   final String supportEmail = 'info@redcorp.id';
@@ -27,7 +28,7 @@ class Config {
   //relplace by your country lattitude & longitude
   final CameraPosition initialCameraPosition = CameraPosition(
     // target: LatLng(-8.762601718360642, 116.27274120900596), //here
-    target: LatLng(-6.200000,  106.816666),
+    target: LatLng(-6.200000, 106.816666),
     zoom: 10,
   );
 
