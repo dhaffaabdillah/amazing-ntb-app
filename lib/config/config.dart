@@ -9,7 +9,7 @@ class Config {
   final String splashIcon = 'assets/images/icon-app.png';
   final String supportEmail = 'info@redcorp.id';
   final String privacyPolicyUrl =
-      'https://www.freeprivacypolicy.com/privacy/view/053321284ad71cfd5531cf60284de614';
+      'https://amazingntb.com/blog/about-us-10';
   final String iOSAppId = '000000';
 
   final String yourWebsiteUrl = 'https://www.redcorp.id';
