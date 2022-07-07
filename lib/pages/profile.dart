@@ -14,6 +14,7 @@ import 'package:travel_hour/pages/explore.dart';
 import 'package:travel_hour/pages/more_products.dart';
 import 'package:travel_hour/pages/my_report.dart';
 import 'package:travel_hour/pages/notifications.dart';
+import 'package:travel_hour/pages/priv_policy.dart';
 import 'package:travel_hour/pages/regist_as_seller.dart';
 import 'package:travel_hour/pages/report.dart';
 import 'package:travel_hour/pages/sign_in.dart';
@@ -185,8 +186,11 @@ class _ProfilePageState extends State<ProfilePage>
                 Feather.chevron_right,
                 size: 20,
               ),
-              onTap: () => AppService()
-                  .openLinkWithCustomTab(context, Config().privacyPolicyUrl),
+              // onTap: () => AppService()
+              //     .openLinkWithCustomTab(context, Config().privacyPolicyUrl),
+              onTap: () {
+                            nextScreen(context, PrivyPolicyPage(Config().privacyPolicyUrl));
+                          },
             ),
             Divider(
               height: 5,
