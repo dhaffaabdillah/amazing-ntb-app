@@ -50,10 +50,10 @@ class BlogDashboards extends StatelessWidget {
           ),
         ),
         Container(
-          height: 345,
+          height: MediaQuery.of(context).size.height * 0.45,
           width: MediaQuery.of(context).size.width,
           child: ListView.builder(
-            padding: EdgeInsets.only(top: 10, bottom: 30, left: 15, right: 15),
+            padding: EdgeInsets.only(top: 10, bottom: 5, left: 15, right: 15),
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemCount: pb.data.isEmpty ? 3 : pb.data.length,
@@ -64,7 +64,7 @@ class BlogDashboards extends StatelessWidget {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(bottom: 30, left: 15, right: 15),
+          margin: EdgeInsets.only(bottom: 30, left: 15, right: 15, top: 10),
           height: 35,
           width: MediaQuery.of(context).size.width,
           child: ElevatedButton(
